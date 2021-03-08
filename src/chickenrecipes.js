@@ -1,4 +1,4 @@
-export default function recipes() {
+export default function chickenrecipes() {
   const a = {
     q: 'chicken',
     from: 0,
