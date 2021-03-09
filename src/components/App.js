@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import Recipe from './Recipe'
 import Header from './Header'
 import styled from 'styled-components/macro'
+const { REACT_APP_EDAMAM_API_ID } = process.env
+const { REACT_APP_EDAMAM_API_KEY } = process.env
+require('dotenv').config()
 
 export default function App() {
-  const APP_ID = '6479597c'
-  const APP_KEY = 'a0fa79a5ef5eb647c54dc8ba7a520691'
-
   const [recipes, setRecipes] = useState([])
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function App() {
 
   const getRecipes = async () => {
     const response = await fetch(
-      `https://api.edamam.com/search?q=chicken&app_id=${APP_ID}&app_key=${APP_KEY}&from=0&to=30`
+      `https://api.edamam.com/search?q=chicken&app_id=${REACT_APP_EDAMAM_API_ID}&app_key=${REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
     )
     const data = await response.json()
     console.log(data)
