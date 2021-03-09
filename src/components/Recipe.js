@@ -20,8 +20,8 @@ export default function Recipe({ image, title, calories, ingredients }) {
 Recipe.propTypes = {
   title: PropTypes.string,
   img: PropTypes.string,
-  calories: PropTypes.number,
-  ingredients: PropTypes.number,
+  calories: PropTypes.string,
+  ingredients: PropTypes.string,
 }
 
 const RecipeContainer = styled.section`
