@@ -1,16 +1,27 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
-export default function Recipe({ image, title, calories, ingredients }) {
+export default function Recipe({
+  image,
+  title,
+  calories,
+  ingredients,
+  servings,
+}) {
   return (
     <RecipeContainer>
       <Img src={image} alt="recipe" width="200" />
       <h2>{title}</h2>
       <InfoWrapper>
         <p>
-          <CaloriesNumber>{Math.floor(calories)} kcal</CaloriesNumber> Calories
+          <CaloriesNumber>
+            {Math.floor(calories / servings)} kcal
+          </CaloriesNumber>
+          <br />
+          Calories/Serving
         </p>
         <p>
-          <IngredientsNumber>{ingredients}</IngredientsNumber> Ingredients
+          <IngredientsNumber>{ingredients}</IngredientsNumber>
+          <br /> Ingredients
         </p>
       </InfoWrapper>
     </RecipeContainer>
@@ -46,6 +57,7 @@ const CaloriesNumber = styled.span`
   color: var(--color-orange);
   font-weight: 500;
 `
+
 const IngredientsNumber = styled.span`
   color: var(--color-orange);
   font-weight: 500;

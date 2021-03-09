@@ -11,12 +11,12 @@ export default function App() {
     getRecipes()
   }, [])
 
-  const getRecipes = async () => {
+  async function getRecipes() {
     const response = await fetch(
       `https://api.edamam.com/search?q=chicken&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
     )
     const data = await response.json()
-    setRecipes(data.hits)
+    setRecipes(data.hits.map(item => item.recipe))
   }
 
   return (
@@ -26,10 +26,11 @@ export default function App() {
         {recipes.map((recipe, index) => (
           <Recipe
             key={index}
-            image={recipe.recipe.image}
-            title={recipe.recipe.label}
-            calories={recipe.recipe.calories}
-            ingredients={recipe.recipe.ingredientLines.length}
+            image={recipe.image}
+            title={recipe.label}
+            calories={recipe.calories}
+            servings={recipe.yield}
+            ingredients={recipe.ingredientLines.length}
           />
         ))}
       </AppGrid>
