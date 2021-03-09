@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
 
 export default function Header({ children }) {
   return (
@@ -6,6 +7,10 @@ export default function Header({ children }) {
       <h1>{children}</h1>
     </HeaderContainer>
   )
+}
+
+Header.propTypes = {
+  children: PropTypes.string,
 }
 
 const HeaderContainer = styled.header`

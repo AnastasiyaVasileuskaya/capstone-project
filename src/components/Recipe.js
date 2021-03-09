@@ -20,8 +20,8 @@ export default function Recipe({ image, title, calories, ingredients }) {
 Recipe.propTypes = {
   title: PropTypes.string,
   img: PropTypes.string,
-  calories: PropTypes.string,
-  ingredients: PropTypes.string,
+  calories: PropTypes.number,
+  ingredients: PropTypes.number,
 }
 
 const RecipeContainer = styled.section`
@@ -44,11 +44,9 @@ const InfoWrapper = styled.div`
 
 const CaloriesNumber = styled.span`
   color: var(--color-orange);
-  color: var(--gradient-orange);
   font-weight: 500;
 `
 const IngredientsNumber = styled.span`
   color: var(--color-orange);
-  color: var(--gradient-orange);
   font-weight: 500;
 `
