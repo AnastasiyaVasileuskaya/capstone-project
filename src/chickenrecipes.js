@@ -1,3 +1,11 @@
+/*
+  const getRecipes = () => {
+    const data = chickenrecipes()
+    console.log(data.hits)
+    setRecipes(data.hits)
+  }
+*/
+
 export default function chickenrecipes() {
   const a = {
     q: 'chicken',

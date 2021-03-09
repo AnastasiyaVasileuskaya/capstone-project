@@ -11,6 +11,8 @@ export const Primary = Template.bind({})
 
 Primary.args = {
   title: 'Chicken',
-  calories: '200 cal',
-  image: '/image.png',
+  calories: '200',
+  image:
+    'https://www.edamam.com/web-img/e42/e42f9119813e890af34c259785ae1cfb.jpg',
+  ingredients: '7',
 }
