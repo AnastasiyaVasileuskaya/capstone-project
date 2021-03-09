@@ -16,6 +16,7 @@ export default function App() {
       `https://api.edamam.com/search?q=chicken&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
     )
     const data = await response.json()
+    console.log(data)
     setRecipes(data.hits)
   }
 

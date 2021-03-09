@@ -7,7 +7,7 @@ export default function Recipe({ image, title, calories, ingredients }) {
       <h2>{title}</h2>
       <InfoWrapper>
         <p>
-          <CaloriesNumber>{Math.floor(calories)} kcal</CaloriesNumber> Caloreis
+          <CaloriesNumber>{Math.floor(calories)} kcal</CaloriesNumber> Calories
         </p>
         <p>
           <IngredientsNumber>{ingredients}</IngredientsNumber> Ingredients
