@@ -1,7 +1,7 @@
-export default function Alert() {
+export default function Alert({ alert }) {
   return (
     <div>
-      <h3>Alert Message</h3>
+      <h3>{alert}</h3>
     </div>
   )
 }
