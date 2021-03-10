@@ -2,27 +2,52 @@ import { useEffect, useState } from 'react'
 import Recipe from './Recipe'
 import Header from './Header'
 import styled from 'styled-components/macro'
+import SearchFilter from './SearchFilter'
+import Alert from './Alert'
 require('dotenv').config()
 
 export default function App() {
   const [recipes, setRecipes] = useState([])
+  const [search, setSearch] = useState('')
+  const [query, setQuery] = useState('chicken')
+  const [alert, setAlert] = useState('')
+
+  function updateSearch(event) {
+    setSearch(event.target.value)
+  }
+
+  function handleSearch(event) {
+    event.preventDefault()
+    setQuery(search)
+    setSearch('')
+  }
 
   useEffect(() => {
     getRecipes()
-  }, [])
+  }, [query])
 
   async function getRecipes() {
-    const response = await fetch(
-      `https://api.edamam.com/search?q=chicken&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
-    )
-    const data = await response.json()
-    setRecipes(data.hits.map(item => item.recipe))
+    if (query !== '') {
+      const response = await fetch(
+        `https://api.edamam.com/search?q=${query}&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
+      )
+      const data = await response.json()
+      setRecipes(data.hits.map(item => item.recipe))
+    } else {
+      setAlert('Please fill the searchbar')
+    }
   }
 
   return (
     <>
       <Header>CookIdeas</Header>
       <AppGrid>
+        <Alert />
+        <SearchFilter
+          onSearch={handleSearch}
+          search={search}
+          onUpdateSearch={updateSearch}
+        />
         {recipes.map((recipe, index) => (
           <Recipe
             key={index}
