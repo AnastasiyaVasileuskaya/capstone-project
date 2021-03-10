@@ -8,8 +8,8 @@ require('dotenv').config()
 
 export default function App() {
   const [recipes, setRecipes] = useState([])
-  const [query, setQuery] = useState('chicken')
   const [alert, setAlert] = useState('')
+  const [query, setQuery] = useState('chicken')
 
   function handleSearch(searchQuery) {
     setQuery(searchQuery)
