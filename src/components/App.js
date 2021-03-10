@@ -20,6 +20,7 @@ export default function App() {
     event.preventDefault()
     setQuery(search)
     setSearch('')
+    setAlert('')
   }
 
   useEffect(() => {
@@ -33,11 +34,11 @@ export default function App() {
       )
       const data = await response.json()
       if (!data.more) {
-        setAlert('')
+        setAlert('Cannot find recipe with such ingredient')
       }
       setRecipes(data.hits.map(item => item.recipe))
     } else {
-      setAlert('Please fill the searchbar')
+      setAlert('Please fill the Search Bar')
     }
   }
 
