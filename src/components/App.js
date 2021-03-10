@@ -42,7 +42,7 @@ export default function App() {
       <Header>CookIdeas</Header>
       <AppGrid>
         <SearchFilter onRecipeSearch={handleSearch} />
-        {alert !== '' && <Alert alert={alert} />}
+        {alert !== '' && <Alert children={alert} />}
         {recipes.map((recipe, index) => (
           <Recipe
             key={index}
