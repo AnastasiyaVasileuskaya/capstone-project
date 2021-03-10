@@ -27,14 +27,13 @@ export default function Recipe({
     </RecipeContainer>
   )
 }
-/*
+
 Recipe.propTypes = {
   title: PropTypes.string,
   img: PropTypes.string,
   calories: PropTypes.string,
   ingredients: PropTypes.string,
 }
-*/
 
 const RecipeContainer = styled.section`
   background-color: var(--color-lightorange);
