@@ -27,19 +27,23 @@ export default function Recipe({
     </RecipeContainer>
   )
 }
-
+/*
 Recipe.propTypes = {
   title: PropTypes.string,
   img: PropTypes.string,
   calories: PropTypes.string,
   ingredients: PropTypes.string,
 }
+*/
 
 const RecipeContainer = styled.section`
   background-color: var(--color-lightorange);
   text-align: center;
   border-radius: 20px;
   box-shadow: 3px 3px 3px #eee;
+  h2 {
+    margin-bottom: 0;
+  }
 `
 
 const Img = styled.img`

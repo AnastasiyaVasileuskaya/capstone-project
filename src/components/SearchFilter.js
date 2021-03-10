@@ -1,19 +1,26 @@
 import Button from './Button'
 import styled from 'styled-components/macro'
 
-export default function SearchFilter({ onSearch, search, onUpdateSearch }) {
+export default function SearchFilter({ onRecipeSearch }) {
   return (
-    <Form onSubmit={onSearch}>
+    <Form onSubmit={handleSubmit}>
       <Input
-        placeholderText="e.g chocolate,bean,banana"
+        placeholder="e.g chicken"
         name="recipe"
-        value={search}
-        onChange={onUpdateSearch}
         type="text"
+        maxlength="30"
+        autocomplete="off"
       />
       <Button type="submit">Search</Button>
     </Form>
   )
+  function handleSubmit(event) {
+    event.preventDefault()
+    const form = event.target
+    const input = form.elements.recipe
+    const recipe = input.value
+    onRecipeSearch(recipe)
+  }
 }
 
 const Form = styled.form`
@@ -22,5 +29,5 @@ const Form = styled.form`
 `
 
 const Input = styled.input`
-  border: 2px solid #bbb;
+  border: 2px solid var(--color-lightorange);
 `

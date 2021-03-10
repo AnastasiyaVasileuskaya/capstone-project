@@ -8,11 +8,11 @@ export default function Header({ children }) {
     </HeaderContainer>
   )
 }
-
+/*
 Header.propTypes = {
   children: PropTypes.string,
 }
-
+*/
 const HeaderContainer = styled.header`
   text-align: center;
   color: white;

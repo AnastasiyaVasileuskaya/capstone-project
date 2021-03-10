@@ -8,19 +8,11 @@ require('dotenv').config()
 
 export default function App() {
   const [recipes, setRecipes] = useState([])
-  const [search, setSearch] = useState('')
   const [query, setQuery] = useState('chicken')
   const [alert, setAlert] = useState('')
 
-  function updateSearch(event) {
-    setSearch(event.target.value)
-  }
-
-  function handleSearch(event) {
-    event.preventDefault()
-    setQuery(search)
-    setSearch('')
-    setAlert('')
+  function handleSearch(searchQuery) {
+    setQuery(searchQuery)
   }
 
   useEffect(() => {
@@ -33,12 +25,15 @@ export default function App() {
         `https://api.edamam.com/search?q=${query}&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
       )
       const data = await response.json()
-      if (!data.more) {
+      if (data.more) {
+        setAlert('')
+      } else {
         setAlert('Cannot find recipe with such ingredient')
       }
       setRecipes(data.hits.map(item => item.recipe))
     } else {
       setAlert('Please fill the Search Bar')
+      setRecipes([])
     }
   }
 
@@ -46,12 +41,8 @@ export default function App() {
     <>
       <Header>CookIdeas</Header>
       <AppGrid>
+        <SearchFilter onRecipeSearch={handleSearch} />
         {alert !== '' && <Alert alert={alert} />}
-        <SearchFilter
-          onSearch={handleSearch}
-          search={search}
-          onUpdateSearch={updateSearch}
-        />
         {recipes.map((recipe, index) => (
           <Recipe
             key={index}
