@@ -1,18 +1,18 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
-export default function Alert({ children }) {
+export default function Alert({ text }) {
   return (
-    <AlertContainer>
-      <AlertMessage>{children}</AlertMessage>
-    </AlertContainer>
+    <Container>
+      <Message>{text}</Message>
+    </Container>
   )
 }
 
 Alert.propTypes = {
-  children: PropTypes.string,
+  text: PropTypes.string,
 }
 
-const AlertContainer = styled.section`
+const Container = styled.section`
   display: flex;
   background-color: #ff8888;
   color: #8b0f0f;
@@ -21,6 +21,6 @@ const AlertContainer = styled.section`
   height: 40px;
 `
 
-const AlertMessage = styled.p`
+const Message = styled.p`
   text-align: center;
 `

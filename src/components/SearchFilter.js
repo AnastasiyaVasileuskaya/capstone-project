@@ -6,13 +6,12 @@ export default function SearchFilter({ onRecipeSearch }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Input
-        placeholder="e.g chicken,chocolate"
+        placeholder="enter ingredient"
         name="recipe"
-        type="text"
         maxlength="30"
         autocomplete="off"
       />
-      <SearchButton type="submit">
+      <SearchButton>
         <Icon glyph="search" size={25} />
       </SearchButton>
     </Form>

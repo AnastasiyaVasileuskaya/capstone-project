@@ -10,5 +10,5 @@ const Template = args => <Alert {...args} />
 export const Primary = Template.bind({})
 
 Primary.args = {
-  children: 'Alert message',
+  text: 'Alert message',
 }
