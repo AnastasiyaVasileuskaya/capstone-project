@@ -40,6 +40,9 @@ const RecipeContainer = styled.section`
   text-align: center;
   border-radius: 20px;
   box-shadow: 3px 3px 3px #eee;
+  h2 {
+    margin-bottom: 0;
+  }
 `
 
 const Img = styled.img`
