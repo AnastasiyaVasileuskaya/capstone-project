@@ -4,14 +4,13 @@ import Header from './Header'
 import styled from 'styled-components/macro'
 import SearchFilter from './SearchFilter'
 import Alert from './Alert'
+import CheckboxFilter from './CheckboxFilter'
 require('dotenv').config()
 
 export default function App() {
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
   const [query, setQuery] = useState('chicken')
-  //const [healthLabels, setHealthLabels] = useState('vegan')
-
   const [healthLabels, setHealthLabels] = useState([])
 
   useEffect(() => {
@@ -25,6 +24,7 @@ export default function App() {
           createHealthFilterUrlQuery()
       )
       const data = await response.json()
+
       if (data.more) {
         setAlert('')
       } else {
@@ -44,24 +44,24 @@ export default function App() {
     return ''
   }
 
-  function handleClick(e) {
-    const clickedFilter = e.target.value
-    const isFilterChecked = e.target.checked
-
-    let newArray
-    if (!isFilterChecked) {
-      newArray = []
-      healthLabels.forEach(e => {
-        if (e !== clickedFilter) {
-          newArray.push(e)
-        }
-      })
-    } else {
-      newArray = healthLabels.slice()
-      newArray.push(clickedFilter)
-    }
-    setHealthLabels(newArray)
-  }
+  const dietLabels = ['vegan', 'vegetarian', 'low-sugar']
+  const allergiesLabels = [
+    'gluten-free',
+    'egg-free',
+    'dairy-free',
+    'peanut-free',
+    'tree-nut-free',
+    'wheat-free',
+  ]
+  const cuisineTypes = [
+    'Italian',
+    'Asian',
+    'Mexican',
+    'Chinese',
+    'French',
+    'Indian',
+    'Mediterranean',
+  ]
 
   return (
     <>
@@ -69,35 +69,13 @@ export default function App() {
       <AppGrid>
         <SearchFilter onRecipeSearch={setQuery} />
         {alert !== '' && <Alert text={alert} />}
-        <label for="diet">Choose a diet:</label>
-        <select
-          name="diet"
-          id="diet"
-          onChange={e => setHealthLabels(e.target.value)}
-        >
-          <option value="vegan">Vegan</option>
-          <option value="vegetarian">Vegetarian</option>
-          <option value="low-sugar">Low-Sugar</option>
-          <option value="wheat-free">wheat-free</option>
-          <option value="tree-nut-free">tree-nut-free</option>
-          <option value="peanut-free">peanut-free</option>
-          <option value="gluten-free">gluten-free</option>
-          <option value="egg-free"> egg-free</option>
-          <option value="dairy-free">dairy-free</option>
-        </select>
+        <CheckboxFilter
+          dietLabels={dietLabels}
+          allergiesLabels={allergiesLabels}
+          cuisineTypes={cuisineTypes}
+          onClick={handleClick}
+        />
 
-        <label>
-          <input type="checkbox" value="low-sugar" onClick={handleClick} />
-          Low-Sugar
-        </label>
-        <label>
-          <input type="checkbox" value="egg-free" onClick={handleClick} />
-          egg-free
-        </label>
-        <label>
-          <input type="checkbox" value="vegetarian" onClick={handleClick} />
-          Vegetarian
-        </label>
         {recipes.map((recipe, index) => (
           <Recipe
             key={index}

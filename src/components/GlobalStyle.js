@@ -26,4 +26,8 @@ export default createGlobalStyle`
   font-size: inherit;
   padding: 5px;
 }
+
+input {
+  width:100%;
+}
   `
