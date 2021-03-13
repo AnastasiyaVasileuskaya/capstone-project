@@ -11,9 +11,6 @@ export default function SearchFilter({ onRecipeSearch }) {
         maxlength="30"
         autocomplete="off"
       />
-      <DeleteButton>
-        <Icon glyph="view-close" size={25} />
-      </DeleteButton>
       <SearchButton>
         <Icon glyph="search" size={25} />
       </SearchButton>

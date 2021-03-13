@@ -10,17 +10,22 @@ require('dotenv').config()
 export default function App() {
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
+
   const [query, setQuery] = useState('chicken')
+  const [caloriesRangeFrom, setCaloriesRangeFrom] = useState('')
+  const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
+  const [healthLabels, setHealthLabels] = useState([])
+  const [dishTypes, setDishTypes] = useState([])
+
+  const [url, setUrl] = useState(creatUrlQuery())
 
   async function getRecipes() {
     if (query !== '') {
-      const response = await fetch(
-        `https://api.edamam.com/search?q=${query}&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
-        /*+ createHealthFilterUrlQuery()*/
-      )
+      let url = creatUrlQuery()
+      const response = await fetch(url)
       const data = await response.json()
 
-      if (data.more) {
+      if (data.more && data.hits) {
         setAlert('')
       } else {
         setAlert('Cannot find recipe with such ingredient')
@@ -33,17 +38,25 @@ export default function App() {
   }
 
   useEffect(() => {
-    getRecipes()
-  }, [query])
+    setUrl(creatUrlQuery())
+  }, [query, caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes])
 
-  /*
-  function createHealthFilterUrlQuery() {
+  useEffect(() => {
+    getRecipes()
+  }, [url])
+
+  function creatUrlQuery() {
+    let result = `https://api.edamam.com/search?q=${query}&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
     if (healthLabels.length > 0) {
-      return '&health=' + healthLabels.join('&health=')
+      result += '&health=' + healthLabels.join('&health=')
     }
-    return ''
+    if (dishTypes.length > 0) {
+      result += '&health=' + healthLabels.join('&health=')
+    }
+    //TODO
+    //create a queryString from Data
+    return result
   }
-  */
 
   const dietLabels = ['vegan', 'vegetarian', 'low-sugar']
   const allergiesLabels = [
@@ -70,16 +83,10 @@ export default function App() {
     healthLabels,
     dishTypes
   ) {
-    let result = ''
-    if (healthLabels.length > 0) {
-      result += '&health=' + healthLabels.join('&health=')
-    }
-    if (dishTypes.length > 0) {
-      result += '&health=' + healthLabels.join('&health=')
-    }
-    //TODO
-    //create a queryString from Data
-    return result
+    setCaloriesRangeFrom(caloriesRangeFrom)
+    setCaloriesRangeTo(caloriesRangeTo)
+    setHealthLabels(healthLabels)
+    setDishTypes(dishTypes)
   }
 
   return (
