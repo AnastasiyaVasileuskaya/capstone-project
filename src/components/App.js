@@ -11,17 +11,12 @@ export default function App() {
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
   const [query, setQuery] = useState('chicken')
-  const [healthLabels, setHealthLabels] = useState([])
-
-  useEffect(() => {
-    getRecipes()
-  }, [query, healthLabels])
 
   async function getRecipes() {
     if (query !== '') {
       const response = await fetch(
-        `https://api.edamam.com/search?q=${query}&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30` +
-          createHealthFilterUrlQuery()
+        `https://api.edamam.com/search?q=${query}&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
+        /*+ createHealthFilterUrlQuery()*/
       )
       const data = await response.json()
 
@@ -37,12 +32,18 @@ export default function App() {
     }
   }
 
+  useEffect(() => {
+    getRecipes()
+  }, [query])
+
+  /*
   function createHealthFilterUrlQuery() {
     if (healthLabels.length > 0) {
       return '&health=' + healthLabels.join('&health=')
     }
     return ''
   }
+  */
 
   const dietLabels = ['vegan', 'vegetarian', 'low-sugar']
   const allergiesLabels = [
@@ -63,6 +64,24 @@ export default function App() {
     'Mediterranean',
   ]
 
+  function handeFiltersChanged(
+    caloriesRangeFrom,
+    caloriesRangeTo,
+    healthLabels,
+    dishTypes
+  ) {
+    let result = ''
+    if (healthLabels.length > 0) {
+      result += '&health=' + healthLabels.join('&health=')
+    }
+    if (dishTypes.length > 0) {
+      result += '&health=' + healthLabels.join('&health=')
+    }
+    //TODO
+    //create a queryString from Data
+    return result
+  }
+
   return (
     <>
       <Header>CookIdeas</Header>
@@ -73,7 +92,7 @@ export default function App() {
           dietLabels={dietLabels}
           allergiesLabels={allergiesLabels}
           cuisineTypes={cuisineTypes}
-          onClick={handleClick}
+          onFindClicked={handeFiltersChanged}
         />
 
         {recipes.map((recipe, index) => (
