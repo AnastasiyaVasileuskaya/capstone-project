@@ -35,7 +35,6 @@ describe('FilterForm', () => {
     const callback = jest.fn()
     render(<FilterForm isFilterFormVisible onFindClicked={callback} />)
     userEvent.type(screen.getByLabelText('calories'), '253')
-
     userEvent.click(screen.getByRole('button'))
     expect(callback).toHaveBeenCalledWith('253')
   })
