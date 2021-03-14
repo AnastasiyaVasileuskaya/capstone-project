@@ -41,18 +41,6 @@ export default function FilterForm({
     } else {
       setAlert('')
     }
-    /*
-      //validate that caloriesRangeFrom is a number
-      //validate that caloriesRangeTo is a number
-      if (caloriesRangeFrom >= caloriesRangeTo) {
-          //set alert text "fdsdfsdf"
-          //set alert visible
-          //set field red
-      } else {
-          //set alert invisible
-          //set field normal
-      }
-      */
   }
 
   function isCaloriesStateValid() {
@@ -61,9 +49,6 @@ export default function FilterForm({
       !isNaN(caloriesRangeTo) &&
       caloriesRangeFrom < caloriesRangeTo
     )
-    //return caloriesRangeFrom is number
-    // && caloriesRangeTo is number
-    // && caloriesRangeFrom < caloriesRangeTo
   }
 
   function handleClick(e, filter, setFilter) {
@@ -93,10 +78,6 @@ export default function FilterForm({
         !isNaN(caloriesRangeTo) &&
         caloriesRangeFrom < caloriesRangeTo
     }
-    //let valid = caloriesRangeFrom is number
-    // && caloriesRangeTo is number
-    // && caloriesRangeFrom < caloriesRangeTo
-
     if (valid) {
       onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
     } else {
