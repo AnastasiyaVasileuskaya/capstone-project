@@ -2,7 +2,7 @@ import Button from './Button'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 
-export default function SearchFilter({ onRecipeSearch }) {
+export default function SearchBar({ onRecipeSearch }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Input
@@ -31,16 +31,6 @@ const SearchButton = styled(Button)`
   width: 60px;
   height: 40px;
 `
-const DeleteButton = styled.button`
-  border: none;
-  position: absolute;
-  top: 2px;
-  right: 55px;
-  border-radius: 50%;
-  height: 35px;
-  width: 35px;
-`
-
 const Form = styled.form`
   display: flex;
   justify-content: center;

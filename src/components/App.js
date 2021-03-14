@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import Recipe from './Recipe'
 import Header from './Header'
 import styled from 'styled-components/macro'
-import SearchFilter from './SearchFilter'
+import SearchBar from './SearchBar'
 import Alert from './Alert'
-import CheckboxFilter from './CheckboxFilter'
+import CheckboxFilter from './FilterForm'
 require('dotenv').config()
 
 export default function App() {
@@ -51,21 +51,22 @@ export default function App() {
       result += '&health=' + healthLabels.join('&health=')
     }
     if (dishTypes.length > 0) {
-      result += '&health=' + healthLabels.join('&health=')
+      result += '&cuisineType=' + dishTypes.join('&cuisineType=')
     }
-    //TODO
-    //create a queryString from Data
+    if (caloriesRangeFrom.length > 0 && caloriesRangeTo.length > 0) {
+      result += '&calories=' + caloriesRangeFrom + '-' + caloriesRangeTo
+    }
     return result
   }
 
-  const dietLabels = ['vegan', 'vegetarian', 'low-sugar']
+  const dietLabels = ['Vegan', 'Vegetarian', 'Low-Sugar']
   const allergiesLabels = [
-    'gluten-free',
-    'egg-free',
-    'dairy-free',
-    'peanut-free',
-    'tree-nut-free',
-    'wheat-free',
+    'Gluten-free',
+    'Egg-free',
+    'Dairy-free',
+    'Peanut-free',
+    'Tree-nut-free',
+    'Wheat-free',
   ]
   const cuisineTypes = [
     'Italian',
@@ -93,13 +94,15 @@ export default function App() {
     <>
       <Header>CookIdeas</Header>
       <AppGrid>
-        <SearchFilter onRecipeSearch={setQuery} />
+        <SearchBar onRecipeSearch={setQuery} />
         {alert !== '' && <Alert text={alert} />}
         <CheckboxFilter
           dietLabels={dietLabels}
           allergiesLabels={allergiesLabels}
           cuisineTypes={cuisineTypes}
           onFindClicked={handeFiltersChanged}
+          alert={alert}
+          setAlert={setAlert}
         />
 
         {recipes.map((recipe, index) => (
