@@ -6,7 +6,7 @@ export default function SearchBar({ onRecipeSearch }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Input
-        placeholder="enter ingredient"
+        placeholder="enter ingredient,e.g. chicken"
         name="recipe"
         maxlength="30"
         autocomplete="off"

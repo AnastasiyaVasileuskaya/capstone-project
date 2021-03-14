@@ -10,5 +10,5 @@ const Template = args => <Header {...args} />
 export const Primary = Template.bind({})
 
 Primary.args = {
-  children: 'CookIdeas',
+  title: 'CookIdeas',
 }

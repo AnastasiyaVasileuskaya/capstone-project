@@ -9,7 +9,7 @@ export default function FilterForm({
   cuisineTypes,
   onFindClicked,
 }) {
-  const [alert, setAlert] = useState(false)
+  const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
   const [caloriesRangeFrom, setCaloriesRangeFrom] = useState('')
   const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
@@ -21,6 +21,7 @@ export default function FilterForm({
     setCaloriesRangeTo('')
     setHealthLabels([])
     setDishTypes([])
+    setAlert('')
   }
 
   function handleHealthFilter(e) {
@@ -29,18 +30,6 @@ export default function FilterForm({
 
   function handleDishFilter(e) {
     handleClick(e, dishTypes, setDishTypes)
-  }
-
-  function validateCaloriesInputs() {
-    if (
-      isNaN(caloriesRangeFrom) &&
-      isNaN(caloriesRangeTo) &&
-      caloriesRangeFrom >= caloriesRangeTo
-    ) {
-      setAlert('Your input is not valid')
-    } else {
-      setAlert('')
-    }
   }
 
   function isCaloriesStateValid() {
@@ -71,17 +60,11 @@ export default function FilterForm({
   }
 
   function handleSubmit(e) {
-    let valid
     if (isCaloriesStateValid()) {
-      valid =
-        !isNaN(caloriesRangeFrom) &&
-        !isNaN(caloriesRangeTo) &&
-        caloriesRangeFrom < caloriesRangeTo
-    }
-    if (valid) {
       onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
+      setIsFilterFormVisible(false)
     } else {
-      setAlert('YOU INPUT IS NOT VALID')
+      setAlert('Your calories input is not valid')
     }
   }
 
@@ -93,8 +76,8 @@ export default function FilterForm({
           setIsFilterFormVisible(!isFilterFormVisible)
         }}
       >
+        Refine your search
         <IconWrapper>
-          <span>Refine your search</span>
           <Icon
             glyph={isFilterFormVisible ? 'up-caret' : 'down-caret'}
             size={25}
@@ -103,38 +86,33 @@ export default function FilterForm({
       </FilterButton>
       {isFilterFormVisible && (
         <FilterWrapper>
-          {alert !== '' && <Alert text={alert} />}
           <span>Calories</span>
           <CaloriesContainer>
-            <label htmlFor="calories">From</label>
+            <label htmlFor="caloriesRangeFrom">From</label>
             <input
-              id="calories"
-              key="caloriesRangeFrom"
+            id="caloriesRangeFrom"
               name="caloriesRangeFrom"
               maxLength="4"
+              placeholder="100"
               value={caloriesRangeFrom}
               onChange={e => setCaloriesRangeFrom(e.target.value)}
-              onBlur={validateCaloriesInputs}
             />
-            <label htmlFor="calories">To</label>
+            <label htmlFor="caloriesRangeTo">To</label>
             <input
-              id="calories"
-              key="caloriesRangeTo"
+            id="caloriesRangeTo"
               name="caloriesRangeTo"
               maxLength="4"
+              placeholder="300"
               value={caloriesRangeTo}
               onChange={e => setCaloriesRangeTo(e.target.value)}
-              onBlur={validateCaloriesInputs}
             />
           </CaloriesContainer>
           <span>Diet</span>
           <Container>
             {dietLabels.map((item, index) => (
-              <label htmlFor="checkbox">
+              <label key={index}>
                 <input
-                  id="checkbox"
                   type="checkbox"
-                  key={index}
                   value={item}
                   filter-type="health-labels"
                   checked={healthLabels.includes(item)}
@@ -147,11 +125,9 @@ export default function FilterForm({
           <span>Allergies</span>
           <Container>
             {allergiesLabels.map((item, index) => (
-              <label htmlFor="checkbox">
+              <label  key={index}>
                 <input
-                  id="checkbox"
                   type="checkbox"
-                  key={index}
                   filter-type="health-labels"
                   value={item}
                   checked={healthLabels.includes(item)}
@@ -164,11 +140,9 @@ export default function FilterForm({
           <span>Cuisine</span>
           <Container>
             {cuisineTypes.map((item, index) => (
-              <label htmlFor="checkbox">
+              <label  key={index}>
                 <input
-                  id="checkbox"
                   type="checkbox"
-                  key={index}
                   filter-type="cuisine-types"
                   value={item}
                   checked={dishTypes.includes(item)}
@@ -178,7 +152,7 @@ export default function FilterForm({
               </label>
             ))}
           </Container>
-
+          <Alert text={alert} />
           <ButtonWrapper>
             <ClearButton onClick={resetState}>Clear</ClearButton>
             <FindButton onClick={handleSubmit}>Find</FindButton>

@@ -27,10 +27,11 @@ export default function App() {
 
       if (data.more && data.hits) {
         setAlert('')
+        setRecipes(data.hits.map(item => item.recipe))
       } else {
-        setAlert('Cannot find recipe with such ingredient')
+        setAlert('Cannot find such recipe')
+        setRecipes([])
       }
-      setRecipes(data.hits.map(item => item.recipe))
     } else {
       setAlert('Please fill the Search Bar')
       setRecipes([])
@@ -92,17 +93,15 @@ export default function App() {
 
   return (
     <>
-      <Header>CookIdeas</Header>
+      <Header title="CookIdeas" />
       <AppGrid>
         <SearchBar onRecipeSearch={setQuery} />
-        {alert !== '' && <Alert text={alert} />}
+        <Alert text={alert} />
         <CheckboxFilter
           dietLabels={dietLabels}
           allergiesLabels={allergiesLabels}
           cuisineTypes={cuisineTypes}
           onFindClicked={handeFiltersChanged}
-          alert={alert}
-          setAlert={setAlert}
         />
 
         {recipes.map((recipe, index) => (

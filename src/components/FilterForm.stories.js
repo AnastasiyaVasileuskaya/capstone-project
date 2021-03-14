@@ -1,15 +1,18 @@
 import FilterForm from './FilterForm'
+import { action } from '@storybook/addon-actions'
 
 export default {
   title: 'FilterForm',
   component: FilterForm,
 }
 
-const Template = args => <FilterForm {...args} />
+const Template = args => <FilterForm isFilterFormVisible {...args} />
 
 export const Primary = Template.bind({})
 
 Primary.args = {
-  caloriesFrom: '254',
-  caloriesTo: '354',
+  dietLabels: ['vegan','vegetarian'],
+  allergiesLabels:['egg-free', 'gluten-free'],
+  cuisineTypes: ['italian','mexican'],
+  onFindClicked: action('onFindClicked'),
 }

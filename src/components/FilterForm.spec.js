@@ -4,38 +4,56 @@ import FilterForm from './FilterForm'
 
 describe('FilterForm', () => {
   it('renders a button and not a form with inputs, checkboxes and two buttons', () => {
-    render(<FilterForm />)
-    expect(screen.getByLabelText('calories')).not.toBeInTheDocument()
-    expect(screen.getByLabelText('checkbox')).not.toBeInTheDocument()
-    expect(screen.getByRole('button')).toBeInTheDocument()
+    render(<FilterForm isFilterFormVisible={false} />)
+    expect(screen.queryByLabelText('calories')).not.toBeInTheDocument()
+    expect(screen.queryByLabelText('checkbox')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Refine your search down-caret' })).toBeInTheDocument()
   })
 
-  it('renders the filter form, if isFilterFormVisible is true', () => {
-    render(<FilterForm isFilterFormVisible />)
-    expect(screen.getByLabelText('calories')).toBeInTheDocument()
-    expect(screen.getByLabelText('checkbox')).toBeInTheDocument()
-    expect(screen.getByRole('button')).toBeInTheDocument()
-  })
+  it('calls setIsFilterFormVisible on button click', () => {
+    const onFindClickedCallback = jest.fn()
+    render(<FilterForm onFindClicked={onFindClickedCallback} dietLabels={['vegan']}
+    allergiesLabels={['egg-free']} cuisineTypes={['mexican']} />)
+    const button = screen.getByRole('button', { name: 'Refine your search down-caret' })
+    userEvent.click(button)
+    expect(onFindClickedCallback).not.toHaveBeenCalled()
+    expect(screen.getByText('vegan')).toBeInTheDocument()
+    expect(screen.getByText('egg-free')).toBeInTheDocument()
+    expect(screen.getByText('mexican')).toBeInTheDocument()
 
+  })
   it('set checkbox on checked by click', () => {
-    render(<FilterForm isFilterFormVisible />)
-    userEvent.click(screen.getByLabelText('checkbox'))
-    expect(screen.getByLabelText('checkbox')).toBeChecked()
-  })
-
-  it('set checkbox on not checked by double click', () => {
-    const callback = jest.fn()
-    render(<FilterForm isFilterFormVisible onChange={callback} />)
-    userEvent.dblClick(screen.getByLabelText('checkbox'))
-    expect(callback).toHaveBeenCalledTimes(2)
-    expect(screen.getByLabelText('checkbox')).not.toBeChecked()
+    const onFindClickedCallback = jest.fn()
+    render(<FilterForm onFindClicked={onFindClickedCallback} dietLabels={['vegan']}
+    allergiesLabels={['egg-free']} cuisineTypes={['mexican']} />)
+    const button = screen.getByRole('button', { name: 'Refine your search down-caret' })
+    userEvent.click(button)
+    expect(onFindClickedCallback).not.toHaveBeenCalled()
+    userEvent.click(screen.getByLabelText('vegan'))
+    expect(screen.getByLabelText('vegan')).toBeChecked()
+    userEvent.click(screen.getByLabelText('egg-free'))
+    expect(screen.getByLabelText('egg-free')).toBeChecked()
+    userEvent.click(screen.getByLabelText('mexican'))
+    expect(screen.getByLabelText('mexican')).toBeChecked()
   })
 
   it('calls onSubmit-callback with form data', () => {
-    const callback = jest.fn()
-    render(<FilterForm isFilterFormVisible onFindClicked={callback} />)
-    userEvent.type(screen.getByLabelText('calories'), '253')
-    userEvent.click(screen.getByRole('button'))
-    expect(callback).toHaveBeenCalledWith('253')
+    const onFindClickedCallback = jest.fn()
+    render(<FilterForm onFindClicked={onFindClickedCallback} dietLabels={['vegan']}
+    allergiesLabels={['egg-free']} cuisineTypes={['mexican']} />)
+    const button = screen.getByRole('button', { name: 'Refine your search down-caret' })
+    userEvent.click(button)
+    userEvent.type(screen.getByLabelText('From'), '253')
+    userEvent.type(screen.getByLabelText('To'), '353')
+    userEvent.click(screen.getByLabelText('vegan'))
+    userEvent.click(screen.getByLabelText('mexican'))
+    userEvent.click(screen.getByRole('button', {name:'Find'}))
+    expect(onFindClickedCallback).toHaveBeenCalledWith(
+      '253',
+      '353',
+      ['vegan'], 
+      ['mexican'],
+    )
   })
+
 })
