@@ -8,7 +8,6 @@ export default function Recipe({
   servings,
 }) {
   return (
-    image !== null &&
     <RecipeContainer>
       <Img src={image} alt="recipe" width="200" />
       <h2>{title}</h2>

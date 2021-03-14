@@ -34,9 +34,10 @@ export default function FilterForm({
 
   function isCaloriesStateValid() {
     return (
-      !isNaN(caloriesRangeFrom) &&
+      (caloriesRangeFrom ==='' && caloriesRangeTo ==='') ||
+      (!isNaN(caloriesRangeFrom) &&
       !isNaN(caloriesRangeTo) &&
-      caloriesRangeFrom < caloriesRangeTo
+      caloriesRangeFrom < caloriesRangeTo)
     )
   }
 
