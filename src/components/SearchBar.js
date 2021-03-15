@@ -2,11 +2,11 @@ import Button from './Button'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 
-export default function SearchFilter({ onRecipeSearch }) {
+export default function SearchBar({ onRecipeSearch }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Input
-        placeholder="enter ingredient"
+        placeholder="enter ingredient,e.g. chicken"
         name="recipe"
         maxlength="30"
         autocomplete="off"
@@ -28,13 +28,17 @@ export default function SearchFilter({ onRecipeSearch }) {
 const SearchButton = styled(Button)`
   display: grid;
   place-items: center;
+  width: 60px;
+  height: 40px;
 `
-
 const Form = styled.form`
   display: flex;
   justify-content: center;
+  width: 100%;
+  position: relative;
 `
 
 const Input = styled.input`
   border: 2px solid var(--color-lightorange);
+  display: block;
 `

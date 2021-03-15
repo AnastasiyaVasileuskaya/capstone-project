@@ -1,9 +1,9 @@
-import { render } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import Header from './Header'
 
 describe('Header', () => {
-  it('renders the children prop', () => {
-    const { container } = render(<Header>Hello world</Header>)
-    expect(container.firstChild).toHaveTextContent('Hello world')
+  it('should render a component from props', () => {
+    render(<Header title="CookIdeas" />)
+    expect(screen.getByText('CookIdeas')).toBeInTheDocument()
   })
 })

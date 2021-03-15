@@ -36,7 +36,7 @@ Recipe.propTypes = {
 }
 
 const RecipeContainer = styled.section`
-  background-color: var(--color-lightorange);
+  background-color: #fff2e4;
   text-align: center;
   border-radius: 20px;
   box-shadow: 3px 3px 3px #eee;

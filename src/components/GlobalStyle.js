@@ -19,11 +19,16 @@ export default createGlobalStyle`
     font-size: 112.5%;
     line-height: 1.5;
     align-items: center;
+    height: 100vh;
   }
 
   input,
     button {
   font-size: inherit;
   padding: 5px;
+}
+
+input {
+  width:100%;
 }
   `

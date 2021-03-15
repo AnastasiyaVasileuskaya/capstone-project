@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 export default function Alert({ text }) {
   return (
-    <Container>
+    <Container visible={text !== ''}>
       <Message>{text}</Message>
     </Container>
   )
@@ -13,7 +13,7 @@ Alert.propTypes = {
 }
 
 const Container = styled.section`
-  display: flex;
+  display: ${(props) => (props.visible ? 'flex' : 'none')};
   background-color: #ff8888;
   color: #8b0f0f;
   justify-content: center;
@@ -23,4 +23,5 @@ const Container = styled.section`
 
 const Message = styled.p`
   text-align: center;
+  padding:10px;
 `
