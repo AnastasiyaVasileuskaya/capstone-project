@@ -23,4 +23,5 @@ const Container = styled.section`
 
 const Message = styled.p`
   text-align: center;
+  padding:10px;
 `

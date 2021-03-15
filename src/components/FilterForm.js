@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro'
-import { useState } from 'react'
+import { useState} from 'react'
 import Icon from 'supercons'
 import Button from './Button'
 import Alert from './Alert'
@@ -60,10 +60,18 @@ export default function FilterForm({
     setFilter(newArray)
   }
 
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    })
+  }
+
   function handleSubmit(e) {
     if (isCaloriesStateValid()) {
       onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
       setIsFilterFormVisible(false)
+      scrollToTop()
     } else {
       setAlert('Your calories input is not valid')
     }
@@ -77,8 +85,8 @@ export default function FilterForm({
           setIsFilterFormVisible(!isFilterFormVisible)
         }}
       >
-        Refine your search
         <IconWrapper>
+        Refine your search
           <Icon
             glyph={isFilterFormVisible ? 'up-caret' : 'down-caret'}
             size={25}
@@ -89,6 +97,7 @@ export default function FilterForm({
         <FilterWrapper>
           <span>Calories</span>
           <CaloriesContainer>
+            <div>
             <label htmlFor="caloriesRangeFrom">From</label>
             <input
             id="caloriesRangeFrom"
@@ -98,6 +107,8 @@ export default function FilterForm({
               value={caloriesRangeFrom}
               onChange={e => setCaloriesRangeFrom(e.target.value)}
             />
+            </div>
+            <div>
             <label htmlFor="caloriesRangeTo">To</label>
             <input
             id="caloriesRangeTo"
@@ -107,6 +118,7 @@ export default function FilterForm({
               value={caloriesRangeTo}
               onChange={e => setCaloriesRangeTo(e.target.value)}
             />
+            </div>
           </CaloriesContainer>
           <span>Diet</span>
           <Container>
@@ -153,7 +165,9 @@ export default function FilterForm({
               </label>
             ))}
           </Container>
+          <AlertWrapper>
           <Alert text={alert} />
+          </AlertWrapper>
           <ButtonWrapper>
             <ClearButton onClick={resetState}>Clear</ClearButton>
             <FindButton onClick={handleSubmit}>Find</FindButton>
@@ -172,10 +186,7 @@ const FilterContainer = styled.span`
 const IconWrapper = styled.span`
   display: flex;
   justify-content: space-between;
-  span {
-    margin-right: 10px;
-    font-weight: 500;
-  }
+  place-items:center;
 `
 const FilterButton = styled(Button)`
   display: flex;
@@ -218,6 +229,7 @@ const CaloriesContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   input {
+    margin-left:10px;
     width: 60px;
     height: 30px;
   }
@@ -231,4 +243,8 @@ const Container = styled.span`
   display: grid;
   gap: 15px;
   padding: 10px;
+`
+const AlertWrapper = styled.div`
+display:flex;
+justify-content:center;
 `
