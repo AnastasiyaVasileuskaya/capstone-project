@@ -25,16 +25,8 @@ export default function HomePage({
           onFindClicked={onFindClicked}
         />
 
-        {recipes.map((recipe, index) => (
-          <Recipe
-            key={index}
-            image={recipe.image}
-            title={recipe.label}
-            calories={recipe.calories}
-            servings={recipe.yield}
-            ingredients={recipe.ingredientLines.length}
-            recipe={recipe}
-          />
+        {recipes.map(recipe => (
+          <Recipe key={recipe.id} recipe={recipe} />
         ))}
       </PageLayout>
     </>

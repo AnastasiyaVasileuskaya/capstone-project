@@ -1,21 +1,18 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-export default function Recipe({
-  detail,
-  image,
-  title,
-  calories,
-  ingredients,
-  servings,
-  recipe,
-}) {
+export default function Recipe({ recipe }) {
+  const { image, calories } = recipe
+  const title = recipe.label
+  const servings = recipe.yield
+  const ingredients = recipe.ingredientLines.length
+  const recipeId = recipe.id
   return (
     <RecipeContainer
       as={NavLink}
       exact
       to={{
-        pathname: `/recipes/${recipe.id}`,
+        pathname: `/recipes/${recipeId}`,
       }}
     >
       <Img src={image} alt="recipe" width="200" />
@@ -50,6 +47,7 @@ const RecipeContainer = styled.span`
   border-radius: 20px;
   box-shadow: 3px 3px 3px #eee;
   text-decoration: none;
+  color: black;
   h2 {
     margin-bottom: 0;
   }
