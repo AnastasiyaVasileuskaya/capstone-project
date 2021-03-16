@@ -3,19 +3,16 @@ import Alert from '../components/Alert'
 import FilterForm from '../components/FilterForm'
 import Recipe from '../components/Recipe'
 import SearchBar from '../components/SearchBar'
-import { NavLink } from 'react-router-dom'
 
-export default function HomePage(props) {
-  const {
-    detailId,
-    onRecipeSearch,
-    text,
-    dietLabels,
-    allergiesLabels,
-    cuisineTypes,
-    onFindClicked,
-    recipes,
-  } = props.recipe
+export default function HomePage({
+  onRecipeSearch,
+  text,
+  dietLabels,
+  allergiesLabels,
+  cuisineTypes,
+  onFindClicked,
+  recipes,
+}) {
   return (
     <>
       <PageLayout>
@@ -30,18 +27,13 @@ export default function HomePage(props) {
 
         {recipes.map((recipe, index) => (
           <Recipe
-            as={NavLink}
-            exact
-            to={{
-              pathname: `/${detailId}`,
-              recipe: props.recipe,
-            }}
             key={index}
             image={recipe.image}
             title={recipe.label}
             calories={recipe.calories}
             servings={recipe.yield}
             ingredients={recipe.ingredientLines.length}
+            recipe={recipe}
           />
         ))}
       </PageLayout>

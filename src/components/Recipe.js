@@ -1,14 +1,23 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
+import { NavLink } from 'react-router-dom'
 export default function Recipe({
+  detail,
   image,
   title,
   calories,
   ingredients,
   servings,
+  recipe,
 }) {
   return (
-    <RecipeContainer>
+    <RecipeContainer
+      as={NavLink}
+      exact
+      to={{
+        pathname: `/recipes/${recipe.id}`,
+      }}
+    >
       <Img src={image} alt="recipe" width="200" />
       <h2>{title}</h2>
       <InfoWrapper>
@@ -35,11 +44,12 @@ Recipe.propTypes = {
   ingredients: PropTypes.string,
 }
 
-const RecipeContainer = styled.section`
+const RecipeContainer = styled.span`
   background-color: #fff2e4;
   text-align: center;
   border-radius: 20px;
   box-shadow: 3px 3px 3px #eee;
+  text-decoration: none;
   h2 {
     margin-bottom: 0;
   }

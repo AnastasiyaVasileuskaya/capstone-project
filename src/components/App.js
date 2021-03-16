@@ -23,10 +23,21 @@ export default function App() {
       let url = creatUrlQuery()
       const response = await fetch(url)
       const data = await response.json()
+      console.log(data)
 
       if (data.more && data.hits) {
         setAlert('')
-        setRecipes(data.hits.map(item => item.recipe))
+        setRecipes(
+          data.hits.map(item => {
+            return {
+              ...item.recipe,
+              id: item.recipe.uri.substr(
+                item.recipe.uri.indexOf('#') + 1,
+                item.recipe.uri.length - 1
+              ),
+            }
+          })
+        )
       } else {
         setAlert('Cannot find such recipe')
         setRecipes([])
@@ -91,6 +102,10 @@ export default function App() {
     setDishTypes(dishTypes)
   }
 
+  function getRecipeById(id) {
+    return recipes.find(recipe => recipe.id === id)
+  }
+
   return (
     <>
       <AppGrid>
@@ -108,8 +123,10 @@ export default function App() {
             />
           </Route>
           <Route
-            path="/:detailId"
-            render={props => <DetailPage {...props} />}
+            path="/recipes/:recipeId"
+            render={props => (
+              <DetailPage recipe={getRecipeById(props.match.params.recipeId)} />
+            )}
           />
         </Switch>
       </AppGrid>
