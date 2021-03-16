@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
-import Recipe from './Recipe'
+import { Route, Switch } from 'react-router-dom'
 import Header from './Header'
 import styled from 'styled-components/macro'
-import SearchBar from './SearchBar'
-import Alert from './Alert'
-import CheckboxFilter from './FilterForm'
+import DetailPage from '../pages/DetailPage'
+import HomePage from '../pages/HomePage'
 require('dotenv').config()
 
 export default function App() {
@@ -49,7 +48,8 @@ export default function App() {
   function creatUrlQuery() {
     let result = `https://api.edamam.com/search?q=${query}&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
     if (healthLabels.length > 0) {
-      result += '&health=' + healthLabels.map(hl => hl.toLowerCase()).join('&health=')
+      result +=
+        '&health=' + healthLabels.map(hl => hl.toLowerCase()).join('&health=')
     }
     if (dishTypes.length > 0) {
       result += '&cuisineType=' + dishTypes.join('&cuisineType=')
@@ -93,27 +93,25 @@ export default function App() {
 
   return (
     <>
-      <Header title="CookIdeas" />
       <AppGrid>
-        <SearchBar onRecipeSearch={setQuery} />
-        <Alert text={alert} />
-        <CheckboxFilter
-          dietLabels={dietLabels}
-          allergiesLabels={allergiesLabels}
-          cuisineTypes={cuisineTypes}
-          onFindClicked={handeFiltersChanged}
-        />
-
-        {recipes.map((recipe, index) => (
-          <Recipe
-            key={index}
-            image={recipe.image}
-            title={recipe.label}
-            calories={recipe.calories}
-            servings={recipe.yield}
-            ingredients={recipe.ingredientLines.length}
+        <Switch>
+          <Route exact path="/">
+            <Header title="CookIdeas" />
+            <HomePage
+              onRecipeSearch={setQuery}
+              text={alert}
+              dietLabels={dietLabels}
+              allergiesLabels={allergiesLabels}
+              cuisineTypes={cuisineTypes}
+              onFindClicked={handeFiltersChanged}
+              recipes={recipes}
+            />
+          </Route>
+          <Route
+            path="/:detailId"
+            render={props => <DetailPage {...props} />}
           />
-        ))}
+        </Switch>
       </AppGrid>
     </>
   )
