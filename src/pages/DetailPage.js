@@ -31,7 +31,7 @@ export default function DetailPage({ recipe }) {
         <PreparationWrapper>
           <h2>Preparation</h2>
           <p>
-            You can see full recipe on{' '}
+            <span>You can see full recipe on</span>
             <PreparationLink
               onClick={() => {
                 window.open(recipe.url)
