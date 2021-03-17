@@ -23,8 +23,8 @@ export default function DetailPage({ recipe }) {
         <IngredientsWrapper>
           <h2>Ingredients</h2>
           <ol>
-            {recipe.ingredients.map(ingredient => (
-              <li>{ingredient.text}</li>
+            {recipe.ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient.text}</li>
             ))}
           </ol>
         </IngredientsWrapper>

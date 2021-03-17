@@ -1,6 +1,5 @@
 import DetailPage from './DetailPage'
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom.min'
 
 describe('DetailPage', () => {
@@ -37,13 +36,21 @@ describe('DetailPage', () => {
     url:
       'http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html',
   }
-  it('should go to HomePade bei click', () => {
+
+  it('has a link with path /', () => {
     render(<DetailPage recipe={recipe} />, {
       wrapper: MemoryRouter,
     })
-    userEvent.click(screen.getByText('Back to recipes'))
+    expect(screen.getByText(/back to recipes/i)).toHaveAttribute('href', '/')
+  })
+
+  it('has a link and a button that links to another pages', () => {
+    render(<DetailPage recipe={recipe} />, {
+      wrapper: MemoryRouter,
+    })
+    expect(screen.getByText(/back to recipes/i)).toBeInTheDocument()
     expect(
-      screen.getByPlaceholderText('enter ingredient,e.g. chicken')
+      screen.getByRole('button', { name: /instructions/i })
     ).toBeInTheDocument()
   })
 })
