@@ -4,17 +4,7 @@ import Icon from 'supercons'
 import { Link } from 'react-router-dom'
 import Button from '../components/Button/Button'
 export default function DetailPage({ recipe }) {
-  const {
-    CHOCDF,
-    FAT,
-    PROCNT,
-    VITA_RAE,
-    VITC,
-    VITD,
-    ZN,
-    MG,
-    CA,
-  } = recipe.totalNutrients
+  const { totalDaily, totalNutrients } = recipe
   return (
     <>
       <DetailWrapper>
@@ -23,7 +13,6 @@ export default function DetailPage({ recipe }) {
           <Icon glyph="back" size={25} /> Back to recipes
         </LinkWrapper>
         <ImageWrapper>
-          {' '}
           <h2>{recipe.label}</h2>
           <img src={recipe.image} alt="recipe" />
         </ImageWrapper>
@@ -63,93 +52,96 @@ export default function DetailPage({ recipe }) {
         <table>
           <tbody>
             <tr>
-              <td>{CHOCDF.label}</td>
+              <td>{totalNutrients.CHOCDF.label}</td>
               <td>
-                {Math.floor(CHOCDF.quantity)} {CHOCDF.unit}
+                {Math.floor(totalNutrients.CHOCDF.quantity)}{' '}
+                {totalNutrients.CHOCDF.unit}
               </td>
               <td>
-                {Math.floor(recipe.totalDaily.CHOCDF.quantity)}{' '}
-                {recipe.totalDaily.CHOCDF.unit}
-              </td>
-            </tr>
-            <tr>
-              <td>{FAT.label}</td>
-              <td>
-                {Math.floor(FAT.quantity)} {FAT.unit}
-              </td>
-              <td>
-                {Math.floor(recipe.totalDaily.FAT.quantity)}{' '}
-                {recipe.totalDaily.FAT.unit}
+                {Math.floor(totalDaily.CHOCDF.quantity)}{' '}
+                {totalDaily.CHOCDF.unit}
               </td>
             </tr>
             <tr>
-              <td>{PROCNT.label}</td>
+              <td>{totalNutrients.FAT.label}</td>
               <td>
-                {Math.floor(PROCNT.quantity)} {PROCNT.unit}
+                {Math.floor(totalNutrients.FAT.quantity)}{' '}
+                {totalNutrients.FAT.unit}
               </td>
               <td>
-                {Math.floor(recipe.totalDaily.PROCNT.quantity)}{' '}
-                {recipe.totalDaily.PROCNT.unit}
-              </td>
-            </tr>
-            <tr>
-              <td>{ZN.label}</td>
-              <td>
-                {Math.floor(ZN.quantity)} {ZN.unit}
-              </td>
-              <td>
-                {Math.floor(recipe.totalDaily.ZN.quantity)}{' '}
-                {recipe.totalDaily.ZN.unit}
+                {Math.floor(totalDaily.FAT.quantity)} {totalDaily.FAT.unit}
               </td>
             </tr>
             <tr>
-              <td>{MG.label}</td>
+              <td>{totalNutrients.PROCNT.label}</td>
               <td>
-                {Math.floor(MG.quantity)} {MG.unit}
+                {Math.floor(totalNutrients.PROCNT.quantity)}{' '}
+                {totalNutrients.PROCNT.unit}
               </td>
               <td>
-                {Math.floor(recipe.totalDaily.MG.quantity)}{' '}
-                {recipe.totalDaily.MG.unit}
-              </td>
-            </tr>
-            <tr>
-              <td>{CA.label}</td>
-              <td>
-                {Math.floor(CA.quantity)} {CA.unit}
-              </td>
-              <td>
-                {Math.floor(recipe.totalDaily.CA.quantity)}{' '}
-                {recipe.totalDaily.CA.unit}
+                {Math.floor(totalDaily.PROCNT.quantity)}{' '}
+                {totalDaily.PROCNT.unit}
               </td>
             </tr>
             <tr>
-              <td>{VITA_RAE.label}</td>
+              <td>{totalNutrients.ZN.label}</td>
               <td>
-                {Math.floor(VITA_RAE.quantity)} {VITA_RAE.unit}
+                {Math.floor(totalNutrients.ZN.quantity)}{' '}
+                {totalNutrients.ZN.unit}
               </td>
               <td>
-                {Math.floor(recipe.totalDaily.VITA_RAE.quantity)}{' '}
-                {recipe.totalDaily.VITA_RAE.unit}
-              </td>
-            </tr>
-            <tr>
-              <td>{VITC.label}</td>
-              <td>
-                {Math.floor(VITC.quantity)} {VITC.unit}
-              </td>
-              <td>
-                {Math.floor(recipe.totalDaily.VITC.quantity)}{' '}
-                {recipe.totalDaily.VITC.unit}
+                {Math.floor(totalDaily.ZN.quantity)} {totalDaily.ZN.unit}
               </td>
             </tr>
             <tr>
-              <td>{VITD.label}</td>
+              <td>{totalNutrients.MG.label}</td>
               <td>
-                {Math.floor(VITD.quantity)} {VITD.unit}
+                {Math.floor(totalNutrients.MG.quantity)}{' '}
+                {totalNutrients.MG.unit}
               </td>
               <td>
-                {Math.floor(recipe.totalDaily.VITD.quantity)}{' '}
-                {recipe.totalDaily.VITD.unit}
+                {Math.floor(totalDaily.MG.quantity)} {totalDaily.MG.unit}
+              </td>
+            </tr>
+            <tr>
+              <td>{totalNutrients.CA.label}</td>
+              <td>
+                {Math.floor(totalNutrients.CA.quantity)}{' '}
+                {totalNutrients.CA.unit}
+              </td>
+              <td>
+                {Math.floor(totalDaily.CA.quantity)} {totalDaily.CA.unit}
+              </td>
+            </tr>
+            <tr>
+              <td>{totalNutrients.VITA_RAE.label}</td>
+              <td>
+                {Math.floor(totalNutrients.VITA_RAE.quantity)}{' '}
+                {totalNutrients.VITA_RAE.unit}
+              </td>
+              <td>
+                {Math.floor(totalDaily.VITA_RAE.quantity)}{' '}
+                {totalDaily.VITA_RAE.unit}
+              </td>
+            </tr>
+            <tr>
+              <td>{totalNutrients.VITC.label}</td>
+              <td>
+                {Math.floor(totalNutrients.VITC.quantity)}{' '}
+                {totalNutrients.VITC.unit}
+              </td>
+              <td>
+                {Math.floor(totalDaily.VITC.quantity)} {totalDaily.VITC.unit}
+              </td>
+            </tr>
+            <tr>
+              <td>{totalNutrients.VITD.label}</td>
+              <td>
+                {Math.floor(totalNutrients.VITD.quantity)}{' '}
+                {totalNutrients.VITD.unit}
+              </td>
+              <td>
+                {Math.floor(totalDaily.VITD.quantity)} {totalDaily.VITD.unit}
               </td>
             </tr>
           </tbody>
