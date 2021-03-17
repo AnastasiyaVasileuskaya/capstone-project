@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Header from './Header'
+import Header from './Header/Header'
 import styled from 'styled-components/macro'
 import DetailPage from '../pages/DetailPage'
 import HomePage from '../pages/HomePage'
@@ -37,6 +37,7 @@ export default function App() {
       )
       const response = await fetch(url)
       const data = await response.json()
+      console.log(data)
       if (data.more && data.hits) {
         setAlert('')
         setRecipes(
