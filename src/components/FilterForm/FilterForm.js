@@ -98,26 +98,30 @@ export default function FilterForm({
           <span>Calories</span>
           <CaloriesContainer>
             <div>
-              <label htmlFor="caloriesRangeFrom">From</label>
-              <input
-                id="caloriesRangeFrom"
-                name="caloriesRangeFrom"
-                maxLength="4"
-                placeholder="100"
-                value={caloriesRangeFrom}
-                onChange={e => setCaloriesRangeFrom(e.target.value)}
-              />
+              <label>
+                From
+                <input
+                  name="caloriesRangeFrom"
+                  type="number"
+                  maxLength="4"
+                  placeholder="100"
+                  value={caloriesRangeFrom}
+                  onChange={e => setCaloriesRangeFrom(e.target.value)}
+                />
+              </label>
             </div>
             <div>
-              <label htmlFor="caloriesRangeTo">To</label>
-              <input
-                id="caloriesRangeTo"
-                name="caloriesRangeTo"
-                maxLength="4"
-                placeholder="300"
-                value={caloriesRangeTo}
-                onChange={e => setCaloriesRangeTo(e.target.value)}
-              />
+              <label>
+                To
+                <input
+                  name="caloriesRangeTo"
+                  type="number"
+                  maxLength="4"
+                  placeholder="300"
+                  value={caloriesRangeTo}
+                  onChange={e => setCaloriesRangeTo(e.target.value)}
+                />
+              </label>
             </div>
           </CaloriesContainer>
           <span>Diet</span>

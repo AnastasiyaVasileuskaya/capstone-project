@@ -2,11 +2,14 @@ import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 export default function Recipe({ recipe }) {
-  const { image, calories } = recipe
-  const title = recipe.label
-  const servings = recipe.yield
+  const {
+    image,
+    calories,
+    label: title,
+    yield: servings,
+    id: recipeId,
+  } = recipe
   const ingredients = recipe.ingredientLines.length
-  const recipeId = recipe.id
   return (
     <RecipeContainer
       as={NavLink}

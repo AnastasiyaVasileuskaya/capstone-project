@@ -4,7 +4,7 @@ import Header from './Header/Header'
 import styled from 'styled-components/macro'
 import DetailPage from '../pages/DetailPage'
 import HomePage from '../pages/HomePage'
-import creatUrlQuery from '../services/createUrlQuery'
+import createUrlQuery from '../services/createUrlQuery'
 import getFilters from '../services/getFilters'
 require('dotenv').config()
 
@@ -17,7 +17,7 @@ export default function App() {
   const [healthLabels, setHealthLabels] = useState([])
   const [dishTypes, setDishTypes] = useState([])
   const [url, setUrl] = useState(
-    creatUrlQuery(
+    createUrlQuery(
       caloriesRangeFrom,
       caloriesRangeTo,
       query,
@@ -28,7 +28,7 @@ export default function App() {
 
   async function getRecipes() {
     if (query !== '') {
-      let url = creatUrlQuery(
+      let url = createUrlQuery(
         caloriesRangeFrom,
         caloriesRangeTo,
         query,
@@ -63,7 +63,7 @@ export default function App() {
 
   useEffect(() => {
     setUrl(
-      creatUrlQuery(
+      createUrlQuery(
         caloriesRangeFrom,
         caloriesRangeTo,
         query,

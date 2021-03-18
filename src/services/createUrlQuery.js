@@ -1,4 +1,4 @@
-export default function creatUrlQuery(
+export default function createUrlQuery(
   caloriesRangeFrom,
   caloriesRangeTo,
   query,

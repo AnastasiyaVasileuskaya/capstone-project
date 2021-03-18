@@ -1,4 +1,4 @@
-export default function getAllergiesLabels() {
+export default function getFilters() {
   return {
     dietLabels: ['Vegan', 'Vegetarian', 'Low-Sugar'],
     allergiesLabels: [
