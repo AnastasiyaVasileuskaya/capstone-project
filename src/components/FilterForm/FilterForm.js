@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
-import { useState} from 'react'
+import { useState } from 'react'
 import Icon from 'supercons'
-import Button from './Button'
-import Alert from './Alert'
+import Button from '../Button/Button'
+import Alert from '../Alert/Alert'
 export default function FilterForm({
   dietLabels,
   allergiesLabels,
@@ -34,10 +34,10 @@ export default function FilterForm({
 
   function isCaloriesStateValid() {
     return (
-      (caloriesRangeFrom ==='' && caloriesRangeTo ==='') ||
+      (caloriesRangeFrom === '' && caloriesRangeTo === '') ||
       (!isNaN(caloriesRangeFrom) &&
-      !isNaN(caloriesRangeTo) &&
-      caloriesRangeFrom < caloriesRangeTo)
+        !isNaN(caloriesRangeTo) &&
+        caloriesRangeFrom < caloriesRangeTo)
     )
   }
 
@@ -63,7 +63,7 @@ export default function FilterForm({
   function scrollToTop() {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: 'smooth',
     })
   }
 
@@ -86,7 +86,7 @@ export default function FilterForm({
         }}
       >
         <IconWrapper>
-        Refine your search
+          Refine your search
           <Icon
             glyph={isFilterFormVisible ? 'up-caret' : 'down-caret'}
             size={25}
@@ -98,26 +98,30 @@ export default function FilterForm({
           <span>Calories</span>
           <CaloriesContainer>
             <div>
-            <label htmlFor="caloriesRangeFrom">From</label>
-            <input
-            id="caloriesRangeFrom"
-              name="caloriesRangeFrom"
-              maxLength="4"
-              placeholder="100"
-              value={caloriesRangeFrom}
-              onChange={e => setCaloriesRangeFrom(e.target.value)}
-            />
+              <label>
+                From
+                <input
+                  name="caloriesRangeFrom"
+                  type="number"
+                  maxLength="4"
+                  placeholder="100"
+                  value={caloriesRangeFrom}
+                  onChange={e => setCaloriesRangeFrom(e.target.value)}
+                />
+              </label>
             </div>
             <div>
-            <label htmlFor="caloriesRangeTo">To</label>
-            <input
-            id="caloriesRangeTo"
-              name="caloriesRangeTo"
-              maxLength="4"
-              placeholder="300"
-              value={caloriesRangeTo}
-              onChange={e => setCaloriesRangeTo(e.target.value)}
-            />
+              <label>
+                To
+                <input
+                  name="caloriesRangeTo"
+                  type="number"
+                  maxLength="4"
+                  placeholder="300"
+                  value={caloriesRangeTo}
+                  onChange={e => setCaloriesRangeTo(e.target.value)}
+                />
+              </label>
             </div>
           </CaloriesContainer>
           <span>Diet</span>
@@ -138,7 +142,7 @@ export default function FilterForm({
           <span>Allergies</span>
           <Container>
             {allergiesLabels.map((item, index) => (
-              <label  key={index}>
+              <label key={index}>
                 <input
                   type="checkbox"
                   filter-type="health-labels"
@@ -153,7 +157,7 @@ export default function FilterForm({
           <span>Cuisine</span>
           <Container>
             {cuisineTypes.map((item, index) => (
-              <label  key={index}>
+              <label key={index}>
                 <input
                   type="checkbox"
                   filter-type="cuisine-types"
@@ -166,7 +170,7 @@ export default function FilterForm({
             ))}
           </Container>
           <AlertWrapper>
-          <Alert text={alert} />
+            <Alert text={alert} />
           </AlertWrapper>
           <ButtonWrapper>
             <ClearButton onClick={resetState}>Clear</ClearButton>
@@ -186,7 +190,7 @@ const FilterContainer = styled.span`
 const IconWrapper = styled.span`
   display: flex;
   justify-content: space-between;
-  place-items:center;
+  place-items: center;
 `
 const FilterButton = styled(Button)`
   display: flex;
@@ -229,7 +233,7 @@ const CaloriesContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   input {
-    margin-left:10px;
+    margin-left: 10px;
     width: 60px;
     height: 30px;
   }
@@ -245,6 +249,6 @@ const Container = styled.span`
   padding: 10px;
 `
 const AlertWrapper = styled.div`
-display:flex;
-justify-content:center;
+  display: flex;
+  justify-content: center;
 `

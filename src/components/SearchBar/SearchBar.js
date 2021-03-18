@@ -1,4 +1,4 @@
-import Button from './Button'
+import Button from '../Button/Button'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 
