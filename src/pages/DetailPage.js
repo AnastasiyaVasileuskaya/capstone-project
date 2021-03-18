@@ -3,8 +3,35 @@ import Header from '../components/Header/Header'
 import Icon from 'supercons'
 import { Link } from 'react-router-dom'
 import Button from '../components/Button/Button'
+import getRecipesFromLocalStorage from '../lib/getRecipesFromLocalStorage'
+import saveRecipes from '../lib/saveRecipes'
 export default function DetailPage({ recipe }) {
+  if (!recipe) {
+    let receipeId = window.location.pathname.substr(
+      window.location.pathname.indexOf('recipe_'),
+      window.location.pathname.length - 1
+    )
+    let visitedRecipes = getRecipesFromLocalStorage('visitedRecipes')
+    recipe = visitedRecipes.get(receipeId)
+  }
+
+  if (!recipe) {
+    return (
+      <>
+        <Header title="CookIdeas" />
+        <div>Loading...</div>
+      </>
+    )
+  }
+
   const { totalDaily, totalNutrients } = recipe
+
+  function saveRecipe() {
+    let recipes = getRecipesFromLocalStorage('savedRecipes')
+    recipes.set(recipe.id, recipe)
+    saveRecipes('savedRecipes', recipes)
+  }
+
   return (
     <>
       <DetailWrapper>
@@ -12,6 +39,7 @@ export default function DetailPage({ recipe }) {
         <LinkWrapper to={'/'}>
           <Icon glyph="back" size={25} /> Back to recipes
         </LinkWrapper>
+        <Button onClick={saveRecipe}>Save</Button>
         <ImageWrapper>
           <h2>{recipe.label}</h2>
           <img src={recipe.image} alt="recipe" />

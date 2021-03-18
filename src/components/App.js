@@ -6,6 +6,9 @@ import DetailPage from '../pages/DetailPage'
 import HomePage from '../pages/HomePage'
 import createUrlQuery from '../services/createUrlQuery'
 import getFilters from '../services/getFilters'
+import SavedRecipes from '../pages/SavedRecipes'
+import saveRecipes from '../lib/saveRecipes'
+import getRecipesFromLocalStorage from '../lib/getRecipesFromLocalStorage'
 require('dotenv').config()
 
 export default function App() {
@@ -16,6 +19,7 @@ export default function App() {
   const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
   const [healthLabels, setHealthLabels] = useState([])
   const [dishTypes, setDishTypes] = useState([])
+
   const [url, setUrl] = useState(
     createUrlQuery(
       caloriesRangeFrom,
@@ -25,6 +29,12 @@ export default function App() {
       dishTypes
     )
   )
+
+  function saveVisitedRecipes() {
+    let recipesFromLocalStorage = getRecipesFromLocalStorage('visitedRecipes')
+    recipes.forEach(recipe => recipesFromLocalStorage.set(recipe.id, recipe))
+    saveRecipes('visitedRecipes', recipes)
+  }
 
   async function getRecipes() {
     if (query !== '') {
@@ -37,7 +47,6 @@ export default function App() {
       )
       const response = await fetch(url)
       const data = await response.json()
-      console.log(data)
       if (data.more && data.hits) {
         setAlert('')
         setRecipes(
@@ -77,6 +86,10 @@ export default function App() {
     getRecipes()
   }, [url])
 
+  useEffect(() => {
+    saveVisitedRecipes()
+  }, [recipes])
+
   function handeFiltersChanged(
     caloriesRangeFrom,
     caloriesRangeTo,
@@ -108,6 +121,10 @@ export default function App() {
               onFindClicked={handeFiltersChanged}
               recipes={recipes}
             />
+          </Route>
+          <Route exact path="/saved">
+            <Header title="CookIdeas" />
+            <SavedRecipes />
           </Route>
           <Route
             path="/recipes/:recipeId"

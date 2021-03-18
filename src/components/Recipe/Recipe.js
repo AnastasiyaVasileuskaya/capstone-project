@@ -54,6 +54,7 @@ const RecipeContainer = styled.span`
   h2 {
     margin-bottom: 0;
   }
+  position: relative;
 `
 
 const Img = styled.img`
