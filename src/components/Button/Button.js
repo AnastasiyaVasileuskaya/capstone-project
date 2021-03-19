@@ -4,6 +4,6 @@ export default styled.button`
   padding: 5px;
   border: none;
   background-color: ${props =>
-    props.bgColor ? props.bgColor : 'var(--color-orange)'};
+    props.disabled ? 'lightgrey' : 'var(--color-orange)'};
   color: white;
 `

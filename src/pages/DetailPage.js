@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom'
 import Button from '../components/Button/Button'
 import getRecipesFromLocalStorage from '../lib/getRecipesFromLocalStorage'
 import saveRecipes from '../lib/saveRecipes'
+import { useState } from 'react'
 export default function DetailPage({ recipe }) {
+  const [isRecipeSaved, setIsRecipeSaved] = useState(
+    recipe && getRecipesFromLocalStorage('savedRecipes').has(recipe.id)
+  )
   if (!recipe) {
     let receipeId = window.location.pathname.substr(
       window.location.pathname.indexOf('recipe_'),
@@ -30,6 +34,7 @@ export default function DetailPage({ recipe }) {
     let recipes = getRecipesFromLocalStorage('savedRecipes')
     recipes.set(recipe.id, recipe)
     saveRecipes('savedRecipes', recipes)
+    setIsRecipeSaved(true)
   }
 
   return (
@@ -58,7 +63,9 @@ export default function DetailPage({ recipe }) {
             ))}
           </ol>
         </IngredientsWrapper>
-        <Button onClick={saveRecipe}>Save</Button>
+        <Button onClick={saveRecipe} disabled={isRecipeSaved}>
+          {isRecipeSaved ? 'Recipe saved' : 'Save recipe'}
+        </Button>
         <PreparationWrapper>
           <h2>Preparation</h2>
           <p>
