@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
+import Icon from 'supercons'
 export default function Recipe({ recipe }) {
   const {
     image,
@@ -18,6 +19,9 @@ export default function Recipe({ recipe }) {
         pathname: `/recipes/${recipeId}`,
       }}
     >
+      <IconWrapper to={'/'}>
+        <Icon glyph="delete" size={25} />
+      </IconWrapper>
       <Img src={image} alt="recipe" width="200" />
       <h2>{title}</h2>
       <InfoWrapper>
@@ -76,4 +80,7 @@ const CaloriesNumber = styled.span`
 const IngredientsNumber = styled.span`
   color: var(--color-orange);
   font-weight: 500;
+`
+const IconWrapper = styled.div`
+  position: absolute;
 `
