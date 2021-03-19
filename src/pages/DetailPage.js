@@ -36,10 +36,12 @@ export default function DetailPage({ recipe }) {
     <>
       <DetailWrapper>
         <Header title="CookIdeas" />
-        <LinkWrapper to={'/'}>
-          <Icon glyph="back" size={25} /> Back to recipes
-        </LinkWrapper>
-        <Button onClick={saveRecipe}>Save</Button>
+        <Navigation>
+          <LinkWrapper to={'/'}>
+            <Icon glyph="back" size={25} /> Back to recipes
+          </LinkWrapper>
+          <LinkWrapper to={'/saved'}>Saved recipes</LinkWrapper>
+        </Navigation>
         <ImageWrapper>
           <h2>{recipe.label}</h2>
           <img src={recipe.image} alt="recipe" />
@@ -56,6 +58,7 @@ export default function DetailPage({ recipe }) {
             ))}
           </ol>
         </IngredientsWrapper>
+        <Button onClick={saveRecipe}>Save</Button>
         <PreparationWrapper>
           <h2>Preparation</h2>
           <p>
@@ -194,7 +197,7 @@ const LinkWrapper = styled(Link)`
   text-decoration: none;
   color: black;
   background-color: lightgray;
-  width: 180px;
+  width: auto;
   height: 35px;
   display: flex;
   padding: 5px;
@@ -226,4 +229,8 @@ const PreparationWrapper = styled.span`
     margin-bottom: 0;
     margin-top: 0;
   }
+`
+const Navigation = styled.div`
+  display: flex;
+  justify-content: space-evenly;
 `

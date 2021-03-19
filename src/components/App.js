@@ -9,7 +9,6 @@ import getFilters from '../services/getFilters'
 import SavedRecipes from '../pages/SavedRecipes'
 import saveRecipes from '../lib/saveRecipes'
 import getRecipesFromLocalStorage from '../lib/getRecipesFromLocalStorage'
-require('dotenv').config()
 
 export default function App() {
   const [recipes, setRecipes] = useState([])
@@ -107,34 +106,32 @@ export default function App() {
   }
   const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
   return (
-    <>
-      <AppGrid>
-        <Switch>
-          <Route exact path="/">
-            <Header title="CookIdeas" />
-            <HomePage
-              onRecipeSearch={setQuery}
-              text={alert}
-              dietLabels={dietLabels}
-              allergiesLabels={allergiesLabels}
-              cuisineTypes={cuisineTypes}
-              onFindClicked={handeFiltersChanged}
-              recipes={recipes}
-            />
-          </Route>
-          <Route exact path="/saved">
-            <Header title="CookIdeas" />
-            <SavedRecipes />
-          </Route>
-          <Route
-            path="/recipes/:recipeId"
-            render={props => (
-              <DetailPage recipe={getRecipeById(props.match.params.recipeId)} />
-            )}
+    <AppGrid>
+      <Switch>
+        <Route exact path="/">
+          <Header title="CookIdeas" />
+          <HomePage
+            onRecipeSearch={setQuery}
+            text={alert}
+            dietLabels={dietLabels}
+            allergiesLabels={allergiesLabels}
+            cuisineTypes={cuisineTypes}
+            onFindClicked={handeFiltersChanged}
+            recipes={recipes}
           />
-        </Switch>
-      </AppGrid>
-    </>
+        </Route>
+        <Route exact path="/saved">
+          <Header title="CookIdeas" />
+          <SavedRecipes />
+        </Route>
+        <Route
+          path="/recipes/:recipeId"
+          render={props => (
+            <DetailPage recipe={getRecipeById(props.match.params.recipeId)} />
+          )}
+        />
+      </Switch>
+    </AppGrid>
   )
 }
 

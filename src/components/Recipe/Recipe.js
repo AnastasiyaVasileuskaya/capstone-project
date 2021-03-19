@@ -2,7 +2,7 @@ import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import Icon from 'supercons'
-export default function Recipe({ recipe }) {
+export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
   const {
     image,
     calories,
@@ -11,6 +11,12 @@ export default function Recipe({ recipe }) {
     id: recipeId,
   } = recipe
   const ingredients = recipe.ingredientLines.length
+
+  function handleClick(e) {
+    e.preventDefault()
+    onDeleteButtonClick(recipeId)
+  }
+
   return (
     <RecipeContainer
       as={NavLink}
@@ -19,8 +25,8 @@ export default function Recipe({ recipe }) {
         pathname: `/recipes/${recipeId}`,
       }}
     >
-      <IconWrapper to={'/'}>
-        <Icon glyph="delete" size={25} />
+      <IconWrapper isVisible={isVisible} to={'/'} onClick={handleClick}>
+        <Icon glyph="delete" size={45} />
       </IconWrapper>
       <Img src={image} alt="recipe" width="200" />
       <h2>{title}</h2>
@@ -83,4 +89,5 @@ const IngredientsNumber = styled.span`
 `
 const IconWrapper = styled.div`
   position: absolute;
+  display: ${props => (props.isVisible ? 'block' : 'none')};
 `

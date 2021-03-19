@@ -1,5 +1,3 @@
-import Recipe from '../components/Recipe/Recipe'
-
 export default function getRecipesFromLocalStorage(recipeType) {
   const jsonString = localStorage.getItem(recipeType)
   try {
