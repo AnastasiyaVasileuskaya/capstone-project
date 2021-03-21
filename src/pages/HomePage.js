@@ -4,6 +4,7 @@ import FilterForm from '../components/FilterForm/FilterForm'
 import Recipe from '../components/Recipe/Recipe'
 import SearchBar from '../components/SearchBar/SearchBar'
 import { Link } from 'react-router-dom'
+import Header from '../components/Header/Header'
 
 export default function HomePage({
   onRecipeSearch,

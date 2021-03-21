@@ -39,8 +39,8 @@ export default function DetailPage({ recipe }) {
 
   return (
     <>
-      <DetailWrapper>
-        <Header title="CookIdeas" />
+      <Header title="CookIdeas" />
+      <PageLayout>
         <Navigation>
           <LinkWrapper to={'/'}>
             <Icon glyph="back" size={25} /> Back to recipes
@@ -184,14 +184,16 @@ export default function DetailPage({ recipe }) {
             </tr>
           </tbody>
         </table>
-      </DetailWrapper>
+      </PageLayout>
     </>
   )
 }
 
-const DetailWrapper = styled.section`
+const PageLayout = styled.main`
   display: grid;
-  gap: 15px;
+  gap: 20px;
+  overflow-y: scroll;
+  padding: 20px;
 `
 const ImageWrapper = styled.div`
   display: grid;

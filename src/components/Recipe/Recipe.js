@@ -26,7 +26,7 @@ export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
       }}
     >
       <IconWrapper isVisible={isVisible} to={'/'} onClick={handleClick}>
-        <Icon glyph="delete" size={45} />
+        <Icon glyph="view-close" size={30} />
       </IconWrapper>
       <Img src={image} alt="recipe" width="200" />
       <h2>{title}</h2>

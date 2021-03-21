@@ -19,7 +19,6 @@ const HeaderContainer = styled.header`
   font-family: 'Lobster', cursive;
   background: var(--color-orange);
   background: var(--gradient-orange);
-  height: 68px;
   display: flex;
   align-items: center;
   justify-content: center;

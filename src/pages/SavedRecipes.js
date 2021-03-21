@@ -25,7 +25,7 @@ export default function SavedRecipes() {
 
   if (savedRecipes.size > 0) {
     return (
-      <>
+      <PageLayout>
         <LinkWrapper to={'/'}>
           <Icon glyph="back" size={25} /> Back to recipes
         </LinkWrapper>
@@ -37,11 +37,12 @@ export default function SavedRecipes() {
             recipe={recipe}
           />
         ))}
-      </>
+      </PageLayout>
     )
   }
   return (
     <>
+      <Header title="CookIdeas" />
       <LinkWrapper to={'/'}>
         <Icon glyph="back" size={25} /> Back to recipes
       </LinkWrapper>
@@ -49,6 +50,13 @@ export default function SavedRecipes() {
     </>
   )
 }
+
+const PageLayout = styled.main`
+  display: grid;
+  gap: 20px;
+  overflow-y: scroll;
+  padding: 20px;
+`
 
 const LinkWrapper = styled(Link)`
   text-decoration: none;

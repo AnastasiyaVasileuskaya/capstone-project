@@ -9,6 +9,7 @@ import getFilters from '../services/getFilters'
 import SavedRecipes from '../pages/SavedRecipes'
 import saveRecipes from '../lib/saveRecipes'
 import getRecipesFromLocalStorage from '../lib/getRecipesFromLocalStorage'
+import Grid from './Grid'
 
 export default function App() {
   const [recipes, setRecipes] = useState([])
@@ -106,7 +107,7 @@ export default function App() {
   }
   const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
   return (
-    <AppGrid>
+    <Grid>
       <Switch>
         <Route exact path="/">
           <Header title="CookIdeas" />
@@ -131,13 +132,6 @@ export default function App() {
           )}
         />
       </Switch>
-    </AppGrid>
+    </Grid>
   )
 }
-
-const AppGrid = styled.div`
-  display: grid;
-  gap: 20px;
-  overflow-y: scroll;
-  padding: 20px;
-`
