@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
-import Header from '../components/Header/Header'
-import Button from '../components/Button/Button'
-import loadFromLocal from '../lib/loadFromLocal'
-import saveToLocal from '../lib/saveToLocal'
+import Header from '../../components/Header/Header'
+import Button from '../../components/Button/Button'
+import loadFromLocal from '../../lib/loadFromLocal'
+import saveToLocal from '../../lib/saveToLocal'
 import { useState } from 'react'
 export default function DetailPage({ recipe }) {
   const [isRecipeSaved, setIsRecipeSaved] = useState(

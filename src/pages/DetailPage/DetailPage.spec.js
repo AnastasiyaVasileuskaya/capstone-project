@@ -41,16 +41,26 @@ describe('DetailPage', () => {
     render(<DetailPage recipe={recipe} />, {
       wrapper: MemoryRouter,
     })
-    expect(screen.getByText(/back to recipes/i)).toHaveAttribute('href', '/')
+    expect(screen.getByText(/all/i)).toHaveAttribute('href', '/')
   })
 
-  it('has a link and a button that links to another pages', () => {
+  it('has a link with path /saved', () => {
     render(<DetailPage recipe={recipe} />, {
       wrapper: MemoryRouter,
     })
-    expect(screen.getByText(/back to recipes/i)).toBeInTheDocument()
+    expect(screen.getByText(/saved/i)).toHaveAttribute('href', '/saved')
+  })
+
+  it('has button that links to another pages', () => {
+    render(<DetailPage recipe={recipe} />, {
+      wrapper: MemoryRouter,
+    })
     expect(
       screen.getByRole('button', { name: /instructions/i })
     ).toBeInTheDocument()
+    expect(screen.getByText(/instructions/i)).toHaveAttribute(
+      'href',
+      '/{recipe.url}'
+    )
   })
 })

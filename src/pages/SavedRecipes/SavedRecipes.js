@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
-import Recipe from '../components/Recipe/Recipe'
-import loadFromLocal from '../lib/loadFromLocal'
+import Recipe from '../../components/Recipe/Recipe'
+import loadFromLocal from '../../lib/loadFromLocal'
 import { useState } from 'react'
-import saveToLocal from '../lib/saveToLocal'
+import saveToLocal from '../../lib/saveToLocal'
 
 export default function SavedRecipes() {
   const [savedRecipes, setSavedRecipes] = useState(

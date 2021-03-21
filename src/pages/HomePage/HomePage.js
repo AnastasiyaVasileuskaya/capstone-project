@@ -1,8 +1,8 @@
 import styled from 'styled-components/macro'
-import Alert from '../components/Alert/Alert'
-import FilterForm from '../components/FilterForm/FilterForm'
-import Recipe from '../components/Recipe/Recipe'
-import SearchBar from '../components/SearchBar/SearchBar'
+import Alert from '../../components/Alert/Alert'
+import FilterForm from '../../components/FilterForm/FilterForm'
+import Recipe from '../../components/Recipe/Recipe'
+import SearchBar from '../../components/SearchBar/SearchBar'
 
 export default function HomePage({
   onRecipeSearch,

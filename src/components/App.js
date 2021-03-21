@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Header from './Header/Header'
-import DetailPage from '../pages/DetailPage'
-import HomePage from '../pages/HomePage'
+import DetailPage from '../pages/DetailPage/DetailPage'
+import HomePage from '../pages/HomePage/HomePage'
 import createUrlQuery from '../services/createUrlQuery'
 import getFilters from '../services/getFilters'
-import SavedRecipes from '../pages/SavedRecipes'
+import SavedRecipes from '../pages/SavedRecipes/SavedRecipes'
 import saveToLocal from '../lib/saveToLocal'
 import loadFromLocal from '../lib/loadFromLocal'
 import Grid from './Grid'
@@ -18,7 +18,6 @@ export default function App() {
   const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
   const [healthLabels, setHealthLabels] = useState([])
   const [dishTypes, setDishTypes] = useState([])
-
   const [url, setUrl] = useState(
     createUrlQuery(
       caloriesRangeFrom,
