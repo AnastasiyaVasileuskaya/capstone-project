@@ -61,7 +61,9 @@ const RecipeContainer = styled.span`
   box-shadow: 3px 3px 3px #eee;
   text-decoration: none;
   color: black;
+  height: 370px;
   h2 {
+    margin-top: 5px;
     margin-bottom: 0;
   }
   position: relative;
@@ -89,5 +91,7 @@ const IngredientsNumber = styled.span`
 `
 const IconWrapper = styled.div`
   position: absolute;
+  right: 10px;
+  top: 2px;
   display: ${props => (props.isVisible ? 'block' : 'none')};
 `

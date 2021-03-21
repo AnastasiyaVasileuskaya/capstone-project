@@ -3,8 +3,6 @@ import Alert from '../components/Alert/Alert'
 import FilterForm from '../components/FilterForm/FilterForm'
 import Recipe from '../components/Recipe/Recipe'
 import SearchBar from '../components/SearchBar/SearchBar'
-import { Link } from 'react-router-dom'
-import Header from '../components/Header/Header'
 
 export default function HomePage({
   onRecipeSearch,
@@ -19,7 +17,6 @@ export default function HomePage({
     <PageLayout>
       <SearchBar onRecipeSearch={onRecipeSearch} />
       <Alert text={text} />
-      <LinkWrapper to={'/saved'}>Saved Recipes</LinkWrapper>
       <FilterForm
         dietLabels={dietLabels}
         allergiesLabels={allergiesLabels}
@@ -38,7 +35,4 @@ const PageLayout = styled.main`
   gap: 20px;
   overflow-y: scroll;
   padding: 20px;
-`
-const LinkWrapper = styled(Link)`
-  text-decoration: none;
 `

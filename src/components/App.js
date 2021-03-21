@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Header from './Header/Header'
-import styled from 'styled-components/macro'
 import DetailPage from '../pages/DetailPage'
 import HomePage from '../pages/HomePage'
 import createUrlQuery from '../services/createUrlQuery'
 import getFilters from '../services/getFilters'
 import SavedRecipes from '../pages/SavedRecipes'
-import saveRecipes from '../lib/saveRecipes'
-import getRecipesFromLocalStorage from '../lib/getRecipesFromLocalStorage'
+import saveToLocal from '../lib/saveToLocal'
+import loadFromLocal from '../lib/loadFromLocal'
 import Grid from './Grid'
 
 export default function App() {
@@ -31,9 +30,9 @@ export default function App() {
   )
 
   function saveVisitedRecipes() {
-    let recipesFromLocalStorage = getRecipesFromLocalStorage('visitedRecipes')
+    let recipesFromLocalStorage = loadFromLocal('visitedRecipes')
     recipes.forEach(recipe => recipesFromLocalStorage.set(recipe.id, recipe))
-    saveRecipes('visitedRecipes', recipes)
+    saveToLocal('visitedRecipes', recipes)
   }
 
   async function getRecipes() {
@@ -110,7 +109,7 @@ export default function App() {
     <Grid>
       <Switch>
         <Route exact path="/">
-          <Header title="CookIdeas" />
+          <Header title="CookIdeas" isVisibleSaved={true} />
           <HomePage
             onRecipeSearch={setQuery}
             text={alert}
@@ -122,7 +121,7 @@ export default function App() {
           />
         </Route>
         <Route exact path="/saved">
-          <Header title="CookIdeas" />
+          <Header title="CookIdeas" isVisibleAll={true} />
           <SavedRecipes />
         </Route>
         <Route

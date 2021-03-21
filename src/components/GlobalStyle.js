@@ -24,8 +24,11 @@ export default createGlobalStyle`
 
   input,
     button {
-  font-size: inherit;
+  font-size: 1.2em;
+  font-weight:500;
   padding: 5px;
+  outline:none;
+  border-radius:5px;
 }
 
 input {

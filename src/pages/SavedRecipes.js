@@ -1,15 +1,12 @@
 import styled from 'styled-components/macro'
-import Header from '../components/Header/Header'
 import Recipe from '../components/Recipe/Recipe'
-import getRecipesFromLocalStorage from '../lib/getRecipesFromLocalStorage'
-import Icon from 'supercons'
-import { Link } from 'react-router-dom'
+import loadFromLocal from '../lib/loadFromLocal'
 import { useState } from 'react'
-import saveRecipes from '../lib/saveRecipes'
+import saveToLocal from '../lib/saveToLocal'
 
 export default function SavedRecipes() {
   const [savedRecipes, setSavedRecipes] = useState(
-    getRecipesFromLocalStorage('savedRecipes')
+    loadFromLocal('savedRecipes')
   )
 
   function handleClick(clickedRecipeId) {
@@ -20,15 +17,12 @@ export default function SavedRecipes() {
       }
     })
     setSavedRecipes(updatedRecipes)
-    saveRecipes('savedRecipes', updatedRecipes)
+    saveToLocal('savedRecipes', updatedRecipes)
   }
 
   if (savedRecipes.size > 0) {
     return (
       <PageLayout>
-        <LinkWrapper to={'/'}>
-          <Icon glyph="back" size={25} /> Back to recipes
-        </LinkWrapper>
         {Array.from(savedRecipes, ([recipeId, recipe]) => (
           <Recipe
             onDeleteButtonClick={handleClick}
@@ -40,15 +34,7 @@ export default function SavedRecipes() {
       </PageLayout>
     )
   }
-  return (
-    <>
-      <Header title="CookIdeas" />
-      <LinkWrapper to={'/'}>
-        <Icon glyph="back" size={25} /> Back to recipes
-      </LinkWrapper>
-      <div>You haven't saved recipes yet.</div>
-    </>
-  )
+  return <TextWrapper>You haven't saved recipes yet.</TextWrapper>
 }
 
 const PageLayout = styled.main`
@@ -57,15 +43,7 @@ const PageLayout = styled.main`
   overflow-y: scroll;
   padding: 20px;
 `
-
-const LinkWrapper = styled(Link)`
-  text-decoration: none;
-  color: black;
-  background-color: lightgray;
-  width: 180px;
-  height: 35px;
-  display: flex;
-  padding: 5px;
-  align-items: center;
-  justify-content: center;
+const TextWrapper = styled.div`
+  display: grid;
+  padding: 20px;
 `

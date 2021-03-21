@@ -16,5 +16,11 @@ const AppGrid = styled.div`
   max-width: 375px;
   margin: 0 auto;
   height: 100vh;
-  background-image: linear-gradient(to top, #fddb92 0%, #d1fdff 100%);
+  background: rgb(255, 247, 237);
+  background: linear-gradient(
+    176deg,
+    rgba(255, 247, 237, 1) 1%,
+    rgba(255, 255, 255, 1) 77%,
+    rgba(255, 255, 255, 1) 98%
+  );
 `

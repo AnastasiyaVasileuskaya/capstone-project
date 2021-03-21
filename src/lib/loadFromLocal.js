@@ -1,4 +1,4 @@
-export default function getRecipesFromLocalStorage(recipeType) {
+export default function loadFromLocal(recipeType) {
   const jsonString = localStorage.getItem(recipeType)
   try {
     if (jsonString) {
