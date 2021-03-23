@@ -1,8 +1,13 @@
-import Button from '../Button/Button'
+import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
+import Button from '../Button/Button'
 
 export default function SearchBar({ onRecipeSearch }) {
+  SearchBar.propTypes = {
+    onRecipeSearch: PropTypes.func,
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <Input
@@ -12,10 +17,11 @@ export default function SearchBar({ onRecipeSearch }) {
         autocomplete="off"
       />
       <SearchButton>
-        <Icon glyph="search" size={25} />
+        <Icon glyph="search" size={33} />
       </SearchButton>
     </Form>
   )
+
   function handleSubmit(event) {
     event.preventDefault()
     const form = event.target
@@ -30,6 +36,7 @@ const SearchButton = styled(Button)`
   place-items: center;
   width: 60px;
   height: 40px;
+  border-radius: 0;
 `
 const Form = styled.form`
   display: flex;
@@ -41,4 +48,5 @@ const Form = styled.form`
 const Input = styled.input`
   border: 2px solid var(--color-lightorange);
   display: block;
+  border-radius: 0;
 `

@@ -1,5 +1,6 @@
-import styled from 'styled-components/macro'
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
@@ -15,6 +16,13 @@ export default function FilterForm({
   const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
   const [healthLabels, setHealthLabels] = useState([])
   const [dishTypes, setDishTypes] = useState([])
+
+  FilterForm.propTypes = {
+    dietLabels: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    allergiesLabels: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    cuisineTypes: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    onFindClicked: PropTypes.func,
+  }
 
   function resetState() {
     setCaloriesRangeFrom('')
@@ -95,80 +103,82 @@ export default function FilterForm({
       </FilterButton>
       {isFilterFormVisible && (
         <FilterWrapper>
-          <span>Calories</span>
-          <CaloriesContainer>
-            <div>
-              <label>
-                From
-                <input
-                  name="caloriesRangeFrom"
-                  type="number"
-                  maxLength="4"
-                  placeholder="100"
-                  value={caloriesRangeFrom}
-                  onChange={e => setCaloriesRangeFrom(e.target.value)}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                To
-                <input
-                  name="caloriesRangeTo"
-                  type="number"
-                  maxLength="4"
-                  placeholder="300"
-                  value={caloriesRangeTo}
-                  onChange={e => setCaloriesRangeTo(e.target.value)}
-                />
-              </label>
-            </div>
-          </CaloriesContainer>
-          <span>Diet</span>
-          <Container>
-            {dietLabels.map((item, index) => (
-              <label key={index}>
-                <input
-                  type="checkbox"
-                  value={item}
-                  filter-type="health-labels"
-                  checked={healthLabels.includes(item)}
-                  onChange={handleHealthFilter}
-                />
-                {item}
-              </label>
-            ))}
-          </Container>
-          <span>Allergies</span>
-          <Container>
-            {allergiesLabels.map((item, index) => (
-              <label key={index}>
-                <input
-                  type="checkbox"
-                  filter-type="health-labels"
-                  value={item}
-                  checked={healthLabels.includes(item)}
-                  onChange={handleHealthFilter}
-                />
-                {item}
-              </label>
-            ))}
-          </Container>
-          <span>Cuisine</span>
-          <Container>
-            {cuisineTypes.map((item, index) => (
-              <label key={index}>
-                <input
-                  type="checkbox"
-                  filter-type="cuisine-types"
-                  value={item}
-                  checked={dishTypes.includes(item)}
-                  onChange={handleDishFilter}
-                />
-                {item}
-              </label>
-            ))}
-          </Container>
+          <Checkboxwrapper>
+            <span>Calories</span>
+            <CaloriesContainer>
+              <div>
+                <label>
+                  From
+                  <input
+                    name="caloriesRangeFrom"
+                    type="number"
+                    maxLength="4"
+                    placeholder="100"
+                    value={caloriesRangeFrom}
+                    onChange={e => setCaloriesRangeFrom(e.target.value)}
+                  />
+                </label>
+              </div>
+              <div>
+                <label>
+                  To
+                  <input
+                    name="caloriesRangeTo"
+                    type="number"
+                    maxLength="4"
+                    placeholder="300"
+                    value={caloriesRangeTo}
+                    onChange={e => setCaloriesRangeTo(e.target.value)}
+                  />
+                </label>
+              </div>
+            </CaloriesContainer>
+            <span>Diet</span>
+            <Container>
+              {dietLabels.map((item, index) => (
+                <label key={index}>
+                  <input
+                    type="checkbox"
+                    value={item}
+                    filter-type="health-labels"
+                    checked={healthLabels.includes(item)}
+                    onChange={handleHealthFilter}
+                  />
+                  {item}
+                </label>
+              ))}
+            </Container>
+            <span>Allergies</span>
+            <Container>
+              {allergiesLabels.map((item, index) => (
+                <label key={index}>
+                  <input
+                    type="checkbox"
+                    filter-type="health-labels"
+                    value={item}
+                    checked={healthLabels.includes(item)}
+                    onChange={handleHealthFilter}
+                  />
+                  {item}
+                </label>
+              ))}
+            </Container>
+            <span>Cuisine</span>
+            <Container>
+              {cuisineTypes.map((item, index) => (
+                <label key={index}>
+                  <input
+                    type="checkbox"
+                    filter-type="cuisine-types"
+                    value={item}
+                    checked={dishTypes.includes(item)}
+                    onChange={handleDishFilter}
+                  />
+                  {item}
+                </label>
+              ))}
+            </Container>
+          </Checkboxwrapper>
           <AlertWrapper>
             <Alert text={alert} />
           </AlertWrapper>
@@ -184,8 +194,6 @@ export default function FilterForm({
 
 const FilterContainer = styled.span`
   display: grid;
-  background-color: #fff2e4;
-  border-radius: 15px;
 `
 const IconWrapper = styled.span`
   display: flex;
@@ -199,27 +207,17 @@ const FilterButton = styled(Button)`
   height: 40px;
 `
 const ClearButton = styled(Button)`
-  display: flex;
+  display: grid;
   place-items: center;
-  height: 40px;
-  background-color: lightgrey;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-radius: 10px;
+  background-color: var(--color-lightgrey);
 `
 const FindButton = styled(Button)`
-  display: flex;
+  display: grid;
   place-items: center;
-  height: 40px;
-  background-color: var(--color-orange);
-  padding: 20px;
-  border-radius: 10px;
 `
 const FilterWrapper = styled.div`
-  padding-left: 20px;
-  background-color: #fff2e4;
+  background-color: var(--color-lightorange);
   display: grid;
-  width: 100%;
   gap: 10px;
   padding-top: 10px;
   input {
@@ -227,6 +225,7 @@ const FilterWrapper = styled.div`
     height: 20px;
     width: 20px;
   }
+  border-radius: 15px;
 `
 const CaloriesContainer = styled.div`
   font-weight: 300;
@@ -239,8 +238,9 @@ const CaloriesContainer = styled.div`
   }
 `
 const ButtonWrapper = styled.span`
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  gap: 20px;
+  margin: 0 15px 20px 15px;
 `
 const Container = styled.span`
   font-weight: 300;
@@ -251,4 +251,9 @@ const Container = styled.span`
 const AlertWrapper = styled.div`
   display: flex;
   justify-content: center;
+`
+const Checkboxwrapper = styled.div`
+  display: grid;
+  gap: 10px;
+  margin-left: 15px;
 `

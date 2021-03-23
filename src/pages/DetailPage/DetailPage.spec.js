@@ -38,19 +38,22 @@ describe('DetailPage', () => {
   }
 
   it('has a link with path /', () => {
-    render(<DetailPage recipe={recipe} />, {
-      wrapper: MemoryRouter,
-    })
-    expect(screen.getByText(/back to recipes/i)).toHaveAttribute('href', '/')
+    render(
+      <DetailPage recipe={recipe} isVisibleAll={true} isVisibleSaved={true} />,
+      {
+        wrapper: MemoryRouter,
+      }
+    )
+    expect(screen.getByText(/all/i)).toHaveAttribute('href', '/')
   })
 
-  it('has a link and a button that links to another pages', () => {
-    render(<DetailPage recipe={recipe} />, {
-      wrapper: MemoryRouter,
-    })
-    expect(screen.getByText(/back to recipes/i)).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: /instructions/i })
-    ).toBeInTheDocument()
+  it('has a link with path /saved', () => {
+    render(
+      <DetailPage recipe={recipe} isVisibleAll={true} isVisibleSaved={true} />,
+      {
+        wrapper: MemoryRouter,
+      }
+    )
+    expect(screen.getByText(/saved/i)).toHaveAttribute('href', '/saved')
   })
 })

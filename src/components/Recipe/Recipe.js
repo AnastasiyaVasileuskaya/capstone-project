@@ -1,7 +1,8 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
-export default function Recipe({ recipe }) {
+import { Link } from 'react-router-dom'
+import Icon from 'supercons'
+export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
   const {
     image,
     calories,
@@ -10,14 +11,34 @@ export default function Recipe({ recipe }) {
     id: recipeId,
   } = recipe
   const ingredients = recipe.ingredientLines.length
+
+  Recipe.propTypes = {
+    title: PropTypes.string,
+    image: PropTypes.string,
+    calories: PropTypes.string,
+    ingredients: PropTypes.string,
+    servings: PropTypes.string,
+    recipeId: PropTypes.string,
+    isVisible: PropTypes.bool,
+    onDeleteButtonClick: PropTypes.func,
+  }
+
+  function handleClick(e) {
+    e.preventDefault()
+    onDeleteButtonClick(recipeId)
+  }
+
   return (
     <RecipeContainer
-      as={NavLink}
+      as={Link}
       exact
       to={{
         pathname: `/recipes/${recipeId}`,
       }}
     >
+      <IconWrapper isVisible={isVisible} to={'/'} onClick={handleClick}>
+        <Icon glyph="view-close" size={30} />
+      </IconWrapper>
       <Img src={image} alt="recipe" width="200" />
       <h2>{title}</h2>
       <InfoWrapper>
@@ -37,23 +58,18 @@ export default function Recipe({ recipe }) {
   )
 }
 
-Recipe.propTypes = {
-  title: PropTypes.string,
-  img: PropTypes.string,
-  calories: PropTypes.string,
-  ingredients: PropTypes.string,
-}
-
 const RecipeContainer = styled.span`
-  background-color: #fff2e4;
+  background-color: var(--color-lightorange);
   text-align: center;
   border-radius: 20px;
   box-shadow: 3px 3px 3px #eee;
   text-decoration: none;
   color: black;
   h2 {
+    margin-top: 5px;
     margin-bottom: 0;
   }
+  position: relative;
 `
 
 const Img = styled.img`
@@ -75,4 +91,10 @@ const CaloriesNumber = styled.span`
 const IngredientsNumber = styled.span`
   color: var(--color-orange);
   font-weight: 500;
+`
+const IconWrapper = styled.div`
+  position: absolute;
+  right: 10px;
+  top: 2px;
+  display: ${props => (props.isVisible ? 'block' : 'none')};
 `

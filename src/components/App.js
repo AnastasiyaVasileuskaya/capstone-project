@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Header from './Header/Header'
-import styled from 'styled-components/macro'
-import DetailPage from '../pages/DetailPage'
-import HomePage from '../pages/HomePage'
+import DetailPage from '../pages/DetailPage/DetailPage'
+import HomePage from '../pages/HomePage/HomePage'
 import createUrlQuery from '../services/createUrlQuery'
 import getFilters from '../services/getFilters'
-require('dotenv').config()
+import SavedRecipes from '../pages/SavedRecipes/SavedRecipes'
+import saveToLocal from '../lib/saveToLocal'
+import loadFromLocal from '../lib/loadFromLocal'
+import Grid from './Grid'
 
 export default function App() {
   const [recipes, setRecipes] = useState([])
@@ -26,6 +27,12 @@ export default function App() {
     )
   )
 
+  function saveVisitedRecipes() {
+    let recipesFromLocalStorage = loadFromLocal('visitedRecipes')
+    recipes.forEach(recipe => recipesFromLocalStorage.set(recipe.id, recipe))
+    saveToLocal('visitedRecipes', recipes)
+  }
+
   async function getRecipes() {
     if (query !== '') {
       let url = createUrlQuery(
@@ -37,7 +44,6 @@ export default function App() {
       )
       const response = await fetch(url)
       const data = await response.json()
-      console.log(data)
       if (data.more && data.hits) {
         setAlert('')
         setRecipes(
@@ -77,6 +83,10 @@ export default function App() {
     getRecipes()
   }, [url])
 
+  useEffect(() => {
+    saveVisitedRecipes()
+  }, [recipes])
+
   function handeFiltersChanged(
     caloriesRangeFrom,
     caloriesRangeTo,
@@ -94,36 +104,29 @@ export default function App() {
   }
   const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
   return (
-    <>
-      <AppGrid>
-        <Switch>
-          <Route exact path="/">
-            <Header title="CookIdeas" />
-            <HomePage
-              onRecipeSearch={setQuery}
-              text={alert}
-              dietLabels={dietLabels}
-              allergiesLabels={allergiesLabels}
-              cuisineTypes={cuisineTypes}
-              onFindClicked={handeFiltersChanged}
-              recipes={recipes}
-            />
-          </Route>
-          <Route
-            path="/recipes/:recipeId"
-            render={props => (
-              <DetailPage recipe={getRecipeById(props.match.params.recipeId)} />
-            )}
+    <Grid>
+      <Switch>
+        <Route exact path="/">
+          <HomePage
+            onRecipeSearch={setQuery}
+            text={alert}
+            dietLabels={dietLabels}
+            allergiesLabels={allergiesLabels}
+            cuisineTypes={cuisineTypes}
+            onFindClicked={handeFiltersChanged}
+            recipes={recipes}
           />
-        </Switch>
-      </AppGrid>
-    </>
+        </Route>
+        <Route exact path="/saved">
+          <SavedRecipes />
+        </Route>
+        <Route
+          path="/recipes/:recipeId"
+          render={props => (
+            <DetailPage recipe={getRecipeById(props.match.params.recipeId)} />
+          )}
+        />
+      </Switch>
+    </Grid>
   )
 }
-
-const AppGrid = styled.div`
-  display: grid;
-  gap: 20px;
-  overflow-y: scroll;
-  padding: 20px;
-`

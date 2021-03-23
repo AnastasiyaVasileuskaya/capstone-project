@@ -3,7 +3,9 @@ import styled from 'styled-components/macro'
 export default styled.button`
   padding: 5px;
   border: none;
-  background-color: ${props =>
-    props.bgColor ? props.bgColor : 'var(--color-orange)'};
+  background: ${props =>
+    props.disabled ? 'var(--color-lightgrey)' : 'var(--color-orange)'};
   color: white;
+  cursor: pointer;
+  font-weight: 500;
 `
