@@ -4,6 +4,7 @@ import Button from '../../components/Button/Button'
 import loadFromLocal from '../../lib/loadFromLocal'
 import saveToLocal from '../../lib/saveToLocal'
 import { useState } from 'react'
+import RatingForm from '../../components/RatingForm/RatingForm'
 export default function DetailPage({ recipe }) {
   const [isRecipeSaved, setIsRecipeSaved] = useState(
     recipe && loadFromLocal('savedRecipes').has(recipe.id)
@@ -194,6 +195,7 @@ export default function DetailPage({ recipe }) {
             </tbody>
           </table>
         </NutritionWrapper>
+        <RatingForm />
       </PageLayout>
     </>
   )
