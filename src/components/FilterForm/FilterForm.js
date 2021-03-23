@@ -1,5 +1,6 @@
-import styled from 'styled-components/macro'
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
@@ -15,6 +16,13 @@ export default function FilterForm({
   const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
   const [healthLabels, setHealthLabels] = useState([])
   const [dishTypes, setDishTypes] = useState([])
+
+  FilterForm.propTypes = {
+    dietLabels: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    allergiesLabels: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    cuisineTypes: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    onFindClicked: PropTypes.func,
+  }
 
   function resetState() {
     setCaloriesRangeFrom('')
@@ -186,7 +194,6 @@ export default function FilterForm({
 
 const FilterContainer = styled.span`
   display: grid;
-  background-color: #fff2e4;
 `
 const IconWrapper = styled.span`
   display: flex;
@@ -202,16 +209,14 @@ const FilterButton = styled(Button)`
 const ClearButton = styled(Button)`
   display: grid;
   place-items: center;
-  background-color: lightgrey;
-  color: white;
+  background-color: var(--color-lightgrey);
 `
 const FindButton = styled(Button)`
   display: grid;
   place-items: center;
-  color: white;
 `
 const FilterWrapper = styled.div`
-  background-color: #fff2e4;
+  background-color: var(--color-lightorange);
   display: grid;
   gap: 10px;
   padding-top: 10px;

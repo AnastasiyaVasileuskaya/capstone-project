@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Header from './Header/Header'
 import DetailPage from '../pages/DetailPage/DetailPage'
 import HomePage from '../pages/HomePage/HomePage'
 import createUrlQuery from '../services/createUrlQuery'
@@ -108,7 +107,6 @@ export default function App() {
     <Grid>
       <Switch>
         <Route exact path="/">
-          <Header title="CookIdeas" isVisibleSaved={true} />
           <HomePage
             onRecipeSearch={setQuery}
             text={alert}
@@ -120,7 +118,6 @@ export default function App() {
           />
         </Route>
         <Route exact path="/saved">
-          <Header title="CookIdeas" isVisibleAll={true} />
           <SavedRecipes />
         </Route>
         <Route

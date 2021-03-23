@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom.min'
 
 describe('SavedRecipes', () => {
   it('renders a link with path /', () => {
-    render(<SavedRecipes />, {
+    render(<SavedRecipes isVisibleAll={true} />, {
       wrapper: MemoryRouter,
     })
     expect(screen.getByText(/all/i)).toHaveAttribute('href', '/')

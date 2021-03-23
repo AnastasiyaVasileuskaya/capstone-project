@@ -3,6 +3,7 @@ import Recipe from '../../components/Recipe/Recipe'
 import loadFromLocal from '../../lib/loadFromLocal'
 import { useState } from 'react'
 import saveToLocal from '../../lib/saveToLocal'
+import Header from '../../components/Header/Header'
 
 export default function SavedRecipes() {
   const [savedRecipes, setSavedRecipes] = useState(
@@ -22,19 +23,27 @@ export default function SavedRecipes() {
 
   if (savedRecipes.size > 0) {
     return (
-      <PageLayout>
-        {Array.from(savedRecipes, ([recipeId, recipe]) => (
-          <Recipe
-            onDeleteButtonClick={handleClick}
-            isVisible={true}
-            key={recipeId}
-            recipe={recipe}
-          />
-        ))}
-      </PageLayout>
+      <>
+        <Header title="CookIdeas" isVisibleAll={true} />
+        <PageLayout>
+          {Array.from(savedRecipes, ([recipeId, recipe]) => (
+            <Recipe
+              onDeleteButtonClick={handleClick}
+              isVisible={true}
+              key={recipeId}
+              recipe={recipe}
+            />
+          ))}
+        </PageLayout>
+      </>
     )
   }
-  return <TextWrapper>You haven't saved recipes yet.</TextWrapper>
+  return (
+    <>
+      <Header title="CookIdeas" isVisibleAll={true} />
+      <TextWrapper>You haven't saved recipes yet.</TextWrapper>
+    </>
+  )
 }
 
 const PageLayout = styled.main`

@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Icon from 'supercons'
 export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
   const {
@@ -12,6 +12,17 @@ export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
   } = recipe
   const ingredients = recipe.ingredientLines.length
 
+  Recipe.propTypes = {
+    title: PropTypes.string,
+    image: PropTypes.string,
+    calories: PropTypes.string,
+    ingredients: PropTypes.string,
+    servings: PropTypes.string,
+    recipeId: PropTypes.string,
+    isVisible: PropTypes.bool,
+    onDeleteButtonClick: PropTypes.func,
+  }
+
   function handleClick(e) {
     e.preventDefault()
     onDeleteButtonClick(recipeId)
@@ -19,7 +30,7 @@ export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
 
   return (
     <RecipeContainer
-      as={NavLink}
+      as={Link}
       exact
       to={{
         pathname: `/recipes/${recipeId}`,
@@ -47,21 +58,13 @@ export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
   )
 }
 
-Recipe.propTypes = {
-  title: PropTypes.string,
-  img: PropTypes.string,
-  calories: PropTypes.string,
-  ingredients: PropTypes.string,
-}
-
 const RecipeContainer = styled.span`
-  background-color: #fff2e4;
+  background-color: var(--color-lightorange);
   text-align: center;
   border-radius: 20px;
   box-shadow: 3px 3px 3px #eee;
   text-decoration: none;
   color: black;
-  height: 370px;
   h2 {
     margin-top: 5px;
     margin-bottom: 0;

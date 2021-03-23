@@ -1,8 +1,13 @@
-import Button from '../Button/Button'
+import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
+import Button from '../Button/Button'
 
 export default function SearchBar({ onRecipeSearch }) {
+  SearchBar.propTypes = {
+    onRecipeSearch: PropTypes.func,
+  }
+
   return (
     <Form onSubmit={handleSubmit}>
       <Input
@@ -16,6 +21,7 @@ export default function SearchBar({ onRecipeSearch }) {
       </SearchButton>
     </Form>
   )
+
   function handleSubmit(event) {
     event.preventDefault()
     const form = event.target

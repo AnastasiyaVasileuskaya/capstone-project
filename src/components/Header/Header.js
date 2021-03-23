@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import Icon from 'supercons'
-import { Link } from 'react-router-dom'
 
 export default function Header({ title, isVisibleAll, isVisibleSaved }) {
   return (

@@ -8,7 +8,8 @@ export default createGlobalStyle`
     rgba(255, 170, 84, 1) 40%,
     rgba(254, 212, 171, 0.9925187032418953) 75%
   );
-    --color-lightorange: #f2e8dd;
+    --color-lightorange: #fff2e4;
+    --color-lightgrey:#D5D5D5;
   }
   * {
     box-sizing: border-box
