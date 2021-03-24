@@ -1,11 +1,7 @@
-export default function loadFromLocal(recipeType) {
-  const jsonString = localStorage.getItem(recipeType)
+export default function loadFromLocal(key) {
   try {
-    if (jsonString) {
-      return new Map(Object.entries(JSON.parse(jsonString)))
-    }
-    return new Map()
+    return JSON.parse(localStorage.getItem(key))
   } catch (error) {
-    console.error(error)
+    console.log(error)
   }
 }

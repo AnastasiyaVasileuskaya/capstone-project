@@ -4,18 +4,16 @@ import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
-export default function FilterForm({
-  dietLabels,
-  allergiesLabels,
-  cuisineTypes,
-  onFindClicked,
-}) {
+import getFilters from '../../services/getFilters'
+export default function FilterForm({ onFindClicked }) {
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
   const [caloriesRangeFrom, setCaloriesRangeFrom] = useState('')
   const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
   const [healthLabels, setHealthLabels] = useState([])
   const [dishTypes, setDishTypes] = useState([])
+
+  const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
 
   FilterForm.propTypes = {
     dietLabels: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),

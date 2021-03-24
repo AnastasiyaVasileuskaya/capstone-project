@@ -1,13 +1,13 @@
 import styled from 'styled-components/macro'
 import Header from '../../components/Header/Header'
 import Button from '../../components/Button/Button'
-import loadFromLocal from '../../lib/loadFromLocal'
+import loadFromLocal from '../../hooks/useMapFromLocal'
 import saveToLocal from '../../lib/saveToLocal'
 import { useEffect, useState } from 'react'
 import RatingForm from '../../components/RatingForm/RatingForm'
 import Rating from '../../components/Rating/Rating'
-export default function DetailPage({ externalRecipe }) {
-  const [recipe, setRecipe] = useState(externalRecipe)
+export default function DetailPage() {
+  const [recipe, setRecipe] = useState({})
   const [isRecipeSaved, setIsRecipeSaved] = useState(
     recipe && loadFromLocal('savedRecipes').has(recipe.id)
   )
@@ -61,9 +61,6 @@ export default function DetailPage({ externalRecipe }) {
     newRecipe.rating = rating
     setRecipe(newRecipe)
     saveRecipe()
-  }
-  function getRecipeById(id) {
-    return recipes.find(recipe => recipe.id === id)
   }
 
   return (

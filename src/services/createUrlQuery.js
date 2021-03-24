@@ -1,11 +1,12 @@
 require('dotenv').config()
-export default function createUrlQuery(
-  caloriesRangeFrom,
-  caloriesRangeTo,
-  query,
-  healthLabels,
-  dishTypes
-) {
+export default function createUrlQuery(urlParams) {
+  const {
+    caloriesRangeFrom,
+    caloriesRangeTo,
+    query,
+    healthLabels,
+    dishTypes,
+  } = urlParams
   let result = `https://api.edamam.com/search?q=${query}&app_id=${process.env.REACT_APP_EDAMAM_API_ID}&app_key=${process.env.REACT_APP_EDAMAM_API_KEY}&from=0&to=30`
   if (healthLabels.length > 0) {
     result +=

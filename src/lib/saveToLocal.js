@@ -1,3 +1,3 @@
-export default function saveToLocal(recipeType, recipes) {
-  localStorage.setItem(recipeType, JSON.stringify(Object.fromEntries(recipes)))
+export default function saveToLocal(key, data) {
+  localStorage.setItem(key, JSON.stringify(data))
 }

@@ -1,66 +1,35 @@
+import { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import Alert from '../../components/Alert/Alert'
 import FilterForm from '../../components/FilterForm/FilterForm'
 import Header from '../../components/Header/Header'
 import Recipe from '../../components/Recipe/Recipe'
 import SearchBar from '../../components/SearchBar/SearchBar'
+import createInitialUrlParams from '../../services/createInitialUrlParams'
+import createUrlParams from '../../services/createUrlParams'
+import createUrlQuery from '../../services/createUrlQuery'
 
-export default function HomePage({
-  onRecipeSearch,
-  text,
-  dietLabels,
-  allergiesLabels,
-  cuisineTypes,
-  onFindClicked,
-  recipes,
-}) {
+export default function HomePage() {
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
-  const [query, setQuery] = useState('chicken')
-  const [caloriesRangeFrom, setCaloriesRangeFrom] = useState('')
-  const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
-  const [healthLabels, setHealthLabels] = useState([])
-  const [dishTypes, setDishTypes] = useState([])
-  const [url, setUrl] = useState(
-    createUrlQuery(
-      caloriesRangeFrom,
-      caloriesRangeTo,
-      query,
-      healthLabels,
-      dishTypes
-    )
-  )
+  const [urlParams, setUrlParams] = useState(createInitialUrlParams())
+  const [url, setUrl] = useState(createUrlQuery(urlParams))
 
-  function saveVisitedRecipes() {
-    let recipesFromLocalStorage = loadFromLocal('visitedRecipes')
-    recipes.forEach(recipe => recipesFromLocalStorage.set(recipe.id, recipe))
-    saveToLocal('visitedRecipes', recipesFromLocalStorage)
-  }
+  useEffect(() => {
+    setUrl(createUrlQuery(urlParams))
+  }, [urlParams])
+
+  useEffect(() => {
+    getRecipes()
+  }, [url])
 
   async function getRecipes() {
-    if (query !== '' && window.location.pathname === '/') {
-      let url = createUrlQuery(
-        caloriesRangeFrom,
-        caloriesRangeTo,
-        query,
-        healthLabels,
-        dishTypes
-      )
+    if (urlParams.query !== '') {
       const response = await fetch(url)
       const data = await response.json()
       if (data.more && data.hits) {
         setAlert('')
-        setRecipes(
-          data.hits.map(item => {
-            return {
-              ...item.recipe,
-              id: item.recipe.uri.substr(
-                item.recipe.uri.indexOf('#') + 1,
-                item.recipe.uri.length - 1
-              ),
-            }
-          })
-        )
+        setRecipes(data.hits.map(item => item.recipe))
       } else {
         setAlert('Cannot find such recipe')
         setRecipes([])
@@ -71,51 +40,42 @@ export default function HomePage({
     }
   }
 
-  useEffect(() => {
-    setUrl(
-      createUrlQuery(
-        caloriesRangeFrom,
-        caloriesRangeTo,
-        query,
-        healthLabels,
-        dishTypes
-      )
-    )
-  }, [query, caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes])
-
-  useEffect(() => {
-    getRecipes()
-  }, [url])
-
-  useEffect(() => {
-    saveVisitedRecipes()
-  }, [recipes])
-
   function handeFiltersChanged(
     caloriesRangeFrom,
     caloriesRangeTo,
     healthLabels,
     dishTypes
   ) {
-    setCaloriesRangeFrom(caloriesRangeFrom)
-    setCaloriesRangeTo(caloriesRangeTo)
-    setHealthLabels(healthLabels)
-    setDishTypes(dishTypes)
+    setUrlParams(
+      createUrlParams(
+        urlParams.query,
+        caloriesRangeFrom,
+        caloriesRangeTo,
+        healthLabels,
+        dishTypes
+      )
+    )
   }
 
-  const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
+  function handleQueryChange(query) {
+    setUrlParams(
+      createUrlParams(
+        query,
+        urlParams.caloriesRangeFrom,
+        urlParams.caloriesRangeTo,
+        urlParams.healthLabels,
+        urlParams.dishTypes
+      )
+    )
+  }
+
   return (
     <>
       <Header title="CookIdeas" isVisibleSaved={true} />
       <PageLayout>
-        <SearchBar onRecipeSearch={onRecipeSearch} />
-        <Alert text={text} />
-        <FilterForm
-          dietLabels={dietLabels}
-          allergiesLabels={allergiesLabels}
-          cuisineTypes={cuisineTypes}
-          onFindClicked={onFindClicked}
-        />
+        <SearchBar onRecipeSearch={handleQueryChange} />
+        <Alert text={alert} />
+        <FilterForm onFindClicked={handeFiltersChanged} />
         {recipes.map(recipe => (
           <Recipe key={recipe.id} recipe={recipe} />
         ))}

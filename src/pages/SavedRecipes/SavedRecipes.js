@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
 import Recipe from '../../components/Recipe/Recipe'
-import loadFromLocal from '../../lib/loadFromLocal'
+import loadFromLocal from '../../hooks/useMapFromLocal'
 import { useState } from 'react'
 import saveToLocal from '../../lib/saveToLocal'
 import Header from '../../components/Header/Header'
