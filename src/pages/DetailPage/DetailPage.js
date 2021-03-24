@@ -30,7 +30,7 @@ export default function DetailPage({ externalRecipe }) {
     return (
       <>
         <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />
-        <div>Loading...</div>
+        <TextWrapper>Loading...</TextWrapper>
       </>
     )
   }
@@ -61,6 +61,9 @@ export default function DetailPage({ externalRecipe }) {
     newRecipe.rating = rating
     setRecipe(newRecipe)
     saveRecipe()
+  }
+  function getRecipeById(id) {
+    return recipes.find(recipe => recipe.id === id)
   }
 
   return (
@@ -244,6 +247,7 @@ const PageLayout = styled.main`
   padding: 20px;
   margin-bottom: 30px;
   font-weight: 300;
+  grid-auto-rows: min-content;
 `
 const ImageWrapper = styled.div`
   display: grid;
@@ -306,4 +310,8 @@ const TableHeader = styled.tr`
 
 const TableCell = styled.td`
   text-align: center;
+`
+const TextWrapper = styled.div`
+  display: grid;
+  padding: 20px;
 `

@@ -15,15 +15,14 @@ export default createGlobalStyle`
     box-sizing: border-box
   }
   body {
-    margin: 0;
+    margin: 0 auto;
     font-family: 'Roboto', sans-serif;
     font-size: 112.5%;
     line-height: 1.5;
     align-items: center;
-    height: 100vh;
   }
 
-  input,
+ input,
     button {
   font-size: 1.2em;
   font-weight:500;

@@ -38,7 +38,7 @@ export default function RatingForm({ onAddComment }) {
         </ButtonWrapper>
       </RatingButton>
       {isRatingFormVisible && (
-        <Form onSubmit={handleSubmit}>
+        <Form className="rating" onSubmit={handleSubmit}>
           <StarsContainer onClick={rateRecipe} selectedStars={selectedStars} />
           <Comment>
             <label>

@@ -34,6 +34,7 @@ export default function SavedRecipes() {
               recipe={recipe}
             />
           ))}
+          <CardFinal></CardFinal>
         </PageLayout>
       </>
     )
@@ -51,8 +52,12 @@ const PageLayout = styled.main`
   gap: 20px;
   overflow-y: scroll;
   padding: 20px;
+  grid-auto-rows: min-content;
 `
 const TextWrapper = styled.div`
   display: grid;
   padding: 20px;
+`
+const CardFinal = styled.div`
+  padding-bottom: 5px;
 `

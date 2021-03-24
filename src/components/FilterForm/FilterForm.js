@@ -144,7 +144,7 @@ export default function FilterForm({
                     checked={healthLabels.includes(item)}
                     onChange={handleHealthFilter}
                   />
-                  {item}
+                  <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
               ))}
             </Container>
@@ -159,7 +159,7 @@ export default function FilterForm({
                     checked={healthLabels.includes(item)}
                     onChange={handleHealthFilter}
                   />
-                  {item}
+                  <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
               ))}
             </Container>
@@ -174,7 +174,7 @@ export default function FilterForm({
                     checked={dishTypes.includes(item)}
                     onChange={handleDishFilter}
                   />
-                  {item}
+                  <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
               ))}
             </Container>
@@ -194,6 +194,7 @@ export default function FilterForm({
 
 const FilterContainer = styled.span`
   display: grid;
+  position: relative;
 `
 const IconWrapper = styled.span`
   display: flex;
@@ -209,14 +210,16 @@ const FilterButton = styled(Button)`
 const ClearButton = styled(Button)`
   display: grid;
   place-items: center;
+  color: black;
   background-color: var(--color-lightgrey);
 `
 const FindButton = styled(Button)`
   display: grid;
   place-items: center;
+  background: var(--gradient-orange);
 `
 const FilterWrapper = styled.div`
-  background-color: var(--color-lightorange);
+  background-color: #fffae5;
   display: grid;
   gap: 10px;
   padding-top: 10px;
@@ -225,7 +228,10 @@ const FilterWrapper = styled.div`
     height: 20px;
     width: 20px;
   }
-  border-radius: 15px;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  top: 100%;
 `
 const CaloriesContainer = styled.div`
   font-weight: 300;
@@ -233,7 +239,7 @@ const CaloriesContainer = styled.div`
   justify-content: space-evenly;
   input {
     margin-left: 10px;
-    width: 60px;
+    width: 70px;
     height: 30px;
   }
 `
@@ -243,10 +249,31 @@ const ButtonWrapper = styled.span`
   margin: 0 15px 20px 15px;
 `
 const Container = styled.span`
+  position: relative;
   font-weight: 300;
   display: grid;
   gap: 15px;
   padding: 10px;
+  input[type='checkbox'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /* create custom checkbox appearance */
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    /* background-color only for content */
+    background-clip: content-box;
+    border: 1.5px solid #bbbbbb;
+    border-radius: 6px;
+    background-color: #bbbbbb;
+    margin-left: 15px;
+    margin-right: 15px;
+    &:checked {
+      background-color: rgb(255, 170, 84);
+    }
+  }
 `
 const AlertWrapper = styled.div`
   display: flex;
@@ -256,4 +283,8 @@ const Checkboxwrapper = styled.div`
   display: grid;
   gap: 10px;
   margin-left: 15px;
+`
+const CheckboxLabel = styled.span`
+  position: absolute;
+  margin-top: 5px;
 `
