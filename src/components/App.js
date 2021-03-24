@@ -30,11 +30,11 @@ export default function App() {
   function saveVisitedRecipes() {
     let recipesFromLocalStorage = loadFromLocal('visitedRecipes')
     recipes.forEach(recipe => recipesFromLocalStorage.set(recipe.id, recipe))
-    saveToLocal('visitedRecipes', recipes)
+    saveToLocal('visitedRecipes', recipesFromLocalStorage)
   }
 
   async function getRecipes() {
-    if (query !== '') {
+    if (query !== '' && window.location.pathname === '/') {
       let url = createUrlQuery(
         caloriesRangeFrom,
         caloriesRangeTo,
@@ -123,7 +123,9 @@ export default function App() {
         <Route
           path="/recipes/:recipeId"
           render={props => (
-            <DetailPage recipe={getRecipeById(props.match.params.recipeId)} />
+            <DetailPage
+              externalRecipe={getRecipeById(props.match.params.recipeId)}
+            />
           )}
         />
       </Switch>

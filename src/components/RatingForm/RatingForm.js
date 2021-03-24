@@ -2,25 +2,30 @@ import { useState } from 'react'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
-import { IconContext } from 'react-icons'
-import { AiOutlineStar } from 'react-icons/ai'
-import { AiFillStar } from 'react-icons/ai'
+import StarsContainer from '../StarsContainer'
 
-export default function RatingForm() {
+export default function RatingForm({ onAddComment }) {
   const [isRatingFormVisible, setIsRatingFormVisible] = useState(false)
   const [selectedStars, setSelectedStars] = useState(0)
 
-  function rateRecipe(starNumber) {
-    setSelectedStars(starNumber)
+  function rateRecipe(event, index) {
+    event.stopPropagation()
+    setSelectedStars(index)
   }
-  function handleSubmit(e) {
+  function handleSubmit(event) {
+    event.preventDefault()
+    const form = event.target
+    const textarea = form.elements.comment
+    const comment = textarea.value
+    onAddComment(comment, selectedStars)
+    form.reset()
+    textarea.focus()
     setIsRatingFormVisible(false)
   }
   return (
     <RatingWrapper>
       <RatingButton
         onClick={event => {
-          event.stopPropagation()
           setIsRatingFormVisible(!isRatingFormVisible)
         }}
       >
@@ -33,69 +38,21 @@ export default function RatingForm() {
         </ButtonWrapper>
       </RatingButton>
       {isRatingFormVisible && (
-        <Form>
-          <IconContext.Provider value={{ size: '35px' }}>
-            <IconWrapper>
-              <AiOutlineStar
-                role="button"
-                icon={selectedStars > 0 ? <AiFillStar /> : <AiOutlineStar />}
-                starNumber="1"
-                onClick={event => {
-                  event.stopPropagation()
-                  rateRecipe()
-                }}
+        <Form onSubmit={handleSubmit}>
+          <StarsContainer onClick={rateRecipe} selectedStars={selectedStars} />
+          <Comment>
+            <label>
+              <span>Your comment:</span>
+              <Textarea
+                placeholder="Your comment..."
+                name="comment"
+                type="textarea"
+                rows={5}
+                cols={5}
               />
-              <AiOutlineStar
-                role="button"
-                icon={selectedStars > 1 ? <AiFillStar /> : <AiOutlineStar />}
-                starNumber="1"
-                onClick={event => {
-                  event.stopPropagation()
-                  rateRecipe()
-                }}
-              />
-              <AiOutlineStar
-                role="button"
-                icon={selectedStars > 2 ? <AiFillStar /> : <AiOutlineStar />}
-                starNumber="1"
-                onClick={event => {
-                  event.stopPropagation()
-                  rateRecipe()
-                }}
-              />
-              <AiOutlineStar
-                role="button"
-                icon={selectedStars > 3 ? <AiFillStar /> : <AiOutlineStar />}
-                starNumber="1"
-                onClick={event => {
-                  event.stopPropagation()
-                  rateRecipe()
-                }}
-              />
-              <AiOutlineStar
-                role="button"
-                icon={selectedStars > 4 ? <AiFillStar /> : <AiOutlineStar />}
-                starNumber="1"
-                onClick={event => {
-                  event.stopPropagation()
-                  rateRecipe()
-                }}
-              />
-            </IconWrapper>
-            <Comment>
-              <label>
-                <span>Your comment:</span>
-                <Textarea
-                  placeholder="Your comment..."
-                  name="comment"
-                  type="textarea"
-                  rows={5}
-                  cols={5}
-                />
-              </label>
-            </Comment>
-            <Button onClick={handleSubmit}>Rate</Button>
-          </IconContext.Provider>
+            </label>
+          </Comment>
+          <Button>Rate</Button>
         </Form>
       )}
     </RatingWrapper>
@@ -111,13 +68,6 @@ const ButtonWrapper = styled.span`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`
-const IconWrapper = styled.span`
-  display: flex;
-  justify-content: space-evenly;
-  svg:hover {
-    fill: yellow;
-  }
 `
 const Textarea = styled.textarea`
   border: 2px solid #bbb;

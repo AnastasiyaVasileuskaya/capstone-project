@@ -3,19 +3,27 @@ import Header from '../../components/Header/Header'
 import Button from '../../components/Button/Button'
 import loadFromLocal from '../../lib/loadFromLocal'
 import saveToLocal from '../../lib/saveToLocal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import RatingForm from '../../components/RatingForm/RatingForm'
-export default function DetailPage({ recipe }) {
+import Rating from '../../components/Rating/Rating'
+export default function DetailPage({ externalRecipe }) {
+  const [recipe, setRecipe] = useState(externalRecipe)
   const [isRecipeSaved, setIsRecipeSaved] = useState(
     recipe && loadFromLocal('savedRecipes').has(recipe.id)
   )
+  useEffect(() => {
+    setIsRecipeSaved(recipe && loadFromLocal('savedRecipes').has(recipe.id))
+    saveToVisited()
+  }, [recipe])
+
   if (!recipe) {
     let receipeId = window.location.pathname.substr(
       window.location.pathname.indexOf('recipe_'),
       window.location.pathname.length - 1
     )
     let visitedRecipes = loadFromLocal('visitedRecipes')
-    recipe = visitedRecipes.get(receipeId)
+    let localStorageRecipe = visitedRecipes.get(receipeId)
+    localStorageRecipe && setRecipe(localStorageRecipe)
   }
 
   if (!recipe) {
@@ -34,6 +42,25 @@ export default function DetailPage({ recipe }) {
     recipes.set(recipe.id, recipe)
     saveToLocal('savedRecipes', recipes)
     setIsRecipeSaved(true)
+  }
+
+  function saveToVisited() {
+    if (recipe) {
+      let recipes = loadFromLocal('visitedRecipes')
+      recipes.set(recipe.id, recipe)
+      saveToLocal('visitedRecipes', recipes)
+    }
+  }
+
+  function onSaveRating(comment, selectedStars) {
+    let rating = {}
+    rating.selectedStars = selectedStars
+    rating.comment = comment
+    rating.date = new Date()
+    let newRecipe = { ...recipe }
+    newRecipe.rating = rating
+    setRecipe(newRecipe)
+    saveRecipe()
   }
 
   return (
@@ -195,7 +222,16 @@ export default function DetailPage({ recipe }) {
             </tbody>
           </table>
         </NutritionWrapper>
-        <RatingForm />
+        {recipe.rating && (
+          <Rating
+            selectedStars={recipe.rating.selectedStars}
+            comment={recipe.rating.comment}
+            date={recipe.rating.date}
+          />
+        )}
+        {isRecipeSaved && !recipe.rating && (
+          <RatingForm onAddComment={onSaveRating} />
+        )}
       </PageLayout>
     </>
   )
