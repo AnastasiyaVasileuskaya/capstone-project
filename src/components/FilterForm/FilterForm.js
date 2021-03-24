@@ -5,13 +5,17 @@ import Icon from 'supercons'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
 import getFilters from '../../services/getFilters'
-export default function FilterForm({ onFindClicked }) {
+export default function FilterForm({ filters, onFindClicked }) {
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
-  const [caloriesRangeFrom, setCaloriesRangeFrom] = useState('')
-  const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
-  const [healthLabels, setHealthLabels] = useState([])
-  const [dishTypes, setDishTypes] = useState([])
+  const [caloriesRangeFrom, setCaloriesRangeFrom] = useState(
+    filters.caloriesRangeFrom ?? ''
+  )
+  const [caloriesRangeTo, setCaloriesRangeTo] = useState(
+    filters.caloriesRangeTo ?? ''
+  )
+  const [healthLabels, setHealthLabels] = useState(filters.healthLabels ?? [])
+  const [dishTypes, setDishTypes] = useState(filters.dishTypes ?? [])
 
   const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
 

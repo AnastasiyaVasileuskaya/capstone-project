@@ -1,29 +1,29 @@
 import styled from 'styled-components/macro'
 import Header from '../../components/Header/Header'
 import Button from '../../components/Button/Button'
-import loadFromLocal from '../../hooks/useMapFromLocal'
+import loadFromLocal from '../../lib/loadFromLocal'
 import saveToLocal from '../../lib/saveToLocal'
 import { useEffect, useState } from 'react'
 import RatingForm from '../../components/RatingForm/RatingForm'
 import Rating from '../../components/Rating/Rating'
-export default function DetailPage() {
-  const [recipe, setRecipe] = useState({})
-  const [isRecipeSaved, setIsRecipeSaved] = useState(
-    recipe && loadFromLocal('savedRecipes').has(recipe.id)
-  )
-  useEffect(() => {
-    setIsRecipeSaved(recipe && loadFromLocal('savedRecipes').has(recipe.id))
-    saveToVisited()
-  }, [recipe])
+import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
+import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
 
-  if (!recipe) {
-    let receipeId = window.location.pathname.substr(
-      window.location.pathname.indexOf('recipe_'),
-      window.location.pathname.length - 1
-    )
-    let visitedRecipes = loadFromLocal('visitedRecipes')
-    let localStorageRecipe = visitedRecipes.get(receipeId)
-    localStorageRecipe && setRecipe(localStorageRecipe)
+export default function DetailPage() {
+  const [recipeId, setRecipeId] = useState(
+    getRecipeIndexFromString(window.location.pathname)
+  )
+  const [recipe, setRecipe] = useState(null)
+  const [isRecipeSaved, setIsRecipeSaved] = useState(false)
+
+  useEffect(() => {
+    fetchRecipe()
+  }, [recipeId])
+
+  async function fetchRecipe() {
+    const response = await fetch(createUrlQueryByRecipeIds([recipeId]))
+    const data = await response.json()
+    setRecipe(data[0])
   }
 
   if (!recipe) {
@@ -37,32 +37,13 @@ export default function DetailPage() {
 
   const { totalDaily, totalNutrients } = recipe
 
-  function saveRecipe() {
-    let recipes = loadFromLocal('savedRecipes')
-    recipes.set(recipe.id, recipe)
-    saveToLocal('savedRecipes', recipes)
-    setIsRecipeSaved(true)
-  }
-
-  function saveToVisited() {
-    if (recipe) {
-      let recipes = loadFromLocal('visitedRecipes')
-      recipes.set(recipe.id, recipe)
-      saveToLocal('visitedRecipes', recipes)
-    }
-  }
-
   function onSaveRating(comment, selectedStars) {
     let rating = {}
     rating.selectedStars = selectedStars
     rating.comment = comment
     rating.date = new Date()
-    let newRecipe = { ...recipe }
-    newRecipe.rating = rating
-    setRecipe(newRecipe)
-    saveRecipe()
   }
-
+  function saveRecipe(e) {}
   return (
     <>
       <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />

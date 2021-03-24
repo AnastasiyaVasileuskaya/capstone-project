@@ -2,14 +2,10 @@ import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Icon from 'supercons'
+import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
-  const {
-    image,
-    calories,
-    label: title,
-    yield: servings,
-    id: recipeId,
-  } = recipe
+  const { image, calories, label: title, yield: servings } = recipe
+  const recipeId = getRecipeIndexFromString(recipe.uri)
   const ingredients = recipe.ingredientLines.length
 
   Recipe.propTypes = {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import loadFromLocal from './useMapFromLocal'
+import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
 
 export default function useLocalStorage(key, initialData) {

@@ -5,6 +5,7 @@ import FilterForm from '../../components/FilterForm/FilterForm'
 import Header from '../../components/Header/Header'
 import Recipe from '../../components/Recipe/Recipe'
 import SearchBar from '../../components/SearchBar/SearchBar'
+import useLocalStorage from '../../hooks/useLocalStorage'
 import createInitialUrlParams from '../../services/createInitialUrlParams'
 import createUrlParams from '../../services/createUrlParams'
 import createUrlQuery from '../../services/createUrlQuery'
@@ -12,7 +13,10 @@ import createUrlQuery from '../../services/createUrlQuery'
 export default function HomePage() {
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
-  const [urlParams, setUrlParams] = useState(createInitialUrlParams())
+  const [urlParams, setUrlParams] = useLocalStorage(
+    'cookIdeasUrlParams',
+    createInitialUrlParams()
+  )
   const [url, setUrl] = useState(createUrlQuery(urlParams))
 
   useEffect(() => {
@@ -73,11 +77,14 @@ export default function HomePage() {
     <>
       <Header title="CookIdeas" isVisibleSaved={true} />
       <PageLayout>
-        <SearchBar onRecipeSearch={handleQueryChange} />
+        <SearchBar
+          initialQuery={urlParams.query}
+          onRecipeSearch={handleQueryChange}
+        />
         <Alert text={alert} />
-        <FilterForm onFindClicked={handeFiltersChanged} />
+        <FilterForm filters={urlParams} onFindClicked={handeFiltersChanged} />
         {recipes.map(recipe => (
-          <Recipe key={recipe.id} recipe={recipe} />
+          <Recipe key={recipe.uri} recipe={recipe} />
         ))}
         <CardFinal></CardFinal>
       </PageLayout>

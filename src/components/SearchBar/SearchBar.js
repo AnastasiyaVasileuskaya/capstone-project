@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
 
-export default function SearchBar({ onRecipeSearch }) {
+export default function SearchBar({ initialQuery, onRecipeSearch }) {
+  const [query, setQuery] = useState(initialQuery)
   SearchBar.propTypes = {
     onRecipeSearch: PropTypes.func,
   }
@@ -12,9 +14,11 @@ export default function SearchBar({ onRecipeSearch }) {
     <Form onSubmit={handleSubmit}>
       <Input
         placeholder="enter ingredient,e.g. chicken"
-        name="recipe"
+        name="query"
         maxlength="30"
         autocomplete="off"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
       />
       <SearchButton>
         <Icon glyph="search" size={33} />
@@ -24,10 +28,7 @@ export default function SearchBar({ onRecipeSearch }) {
 
   function handleSubmit(event) {
     event.preventDefault()
-    const form = event.target
-    const input = form.elements.recipe
-    const recipe = input.value
-    onRecipeSearch(recipe)
+    onRecipeSearch(query)
   }
 }
 
