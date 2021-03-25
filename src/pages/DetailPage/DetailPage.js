@@ -14,6 +14,7 @@ export default function DetailPage() {
   const recipeId = getRecipeIndexFromString(window.location.pathname)
   const [rating, setRating] = useRatingFromLocalStorage(recipeId)
   const [recipe, setRecipe] = useState(null)
+  const [isRatingChanging, setIsRatingChanging] = useState(false)
   const isRecipeSaved = !!rating
 
   const totalDaily = recipe ? recipe.totalDaily : null
@@ -38,10 +39,14 @@ export default function DetailPage() {
   }
 
   function onSaveRating(comment, selectedStars) {
+    setIsRatingChanging(false)
     setRating(createRating(selectedStars, comment))
   }
   function saveRecipe(e) {
     setRating(createRating(0, ''))
+  }
+  function onRatingChange(e) {
+    setIsRatingChanging(true)
   }
   return (
     <>
@@ -202,15 +207,22 @@ export default function DetailPage() {
             </tbody>
           </table>
         </NutritionWrapper>
-        {rating && rating.selectedStars > 0 && (
+        {rating && rating.selectedStars > 0 && !isRatingChanging && (
           <Rating
             selectedStars={rating.selectedStars}
             comment={rating.comment}
             date={rating.date}
+            onRatingChange={onRatingChange}
           />
         )}
-        {isRecipeSaved && (!rating || rating.selectedStars === 0) && (
-          <RatingForm onAddComment={onSaveRating} />
+        {((isRecipeSaved && (!rating || rating.selectedStars === 0)) ||
+          isRatingChanging) && (
+          <RatingForm
+            onAddComment={onSaveRating}
+            ratingStars={rating.selectedStars}
+            ratingComment={rating.comment}
+            ratingFormVisible={isRatingChanging}
+          />
         )}
       </PageLayout>
     </>

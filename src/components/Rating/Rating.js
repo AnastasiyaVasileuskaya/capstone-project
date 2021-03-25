@@ -3,7 +3,12 @@ import styled from 'styled-components/macro'
 import StarsContainer from '../StarsContainer'
 import { BsPencil } from 'react-icons/bs'
 
-export default function Rating({ selectedStars, date, comment }) {
+export default function Rating({
+  selectedStars,
+  date,
+  comment,
+  onRatingChange,
+}) {
   return (
     <IconContext.Provider value={{ size: '35px' }}>
       <RatingWrapper>
@@ -16,7 +21,7 @@ export default function Rating({ selectedStars, date, comment }) {
           <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
           <IconContext.Provider value={{ size: '25px' }}>
             <EditWrapper>
-              <BsPencil />
+              <BsPencil onClick={onRatingChange} />
             </EditWrapper>
           </IconContext.Provider>
         </StarWrapper>

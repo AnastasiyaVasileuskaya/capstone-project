@@ -4,9 +4,17 @@ import Icon from 'supercons'
 import Button from '../Button/Button'
 import StarsContainer from '../StarsContainer'
 
-export default function RatingForm({ onAddComment }) {
-  const [isRatingFormVisible, setIsRatingFormVisible] = useState(false)
-  const [selectedStars, setSelectedStars] = useState(0)
+export default function RatingForm({
+  ratingStars,
+  ratingComment,
+  onAddComment,
+  ratingFormVisible,
+}) {
+  const [isRatingFormVisible, setIsRatingFormVisible] = useState(
+    ratingFormVisible
+  )
+  const [selectedStars, setSelectedStars] = useState(ratingStars)
+  const [comment, setComment] = useState(ratingComment)
 
   function rateRecipe(event, index) {
     event.stopPropagation()
@@ -44,11 +52,13 @@ export default function RatingForm({ onAddComment }) {
             <label>
               <span>Your comment:</span>
               <Textarea
+                onChange={e => setComment(e.target.value)}
                 placeholder="Your comment..."
                 name="comment"
                 type="textarea"
                 rows={5}
                 cols={5}
+                value={comment}
               />
             </label>
           </Comment>

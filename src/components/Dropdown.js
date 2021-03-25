@@ -3,10 +3,16 @@ import styled from 'styled-components/macro'
 import { useState } from 'react'
 import Icon from 'supercons'
 
-export default function Dropdown() {
+export default function Dropdown({ selectedSorting, onSelectionChanged }) {
   const [isDropdownContentVisible, setIsDropdownContentVisible] = useState(
     false
   )
+
+  function onDropdownSelectionChanged(e) {
+    let selection = e.currentTarget.textContent
+    onSelectionChanged(selection)
+    setIsDropdownContentVisible(false)
+  }
   return (
     <DropdownWrapper>
       <Button
@@ -16,7 +22,7 @@ export default function Dropdown() {
         }}
       >
         <IconWrapper>
-          Sort
+          {selectedSorting}
           <Icon
             glyph={isDropdownContentVisible ? 'up-caret' : 'down-caret'}
             size={25}
@@ -25,16 +31,16 @@ export default function Dropdown() {
       </Button>
       {isDropdownContentVisible && (
         <DropdownContent>
-          <DropdownButton>
+          <DropdownButton onClick={onDropdownSelectionChanged}>
             <span>Rate: Low To High</span>
           </DropdownButton>
-          <DropdownButton>
+          <DropdownButton onClick={onDropdownSelectionChanged}>
             <span>Rate: High To Low</span>
           </DropdownButton>
-          <DropdownButton>
+          <DropdownButton onClick={onDropdownSelectionChanged}>
             <span>Rate date: Newest first</span>
           </DropdownButton>
-          <DropdownButton>
+          <DropdownButton onClick={onDropdownSelectionChanged}>
             <span>Rate date: Oldest first</span>
           </DropdownButton>
         </DropdownContent>
