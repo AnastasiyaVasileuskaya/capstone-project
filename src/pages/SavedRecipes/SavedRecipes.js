@@ -10,6 +10,8 @@ import copyMapRemovingKey from '../../lib/copyMapRemovingKey'
 import { useEffect } from 'react'
 import convertRecipesArrayToMap from '../../services/convertRecipesArrayToMap'
 import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
+import SearchBar from '../../components/SearchBar/SearchBar'
+import Dropdown from '../../components/Dropdown'
 
 export default function SavedRecipes() {
   const [savedRecipesMap, setSavedRecipesMap] = useMapFromLocalStorage(
@@ -21,16 +23,6 @@ export default function SavedRecipes() {
     recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
   }, [])
 
-  useEffect(() => {
-    let newRecipes = []
-    recipes.forEach(recipe => {
-      if (savedRecipesMap.has(getRecipeIndexFromString(recipe.uri))) {
-        newRecipes.push(recipe)
-      }
-    })
-    setRecipes(newRecipes)
-  }, [savedRecipesMap])
-
   async function getRecipes() {
     let recipeIds = Array.from(savedRecipesMap.keys())
     const response = await fetch(createUrlQueryByRecipeIds(recipeIds))
@@ -39,6 +31,13 @@ export default function SavedRecipes() {
   }
 
   function handleOnRecipeDeleteButtonClick(clickedRecipeId) {
+    let newRecipes = []
+    recipes.forEach(recipe => {
+      if (getRecipeIndexFromString(recipe.uri) !== clickedRecipeId) {
+        newRecipes.push(recipe)
+      }
+    })
+    setRecipes(newRecipes)
     setSavedRecipesMap(copyMapRemovingKey(savedRecipesMap, clickedRecipeId))
   }
   if (recipes.length === 0) {
@@ -58,12 +57,18 @@ export default function SavedRecipes() {
     <>
       <Header title="CookIdeas" isVisibleAll={true} />
       <PageLayout>
+        <input></input>
+        <Dropdown />
         {recipes.map(recipe => (
           <Recipe
             onDeleteButtonClick={handleOnRecipeDeleteButtonClick}
             isVisible={true}
             key={getRecipeIndexFromString(recipe.uri)}
             recipe={recipe}
+            selectedStars={
+              savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
+                .selectedStars
+            }
           />
         ))}
         <CardFinal></CardFinal>

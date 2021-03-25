@@ -260,12 +260,10 @@ const Container = styled.span`
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    /* create custom checkbox appearance */
     display: inline-block;
     width: 30px;
     height: 30px;
     padding: 6px;
-    /* background-color only for content */
     background-clip: content-box;
     border: 1.5px solid #bbbbbb;
     border-radius: 6px;

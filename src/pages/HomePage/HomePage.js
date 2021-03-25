@@ -93,7 +93,7 @@ export default function HomePage() {
         <Alert text={alert} />
         <FilterForm filters={urlParams} onFindClicked={handeFiltersChanged} />
         {recipes.map(recipe => (
-          <Recipe key={recipe.uri} recipe={recipe} />
+          <Recipe selectedStars={0} key={recipe.uri} recipe={recipe} />
         ))}
         <CardFinal></CardFinal>
       </PageLayout>

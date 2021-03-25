@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Icon from 'supercons'
 import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
-export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
+import StarsContainer from '../StarsContainer'
+export default function Recipe({
+  recipe,
+  selectedStars,
+  isVisible,
+  onDeleteButtonClick,
+}) {
   const { image, calories, label: title, yield: servings } = recipe
   const recipeId = getRecipeIndexFromString(recipe.uri)
   const ingredients = recipe.ingredientLines.length
@@ -50,6 +56,14 @@ export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
           <br /> Ingredients
         </p>
       </InfoWrapper>
+      {selectedStars > 0 && (
+        <RatingWrapper>
+          <StarsContainer
+            selectedStars={selectedStars}
+            onClick={e => e.preventDefault()}
+          />
+        </RatingWrapper>
+      )}
     </RecipeContainer>
   )
 }
@@ -76,7 +90,7 @@ const InfoWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   font-weight: 300;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 `
 
 const CaloriesNumber = styled.span`
@@ -93,4 +107,9 @@ const IconWrapper = styled.div`
   right: 10px;
   top: 2px;
   display: ${props => (props.isVisible ? 'block' : 'none')};
+`
+const RatingWrapper = styled.span`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
 `
