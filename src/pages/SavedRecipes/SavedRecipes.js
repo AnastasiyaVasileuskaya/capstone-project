@@ -1,48 +1,73 @@
 import styled from 'styled-components/macro'
 import Recipe from '../../components/Recipe/Recipe'
-import loadFromLocal from '../../hooks/useMapFromLocal'
+import loadFromLocal from '../../hooks/useMapFromLocalStorage'
 import { useState } from 'react'
 import saveToLocal from '../../lib/saveToLocal'
 import Header from '../../components/Header/Header'
+import useMapFromLocalStorage from '../../hooks/useMapFromLocalStorage'
+import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
+import copyMapRemovingKey from '../../lib/copyMapRemovingKey'
+import { useEffect } from 'react'
+import convertRecipesArrayToMap from '../../services/convertRecipesArrayToMap'
+import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 
 export default function SavedRecipes() {
-  const [savedRecipes, setSavedRecipes] = useState(
-    loadFromLocal('savedRecipes')
+  const [savedRecipesMap, setSavedRecipesMap] = useMapFromLocalStorage(
+    'savedRecipes'
   )
+  const [recipes, setRecipes] = useState([])
 
-  function handleClick(clickedRecipeId) {
-    let updatedRecipes = new Map()
-    savedRecipes.forEach((recipe, recipeId) => {
-      if (recipeId !== clickedRecipeId) {
-        updatedRecipes.set(recipeId, recipe)
+  useEffect(() => {
+    recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
+  }, [])
+
+  useEffect(() => {
+    let newRecipes = []
+    recipes.forEach(recipe => {
+      if (savedRecipesMap.has(getRecipeIndexFromString(recipe.uri))) {
+        newRecipes.push(recipe)
       }
     })
-    setSavedRecipes(updatedRecipes)
-    saveToLocal('savedRecipes', updatedRecipes)
+    setRecipes(newRecipes)
+  }, [savedRecipesMap])
+
+  async function getRecipes() {
+    let recipeIds = Array.from(savedRecipesMap.keys())
+    const response = await fetch(createUrlQueryByRecipeIds(recipeIds))
+    const data = await response.json()
+    setRecipes(data)
   }
 
-  if (savedRecipes.size > 0) {
+  function handleOnRecipeDeleteButtonClick(clickedRecipeId) {
+    setSavedRecipesMap(copyMapRemovingKey(savedRecipesMap, clickedRecipeId))
+  }
+  if (recipes.length === 0) {
+    let text = '...Loading'
+    if (savedRecipesMap.size === 0) {
+      text = "You haven't saved recipes yet."
+    }
     return (
       <>
         <Header title="CookIdeas" isVisibleAll={true} />
-        <PageLayout>
-          {Array.from(savedRecipes, ([recipeId, recipe]) => (
-            <Recipe
-              onDeleteButtonClick={handleClick}
-              isVisible={true}
-              key={recipeId}
-              recipe={recipe}
-            />
-          ))}
-          <CardFinal></CardFinal>
-        </PageLayout>
+        <TextWrapper>{text}</TextWrapper>
       </>
     )
   }
+
   return (
     <>
       <Header title="CookIdeas" isVisibleAll={true} />
-      <TextWrapper>You haven't saved recipes yet.</TextWrapper>
+      <PageLayout>
+        {recipes.map(recipe => (
+          <Recipe
+            onDeleteButtonClick={handleOnRecipeDeleteButtonClick}
+            isVisible={true}
+            key={getRecipeIndexFromString(recipe.uri)}
+            recipe={recipe}
+          />
+        ))}
+        <CardFinal></CardFinal>
+      </PageLayout>
     </>
   )
 }

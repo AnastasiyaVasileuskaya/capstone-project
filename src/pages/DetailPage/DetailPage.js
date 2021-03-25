@@ -1,30 +1,32 @@
 import styled from 'styled-components/macro'
 import Header from '../../components/Header/Header'
 import Button from '../../components/Button/Button'
-import loadFromLocal from '../../lib/loadFromLocal'
-import saveToLocal from '../../lib/saveToLocal'
-import { useEffect, useState } from 'react'
 import RatingForm from '../../components/RatingForm/RatingForm'
 import Rating from '../../components/Rating/Rating'
 import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
+import useRatingFromLocalStorage from '../../hooks/useRatingFromLocalStorage'
+import createRating from '../../services/createRating'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 export default function DetailPage() {
-  const [recipeId, setRecipeId] = useState(
-    getRecipeIndexFromString(window.location.pathname)
-  )
+  const recipeId = getRecipeIndexFromString(window.location.pathname)
+  const [rating, setRating] = useRatingFromLocalStorage(recipeId)
   const [recipe, setRecipe] = useState(null)
-  const [isRecipeSaved, setIsRecipeSaved] = useState(false)
+  const isRecipeSaved = !!rating
 
-  useEffect(() => {
-    fetchRecipe()
-  }, [recipeId])
+  const totalDaily = recipe ? recipe.totalDaily : null
+  const totalNutrients = recipe ? recipe.totalNutrients : null
 
   async function fetchRecipe() {
     const response = await fetch(createUrlQueryByRecipeIds([recipeId]))
     const data = await response.json()
     setRecipe(data[0])
   }
+  useEffect(() => {
+    !recipe && fetchRecipe()
+  }, [recipe])
 
   if (!recipe) {
     return (
@@ -35,15 +37,12 @@ export default function DetailPage() {
     )
   }
 
-  const { totalDaily, totalNutrients } = recipe
-
   function onSaveRating(comment, selectedStars) {
-    let rating = {}
-    rating.selectedStars = selectedStars
-    rating.comment = comment
-    rating.date = new Date()
+    setRating(createRating(selectedStars, comment))
   }
-  function saveRecipe(e) {}
+  function saveRecipe(e) {
+    setRating(createRating(0, ''))
+  }
   return (
     <>
       <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />
@@ -203,14 +202,14 @@ export default function DetailPage() {
             </tbody>
           </table>
         </NutritionWrapper>
-        {recipe.rating && (
+        {rating && rating.selectedStars > 0 && (
           <Rating
-            selectedStars={recipe.rating.selectedStars}
-            comment={recipe.rating.comment}
-            date={recipe.rating.date}
+            selectedStars={rating.selectedStars}
+            comment={rating.comment}
+            date={rating.date}
           />
         )}
-        {isRecipeSaved && !recipe.rating && (
+        {isRecipeSaved && (!rating || rating.selectedStars === 0) && (
           <RatingForm onAddComment={onSaveRating} />
         )}
       </PageLayout>

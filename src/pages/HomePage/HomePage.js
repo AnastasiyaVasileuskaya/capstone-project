@@ -27,6 +27,15 @@ export default function HomePage() {
     getRecipes()
   }, [url])
 
+  if (recipes.length === 0) {
+    return (
+      <>
+        <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />
+        <TextWrapper>Loading...</TextWrapper>
+      </>
+    )
+  }
+
   async function getRecipes() {
     if (urlParams.query !== '') {
       const response = await fetch(url)
@@ -101,4 +110,8 @@ const PageLayout = styled.main`
 `
 const CardFinal = styled.div`
   padding-bottom: 5px;
+`
+const TextWrapper = styled.div`
+  display: grid;
+  padding: 20px;
 `
