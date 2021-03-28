@@ -7,6 +7,7 @@ import StarsContainer from '../StarsContainer'
 export default function Recipe({
   recipe,
   selectedStars,
+  date,
   isVisible,
   onDeleteButtonClick,
 }) {
@@ -62,6 +63,7 @@ export default function Recipe({
             selectedStars={selectedStars}
             onClick={e => e.preventDefault()}
           />
+          <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
         </RatingWrapper>
       )}
     </RecipeContainer>
@@ -112,4 +114,8 @@ const RatingWrapper = styled.span`
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
+`
+const DateWrapper = styled.div`
+  margin-top: 3px;
+  margin-left: 15px;
 `

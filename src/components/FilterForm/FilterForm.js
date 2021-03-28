@@ -70,18 +70,10 @@ export default function FilterForm({ filters, onFindClicked }) {
     setFilter(newArray)
   }
 
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
   function handleSubmit(e) {
     if (isCaloriesStateValid()) {
       onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
       setIsFilterFormVisible(false)
-      scrollToTop()
     } else {
       setAlert('Your calories input is not valid')
     }

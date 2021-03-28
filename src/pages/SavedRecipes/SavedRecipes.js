@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 import Dropdown from '../../components/Dropdown'
 import useLocalStorage from '../../hooks/useLocalStorage'
+import LiveSearch from '../../components/LiveSearch'
 
 export default function SavedRecipes() {
   const [savedRecipesMap, setSavedRecipesMap] = useMapFromLocalStorage(
@@ -19,6 +20,7 @@ export default function SavedRecipes() {
     'selectedSorting',
     'Rate: High To Low'
   )
+  const [userInput, setUserInput] = useState('')
   useEffect(() => {
     recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
   }, [])
@@ -93,22 +95,30 @@ export default function SavedRecipes() {
     <>
       <Header title="CookIdeas" isVisibleAll={true} />
       <PageLayout>
+        <LiveSearch userInput={userInput} setUserInput={setUserInput} />
         <Dropdown
           onSelectionChanged={sortSavedRecipes}
           selectedSorting={selectedSorting}
         />
-        {recipes.map(recipe => (
-          <Recipe
-            onDeleteButtonClick={handleOnRecipeDeleteButtonClick}
-            isVisible={true}
-            key={getRecipeIndexFromString(recipe.uri)}
-            recipe={recipe}
-            selectedStars={
-              savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
-                .selectedStars
-            }
-          />
-        ))}
+        {recipes
+          .filter(recipe =>
+            recipe.label.toLowerCase().includes(userInput.toLowerCase())
+          )
+          .map(recipe => (
+            <Recipe
+              onDeleteButtonClick={handleOnRecipeDeleteButtonClick}
+              isVisible={true}
+              key={getRecipeIndexFromString(recipe.uri)}
+              recipe={recipe}
+              selectedStars={
+                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
+                  .selectedStars
+              }
+              date={
+                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri)).date
+              }
+            />
+          ))}
         <CardFinal></CardFinal>
       </PageLayout>
     </>
