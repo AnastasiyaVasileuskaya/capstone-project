@@ -117,6 +117,10 @@ export default function SavedRecipes() {
               date={
                 savedRecipesMap.get(getRecipeIndexFromString(recipe.uri)).date
               }
+              comment={
+                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
+                  .comment
+              }
             />
           ))}
         <CardFinal></CardFinal>

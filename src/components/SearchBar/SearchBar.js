@@ -15,7 +15,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
   return (
     <Form onSubmit={handleSubmit}>
       <Input
-        placeholder="enter ingredient"
+        placeholder="Search recipe..."
         name="query"
         maxLength="30"
         type="search"

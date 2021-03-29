@@ -21,7 +21,7 @@ export default function Rating({
           <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
           <IconContext.Provider value={{ size: '25px' }}>
             <EditWrapper>
-              <BsPencil onClick={onRatingChange} />
+              <BsPencil testID="edit" onClick={onRatingChange} />
             </EditWrapper>
           </IconContext.Provider>
         </StarWrapper>

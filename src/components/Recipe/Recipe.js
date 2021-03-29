@@ -7,6 +7,7 @@ import StarsContainer from '../StarsContainer'
 export default function Recipe({
   recipe,
   selectedStars,
+  comment,
   date,
   isVisible,
   onDeleteButtonClick,
@@ -57,15 +58,17 @@ export default function Recipe({
           <br /> Ingredients
         </p>
       </InfoWrapper>
-      {selectedStars > 0 && (
-        <RatingWrapper>
+      <RatingWrapper>
+        {selectedStars > 0 && (
           <StarsContainer
             selectedStars={selectedStars}
             onClick={e => e.preventDefault()}
           />
+        )}
+        {comment.length > 0 && (
           <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
-        </RatingWrapper>
-      )}
+        )}
+      </RatingWrapper>
     </RecipeContainer>
   )
 }

@@ -9,6 +9,8 @@ import useLocalStorage from '../../hooks/useLocalStorage'
 import createInitialUrlParams from '../../services/createInitialUrlParams'
 import createUrlParams from '../../services/createUrlParams'
 import createUrlQuery from '../../services/createUrlQuery'
+import { useLayoutEffect } from 'react'
+import anime from 'animejs'
 
 export default function HomePage() {
   const [recipes, setRecipes] = useState([])
@@ -26,7 +28,7 @@ export default function HomePage() {
   useEffect(() => {
     getRecipes()
   }, [url])
-
+  /*
   if (recipes.length === 0) {
     return (
       <>
@@ -35,6 +37,7 @@ export default function HomePage() {
       </>
     )
   }
+  */
 
   async function getRecipes() {
     if (urlParams.query !== '') {
@@ -81,6 +84,19 @@ export default function HomePage() {
       )
     )
   }
+  const fadeIn = () => {
+    const fadeIn = anime.timeline()
+    fadeIn.add({
+      targets: 'main',
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'easeInOutQuad',
+    })
+  }
+
+  useLayoutEffect(() => {
+    fadeIn()
+  }, [])
 
   return (
     <>
@@ -93,7 +109,12 @@ export default function HomePage() {
         <Alert text={alert} />
         <FilterForm filters={urlParams} onFindClicked={handeFiltersChanged} />
         {recipes.map(recipe => (
-          <Recipe selectedStars={0} key={recipe.uri} recipe={recipe} />
+          <Recipe
+            selectedStars={0}
+            comment={''}
+            key={recipe.uri}
+            recipe={recipe}
+          />
         ))}
         <CardFinal></CardFinal>
       </PageLayout>
@@ -110,8 +131,4 @@ const PageLayout = styled.main`
 `
 const CardFinal = styled.div`
   padding-bottom: 5px;
-`
-const TextWrapper = styled.div`
-  display: grid;
-  padding: 20px;
 `
