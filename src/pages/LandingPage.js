@@ -1,7 +1,6 @@
 import anime from 'animejs'
 import { useState } from 'react'
 import styled from 'styled-components/macro'
-import './LandingPage.css'
 
 export default function LandingPage({ isLoaded }) {
   const [hidePage, setHidePage] = useState(false)

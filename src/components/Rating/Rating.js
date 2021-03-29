@@ -1,6 +1,6 @@
 import { IconContext } from 'react-icons'
 import styled from 'styled-components/macro'
-import StarsContainer from '../StarsContainer'
+import StarsContainer from '../StarsContainer/StarsContainer'
 import { BsPencil } from 'react-icons/bs'
 
 export default function Rating({

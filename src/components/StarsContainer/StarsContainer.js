@@ -11,11 +11,16 @@ export default function StarsContainer({ selectedStars, onClick }) {
           let starNumber = index + 1
           if (starNumber <= selectedStars) {
             return (
-              <AiFillStar key={index} onClick={e => onClick(e, starNumber)} />
+              <AiFillStar
+                testID="star"
+                key={index}
+                onClick={e => onClick(e, starNumber)}
+              />
             )
           } else {
             return (
               <AiOutlineStar
+                testID="star"
                 key={index}
                 onClick={e => onClick(e, starNumber)}
               />

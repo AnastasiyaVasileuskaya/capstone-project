@@ -7,9 +7,9 @@ import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
 import copyMapRemovingKey from '../../lib/copyMapRemovingKey'
 import { useEffect } from 'react'
 import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
-import Dropdown from '../../components/Dropdown'
+import Dropdown from '../../components/Dropdown/Dropdown'
 import useLocalStorage from '../../hooks/useLocalStorage'
-import LiveSearch from '../../components/LiveSearch'
+import LiveSearch from '../../components/LiveSearch/LiveSearch'
 
 export default function SavedRecipes() {
   const [savedRecipesMap, setSavedRecipesMap] = useMapFromLocalStorage(

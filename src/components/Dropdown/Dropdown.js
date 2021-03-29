@@ -1,4 +1,4 @@
-import Button from './Button/Button'
+import Button from '../Button/Button'
 import styled from 'styled-components/macro'
 import { useState } from 'react'
 import Icon from 'supercons'

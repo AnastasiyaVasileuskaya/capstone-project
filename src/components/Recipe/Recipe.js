@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Icon from 'supercons'
 import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
-import StarsContainer from '../StarsContainer'
+import StarsContainer from '../StarsContainer/StarsContainer'
 export default function Recipe({
   recipe,
   selectedStars,

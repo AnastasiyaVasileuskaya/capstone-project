@@ -4,7 +4,7 @@ import DetailPage from '../pages/DetailPage/DetailPage'
 import HomePage from '../pages/HomePage/HomePage'
 import SavedRecipes from '../pages/SavedRecipes/SavedRecipes'
 import Grid from './Grid'
-import LandingPage from '../components/LandingPage'
+import LandingPage from '../pages/LandingPage'
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false)

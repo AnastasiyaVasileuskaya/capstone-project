@@ -10,6 +10,7 @@ export default function LiveSearch({ userInput, setUserInput }) {
         value={userInput}
         onChange={e => setUserInput(e.target.value)}
         type="search"
+        maxLength={30}
       />
       <IconContext.Provider value={{ size: '25px', color: 'grey' }}>
         <DeleteButtonWrapper isVisible={userInput.length >= 1}>

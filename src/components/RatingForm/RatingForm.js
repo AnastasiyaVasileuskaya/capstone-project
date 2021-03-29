@@ -2,17 +2,14 @@ import { useState } from 'react'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
-import StarsContainer from '../StarsContainer'
+import StarsContainer from '../StarsContainer/StarsContainer'
 
 export default function RatingForm({
   ratingStars,
   ratingComment,
   onAddComment,
-  ratingFormVisible,
 }) {
-  const [isRatingFormVisible, setIsRatingFormVisible] = useState(
-    ratingFormVisible
-  )
+  const [isRatingFormVisible, setIsRatingFormVisible] = useState(false)
   const [selectedStars, setSelectedStars] = useState(ratingStars)
   const [comment, setComment] = useState(ratingComment)
 
@@ -47,10 +44,14 @@ export default function RatingForm({
       </RatingButton>
       {isRatingFormVisible && (
         <Form className="rating" onSubmit={handleSubmit}>
-          <StarsContainer onClick={rateRecipe} selectedStars={selectedStars} />
+          <StarsContainer
+            testID="stars"
+            onClick={rateRecipe}
+            selectedStars={selectedStars}
+          />
           <Comment>
             <label>
-              <span>Your comment:</span>
+              Your comment:
               <Textarea
                 onChange={e => setComment(e.target.value)}
                 placeholder="Your comment..."
