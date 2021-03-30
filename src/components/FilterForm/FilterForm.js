@@ -4,18 +4,20 @@ import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
-export default function FilterForm({
-  dietLabels,
-  allergiesLabels,
-  cuisineTypes,
-  onFindClicked,
-}) {
+import getFilters from '../../services/getFilters'
+export default function FilterForm({ filters, onFindClicked }) {
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
-  const [caloriesRangeFrom, setCaloriesRangeFrom] = useState('')
-  const [caloriesRangeTo, setCaloriesRangeTo] = useState('')
-  const [healthLabels, setHealthLabels] = useState([])
-  const [dishTypes, setDishTypes] = useState([])
+  const [caloriesRangeFrom, setCaloriesRangeFrom] = useState(
+    filters.caloriesRangeFrom ?? ''
+  )
+  const [caloriesRangeTo, setCaloriesRangeTo] = useState(
+    filters.caloriesRangeTo ?? ''
+  )
+  const [healthLabels, setHealthLabels] = useState(filters.healthLabels ?? [])
+  const [dishTypes, setDishTypes] = useState(filters.dishTypes ?? [])
+
+  const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
 
   FilterForm.propTypes = {
     dietLabels: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -68,18 +70,10 @@ export default function FilterForm({
     setFilter(newArray)
   }
 
-  function scrollToTop() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
   function handleSubmit(e) {
     if (isCaloriesStateValid()) {
       onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
       setIsFilterFormVisible(false)
-      scrollToTop()
     } else {
       setAlert('Your calories input is not valid')
     }
@@ -144,7 +138,7 @@ export default function FilterForm({
                     checked={healthLabels.includes(item)}
                     onChange={handleHealthFilter}
                   />
-                  {item}
+                  <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
               ))}
             </Container>
@@ -159,7 +153,7 @@ export default function FilterForm({
                     checked={healthLabels.includes(item)}
                     onChange={handleHealthFilter}
                   />
-                  {item}
+                  <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
               ))}
             </Container>
@@ -174,7 +168,7 @@ export default function FilterForm({
                     checked={dishTypes.includes(item)}
                     onChange={handleDishFilter}
                   />
-                  {item}
+                  <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
               ))}
             </Container>
@@ -194,6 +188,7 @@ export default function FilterForm({
 
 const FilterContainer = styled.span`
   display: grid;
+  position: relative;
 `
 const IconWrapper = styled.span`
   display: flex;
@@ -205,18 +200,20 @@ const FilterButton = styled(Button)`
   place-items: center;
   justify-content: space-evenly;
   height: 40px;
+  background: var(--color-orange);
 `
 const ClearButton = styled(Button)`
   display: grid;
   place-items: center;
-  background-color: var(--color-lightgrey);
+  color: black;
+  background: var(--color-lightgrey);
 `
 const FindButton = styled(Button)`
   display: grid;
   place-items: center;
 `
 const FilterWrapper = styled.div`
-  background-color: var(--color-lightorange);
+  background-color: #fffae5;
   display: grid;
   gap: 10px;
   padding-top: 10px;
@@ -225,7 +222,10 @@ const FilterWrapper = styled.div`
     height: 20px;
     width: 20px;
   }
-  border-radius: 15px;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  top: 100%;
 `
 const CaloriesContainer = styled.div`
   font-weight: 300;
@@ -233,7 +233,7 @@ const CaloriesContainer = styled.div`
   justify-content: space-evenly;
   input {
     margin-left: 10px;
-    width: 60px;
+    width: 70px;
     height: 30px;
   }
 `
@@ -243,10 +243,29 @@ const ButtonWrapper = styled.span`
   margin: 0 15px 20px 15px;
 `
 const Container = styled.span`
+  position: relative;
   font-weight: 300;
   display: grid;
   gap: 15px;
   padding: 10px;
+  input[type='checkbox'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    padding: 6px;
+    background-clip: content-box;
+    border: 1.5px solid #bbbbbb;
+    border-radius: 6px;
+    background-color: #bbbbbb;
+    margin-left: 15px;
+    margin-right: 15px;
+    &:checked {
+      background-color: rgb(255, 170, 84);
+    }
+  }
 `
 const AlertWrapper = styled.div`
   display: flex;
@@ -256,4 +275,8 @@ const Checkboxwrapper = styled.div`
   display: grid;
   gap: 10px;
   margin-left: 15px;
+`
+const CheckboxLabel = styled.span`
+  position: absolute;
+  margin-top: 5px;
 `

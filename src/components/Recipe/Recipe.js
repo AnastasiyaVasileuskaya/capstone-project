@@ -2,14 +2,18 @@ import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Icon from 'supercons'
-export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
-  const {
-    image,
-    calories,
-    label: title,
-    yield: servings,
-    id: recipeId,
-  } = recipe
+import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
+import StarsContainer from '../StarsContainer/StarsContainer'
+export default function Recipe({
+  recipe,
+  selectedStars,
+  comment,
+  date,
+  isVisible,
+  onDeleteButtonClick,
+}) {
+  const { image, calories, label: title, yield: servings } = recipe
+  const recipeId = getRecipeIndexFromString(recipe.uri)
   const ingredients = recipe.ingredientLines.length
 
   Recipe.propTypes = {
@@ -31,7 +35,6 @@ export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
   return (
     <RecipeContainer
       as={Link}
-      exact
       to={{
         pathname: `/recipes/${recipeId}`,
       }}
@@ -54,6 +57,17 @@ export default function Recipe({ recipe, isVisible, onDeleteButtonClick }) {
           <br /> Ingredients
         </p>
       </InfoWrapper>
+      <RatingWrapper>
+        {selectedStars > 0 && (
+          <StarsContainer
+            selectedStars={selectedStars}
+            onClick={e => e.preventDefault()}
+          />
+        )}
+        {comment.length > 0 && (
+          <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
+        )}
+      </RatingWrapper>
     </RecipeContainer>
   )
 }
@@ -80,7 +94,7 @@ const InfoWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   font-weight: 300;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 `
 
 const CaloriesNumber = styled.span`
@@ -97,4 +111,13 @@ const IconWrapper = styled.div`
   right: 10px;
   top: 2px;
   display: ${props => (props.isVisible ? 'block' : 'none')};
+`
+const RatingWrapper = styled.span`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+`
+const DateWrapper = styled.div`
+  margin-top: 3px;
+  margin-left: 15px;
 `

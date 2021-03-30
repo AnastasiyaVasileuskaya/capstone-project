@@ -13,8 +13,6 @@ const AppGrid = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  max-width: 375px;
-  margin: 0 auto;
   height: 100vh;
   background: rgb(255, 247, 237);
   background: linear-gradient(
@@ -23,4 +21,5 @@ const AppGrid = styled.div`
     rgba(255, 255, 255, 1) 77%,
     rgba(255, 255, 255, 1) 98%
   );
+  transition: all 0.5s;
 `

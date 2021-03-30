@@ -1,40 +1,68 @@
 import styled from 'styled-components/macro'
 import Header from '../../components/Header/Header'
 import Button from '../../components/Button/Button'
-import loadFromLocal from '../../lib/loadFromLocal'
-import saveToLocal from '../../lib/saveToLocal'
-import { useState } from 'react'
-export default function DetailPage({ recipe }) {
-  const [isRecipeSaved, setIsRecipeSaved] = useState(
-    recipe && loadFromLocal('savedRecipes').has(recipe.id)
-  )
-  if (!recipe) {
-    let receipeId = window.location.pathname.substr(
-      window.location.pathname.indexOf('recipe_'),
-      window.location.pathname.length - 1
-    )
-    let visitedRecipes = loadFromLocal('visitedRecipes')
-    recipe = visitedRecipes.get(receipeId)
+import RatingForm from '../../components/RatingForm/RatingForm'
+import Rating from '../../components/Rating/Rating'
+import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
+import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
+import useRatingFromLocalStorage from '../../hooks/useRatingFromLocalStorage'
+import createRating from '../../services/createRating'
+import { useState, useEffect, useLayoutEffect } from 'react'
+import anime from 'animejs'
+
+export default function DetailPage() {
+  const recipeId = getRecipeIndexFromString(window.location.pathname)
+  const [rating, setRating] = useRatingFromLocalStorage(recipeId)
+  const [recipe, setRecipe] = useState(null)
+  const [isRatingChanging, setIsRatingChanging] = useState(false)
+  const isRecipeSaved = !!rating
+
+  const totalDaily = recipe ? recipe.totalDaily : null
+  const totalNutrients = recipe ? recipe.totalNutrients : null
+
+  async function fetchRecipe() {
+    const response = await fetch(createUrlQueryByRecipeIds([recipeId]))
+    const data = await response.json()
+    setRecipe(data[0])
   }
+
+  const fadeIn = () => {
+    const fadeIn = anime.timeline()
+    fadeIn.add({
+      targets: 'main',
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'easeInOutQuad',
+    })
+  }
+
+  useLayoutEffect(() => {
+    fadeIn()
+  }, [])
+
+  useEffect(() => {
+    !recipe && fetchRecipe()
+  }, [recipe])
 
   if (!recipe) {
     return (
       <>
         <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />
-        <div>Loading...</div>
+        <TextWrapper>Loading...</TextWrapper>
       </>
     )
   }
 
-  const { totalDaily, totalNutrients } = recipe
-
-  function saveRecipe() {
-    let recipes = loadFromLocal('savedRecipes')
-    recipes.set(recipe.id, recipe)
-    saveToLocal('savedRecipes', recipes)
-    setIsRecipeSaved(true)
+  function onSaveRating(comment, selectedStars) {
+    setIsRatingChanging(false)
+    setRating(createRating(selectedStars, comment))
   }
-
+  function saveRecipe(e) {
+    setRating(createRating(0, ''))
+  }
+  function onRatingChange(e) {
+    setIsRatingChanging(true)
+  }
   return (
     <>
       <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />
@@ -194,6 +222,23 @@ export default function DetailPage({ recipe }) {
             </tbody>
           </table>
         </NutritionWrapper>
+        {rating && rating.selectedStars > 0 && !isRatingChanging && (
+          <Rating
+            selectedStars={rating.selectedStars}
+            comment={rating.comment}
+            date={rating.date}
+            onRatingChange={onRatingChange}
+          />
+        )}
+        {((isRecipeSaved && (!rating || rating.selectedStars === 0)) ||
+          isRatingChanging) && (
+          <RatingForm
+            onAddComment={onSaveRating}
+            ratingStars={rating.selectedStars}
+            ratingComment={rating.comment}
+            ratingFormVisible={isRatingChanging}
+          />
+        )}
       </PageLayout>
     </>
   )
@@ -206,6 +251,7 @@ const PageLayout = styled.main`
   padding: 20px;
   margin-bottom: 30px;
   font-weight: 300;
+  grid-auto-rows: min-content;
 `
 const ImageWrapper = styled.div`
   display: grid;
@@ -268,4 +314,8 @@ const TableHeader = styled.tr`
 
 const TableCell = styled.td`
   text-align: center;
+`
+const TextWrapper = styled.div`
+  display: grid;
+  padding: 20px;
 `

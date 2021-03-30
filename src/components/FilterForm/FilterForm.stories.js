@@ -11,8 +11,11 @@ const Template = args => <FilterForm isFilterFormVisible {...args} />
 export const Primary = Template.bind({})
 
 Primary.args = {
-  dietLabels: ['vegan','vegetarian'],
-  allergiesLabels:['egg-free', 'gluten-free'],
-  cuisineTypes: ['italian','mexican'],
   onFindClicked: action('onFindClicked'),
+  filters: {
+    caloriesRangeFrom: '235',
+    caloriesRangeTo: '353',
+    healthLabels: ['egg-free', 'gluten-free'],
+    dishTypes: ['italian', 'mexican'],
+  },
 }
