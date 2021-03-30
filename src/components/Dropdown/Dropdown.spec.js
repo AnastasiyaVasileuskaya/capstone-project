@@ -3,16 +3,18 @@ import userEvent from '@testing-library/user-event'
 import Dropdown from './Dropdown'
 
 describe('Dropdown', () => {
-  it('renders a button and not select buttons', () => {
-    render(<Dropdown isDropdownContentVisible={false} />)
+  const onSelectionChangedCallback = jest.fn()
+  it('renders selected dropdown item as a button and not other dropdown items', () => {
+    render(
+      <Dropdown
+        isDropdownContentVisible={false}
+        selectedSorting={'Rate: High To Low'}
+        onSelectionChanged={onSelectionChangedCallback}
+      />
+    )
     expect(
       screen.queryByRole('button', {
         name: 'Rate: Low To High',
-      })
-    ).not.toBeInTheDocument()
-    expect(
-      screen.queryByRole('button', {
-        name: 'Rate: High To Low',
       })
     ).not.toBeInTheDocument()
     expect(
@@ -27,12 +29,12 @@ describe('Dropdown', () => {
     ).not.toBeInTheDocument()
     expect(
       screen.getByRole('button', {
-        name: 'Leave the rating for recipe down-caret',
+        name: 'Rate: High To Low down-caret',
       })
     ).toBeInTheDocument()
   })
 
-  it('calls setIsDropdownContentVisible on button click', () => {
+  it('dropdown items on button click', () => {
     const onSelectionChangedCallback = jest.fn()
     render(
       <Dropdown
@@ -41,7 +43,7 @@ describe('Dropdown', () => {
       />
     )
     const button = screen.getByRole('button', {
-      name: 'Rate: High To Low',
+      name: 'Rate: High To Low down-caret',
     })
     userEvent.click(button)
     expect(onSelectionChangedCallback).not.toHaveBeenCalled()
@@ -76,7 +78,7 @@ describe('Dropdown', () => {
       />
     )
     const button = screen.getByRole('button', {
-      name: 'Rate: High To Low',
+      name: 'Rate: High To Low down-caret',
     })
     userEvent.click(button)
     userEvent.click(

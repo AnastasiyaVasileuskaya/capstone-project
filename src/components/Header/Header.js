@@ -6,11 +6,11 @@ import Icon from 'supercons'
 export default function Header({ title, isVisibleAll, isVisibleSaved }) {
   return (
     <HeaderContainer>
-      <LinkWrapperAll isVisibleAll={isVisibleAll} to={'/'}>
+      <LinkWrapperAll visible={isVisibleAll.toString()} to={'/'}>
         <Icon glyph="home" size={30} /> All
       </LinkWrapperAll>
       <h1>{title}</h1>
-      <LinkWrapperSaved isVisibleSaved={isVisibleSaved} to={'/saved'}>
+      <LinkWrapperSaved visible={isVisibleSaved.toString()} to={'/saved'}>
         <Icon glyph="checkmark" size={30} /> Saved
       </LinkWrapperSaved>
     </HeaderContainer>
@@ -46,7 +46,7 @@ const LinkWrapperAll = styled(Link)`
   &:hover {
     color: lightblue;
   }
-  display: ${props => (props.isVisibleAll ? 'grid' : 'none')};
+  display: ${props => (props.visible === 'true' ? 'grid' : 'none')};
 `
 const LinkWrapperSaved = styled(Link)`
   font-family: 'Roboto', sans-serif;
@@ -62,5 +62,5 @@ const LinkWrapperSaved = styled(Link)`
   &:hover {
     color: lightblue;
   }
-  display: ${props => (props.isVisibleSaved ? 'grid' : 'none')};
+  display: ${props => (props.visible === 'true' ? 'grid' : 'none')};
 `

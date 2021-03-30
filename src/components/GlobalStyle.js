@@ -3,11 +3,7 @@ import { createGlobalStyle } from 'styled-components'
 export default createGlobalStyle`
 :root {
     --color-orange: rgb(255, 170, 84);
-    --gradient-orange: linear-gradient(
-    0deg,
-    rgba(255, 170, 84, 1) 40%,
-    rgba(254, 212, 171, 0.9925187032418953) 75%
-  );
+    --gradient-orange: linear-gradient(to right, #f83600 0%, #f9d423 100%);
     --color-lightorange: #fff2e4;
     --color-lightgrey:#D5D5D5;
   }

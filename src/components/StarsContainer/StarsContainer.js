@@ -9,10 +9,11 @@ export default function StarsContainer({ selectedStars, onClick }) {
       <IconWrapper>
         {[...Array(5).keys()].map(index => {
           let starNumber = index + 1
+          let testId = 'star-' + starNumber
           if (starNumber <= selectedStars) {
             return (
               <AiFillStar
-                testID="star"
+                data-testid={testId}
                 key={index}
                 onClick={e => onClick(e, starNumber)}
               />
@@ -20,7 +21,7 @@ export default function StarsContainer({ selectedStars, onClick }) {
           } else {
             return (
               <AiOutlineStar
-                testID="star"
+                data-testid={testId}
                 key={index}
                 onClick={e => onClick(e, starNumber)}
               />

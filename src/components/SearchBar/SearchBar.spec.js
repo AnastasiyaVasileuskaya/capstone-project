@@ -4,14 +4,14 @@ import SearchBar from './SearchBar'
 
 describe('SearchBar', () => {
   it('renders a form with a input and a button', () => {
-    render(<SearchBar />)
+    render(<SearchBar initialQuery={'chicken'} />)
     expect(screen.getByPlaceholderText('Search recipe...')).toBeInTheDocument()
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
   it('calls onSubmit-callback with form data', () => {
     const callback = jest.fn()
-    render(<SearchBar onRecipeSearch={callback} />)
+    render(<SearchBar initialQuery={''} onRecipeSearch={callback} />)
     userEvent.type(screen.getByPlaceholderText('Search recipe...'), 'chicken')
 
     userEvent.click(screen.getByRole('button'))

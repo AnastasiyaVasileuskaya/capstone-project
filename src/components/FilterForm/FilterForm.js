@@ -200,17 +200,17 @@ const FilterButton = styled(Button)`
   place-items: center;
   justify-content: space-evenly;
   height: 40px;
+  background: var(--color-orange);
 `
 const ClearButton = styled(Button)`
   display: grid;
   place-items: center;
   color: black;
-  background-color: var(--color-lightgrey);
+  background: var(--color-lightgrey);
 `
 const FindButton = styled(Button)`
   display: grid;
   place-items: center;
-  background: var(--gradient-orange);
 `
 const FilterWrapper = styled.div`
   background-color: #fffae5;

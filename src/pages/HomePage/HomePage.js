@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useLayoutEffect } from 'react'
 import styled from 'styled-components/macro'
 import Alert from '../../components/Alert/Alert'
 import FilterForm from '../../components/FilterForm/FilterForm'
@@ -9,7 +9,6 @@ import useLocalStorage from '../../hooks/useLocalStorage'
 import createInitialUrlParams from '../../services/createInitialUrlParams'
 import createUrlParams from '../../services/createUrlParams'
 import createUrlQuery from '../../services/createUrlQuery'
-import { useLayoutEffect } from 'react'
 import anime from 'animejs'
 
 export default function HomePage() {
@@ -20,6 +19,19 @@ export default function HomePage() {
     createInitialUrlParams()
   )
   const [url, setUrl] = useState(createUrlQuery(urlParams))
+  const fadeIn = () => {
+    const fadeIn = anime.timeline()
+    fadeIn.add({
+      targets: 'main',
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'easeInOutQuad',
+    })
+  }
+
+  useLayoutEffect(() => {
+    fadeIn()
+  }, [])
 
   useEffect(() => {
     setUrl(createUrlQuery(urlParams))
@@ -28,16 +40,15 @@ export default function HomePage() {
   useEffect(() => {
     getRecipes()
   }, [url])
-  /*
+
   if (recipes.length === 0) {
     return (
       <>
-        <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />
+        <Header title="CookIdeas" isVisibleSaved={true} isVisibleAll={false} />
         <TextWrapper>Loading...</TextWrapper>
       </>
     )
   }
-  */
 
   async function getRecipes() {
     if (urlParams.query !== '') {
@@ -84,23 +95,10 @@ export default function HomePage() {
       )
     )
   }
-  const fadeIn = () => {
-    const fadeIn = anime.timeline()
-    fadeIn.add({
-      targets: 'main',
-      opacity: [0, 1],
-      duration: 1000,
-      easing: 'easeInOutQuad',
-    })
-  }
-
-  useLayoutEffect(() => {
-    fadeIn()
-  }, [])
 
   return (
     <>
-      <Header title="CookIdeas" isVisibleSaved={true} />
+      <Header title="CookIdeas" isVisibleSaved={true} isVisibleAll={false} />
       <PageLayout>
         <SearchBar
           initialQuery={urlParams.query}
@@ -131,4 +129,8 @@ const PageLayout = styled.main`
 `
 const CardFinal = styled.div`
   padding-bottom: 5px;
+`
+const TextWrapper = styled.div`
+  display: grid;
+  padding: 20px;
 `

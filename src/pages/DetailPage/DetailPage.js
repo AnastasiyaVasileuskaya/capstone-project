@@ -7,8 +7,8 @@ import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
 import useRatingFromLocalStorage from '../../hooks/useRatingFromLocalStorage'
 import createRating from '../../services/createRating'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import { useState, useEffect, useLayoutEffect } from 'react'
+import anime from 'animejs'
 
 export default function DetailPage() {
   const recipeId = getRecipeIndexFromString(window.location.pathname)
@@ -25,6 +25,21 @@ export default function DetailPage() {
     const data = await response.json()
     setRecipe(data[0])
   }
+
+  const fadeIn = () => {
+    const fadeIn = anime.timeline()
+    fadeIn.add({
+      targets: 'main',
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'easeInOutQuad',
+    })
+  }
+
+  useLayoutEffect(() => {
+    fadeIn()
+  }, [])
+
   useEffect(() => {
     !recipe && fetchRecipe()
   }, [recipe])

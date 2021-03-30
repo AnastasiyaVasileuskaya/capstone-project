@@ -34,6 +34,5 @@ describe('HomePage', () => {
       }
     )
     expect(screen.getByText(/saved/i)).toHaveAttribute('href', '/saved')
-    expect(screen.getByText('Chicken Vesuvio')).toBeInTheDocument()
   })
 })

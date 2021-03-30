@@ -1,15 +1,15 @@
 import styled from 'styled-components/macro'
 import Recipe from '../../components/Recipe/Recipe'
-import { useState } from 'react'
 import Header from '../../components/Header/Header'
 import useMapFromLocalStorage from '../../hooks/useMapFromLocalStorage'
 import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
 import copyMapRemovingKey from '../../lib/copyMapRemovingKey'
-import { useEffect } from 'react'
+import { useEffect, useState, useLayoutEffect } from 'react'
 import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 import Dropdown from '../../components/Dropdown/Dropdown'
 import useLocalStorage from '../../hooks/useLocalStorage'
 import LiveSearch from '../../components/LiveSearch/LiveSearch'
+import anime from 'animejs'
 
 export default function SavedRecipes() {
   const [savedRecipesMap, setSavedRecipesMap] = useMapFromLocalStorage(
@@ -23,6 +23,19 @@ export default function SavedRecipes() {
   const [userInput, setUserInput] = useState('')
   useEffect(() => {
     recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
+  }, [])
+  const fadeIn = () => {
+    const fadeIn = anime.timeline()
+    fadeIn.add({
+      targets: 'main',
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'easeInOutQuad',
+    })
+  }
+
+  useLayoutEffect(() => {
+    fadeIn()
   }, [])
 
   async function getRecipes() {
@@ -85,7 +98,7 @@ export default function SavedRecipes() {
 
     return (
       <>
-        <Header title="CookIdeas" isVisibleAll={true} />
+        <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={false} />
         <TextWrapper>{text}</TextWrapper>
       </>
     )
@@ -93,7 +106,7 @@ export default function SavedRecipes() {
 
   return (
     <>
-      <Header title="CookIdeas" isVisibleAll={true} />
+      <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={false} />
       <PageLayout>
         <LiveSearch userInput={userInput} setUserInput={setUserInput} />
         <Dropdown

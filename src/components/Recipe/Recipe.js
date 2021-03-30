@@ -35,7 +35,6 @@ export default function Recipe({
   return (
     <RecipeContainer
       as={Link}
-      exact
       to={{
         pathname: `/recipes/${recipeId}`,
       }}

@@ -44,11 +44,7 @@ export default function RatingForm({
       </RatingButton>
       {isRatingFormVisible && (
         <Form className="rating" onSubmit={handleSubmit}>
-          <StarsContainer
-            testID="stars"
-            onClick={rateRecipe}
-            selectedStars={selectedStars}
-          />
+          <StarsContainer onClick={rateRecipe} selectedStars={selectedStars} />
           <Comment>
             <label>
               Your comment:

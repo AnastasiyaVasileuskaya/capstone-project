@@ -46,6 +46,7 @@ const SearchButton = styled(Button)`
   width: 60px;
   height: 40px;
   border-radius: 0;
+  background: 'var(--gradient-orange)';
 `
 const Form = styled.form`
   display: flex;

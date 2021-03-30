@@ -8,6 +8,8 @@ describe('Recipe', () => {
     image:
       'https://www.edamam.com/web-img/e42/e42f9119813e890af34c259785ae1cfb.jpg',
     ingredientLines: ['1/2 cup olive oil'],
+    uri:
+      'http%3A%2F%2Fwww.edamam.com%2Fontologies%2Fedamam.owl%23recipe_9b5945e03f05acbf9d69625138385408',
     label: 'Chicken Vesuvio',
     yield: '4',
     url:
@@ -22,6 +24,7 @@ describe('Recipe', () => {
         recipe={recipe}
         isVisible={true}
         onDeleteButtonClick={onDeleteButtonClickCallback}
+        comment={'Very tasty'}
       />,
       {
         wrapper: MemoryRouter,

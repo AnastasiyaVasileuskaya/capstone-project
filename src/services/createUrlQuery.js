@@ -1,3 +1,4 @@
+require('dotenv').config()
 export default function createUrlQuery(urlParams) {
   const {
     caloriesRangeFrom,
