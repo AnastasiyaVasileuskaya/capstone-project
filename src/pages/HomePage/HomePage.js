@@ -24,7 +24,7 @@ export default function HomePage() {
     fadeIn.add({
       targets: 'main',
       opacity: [0, 1],
-      duration: 2000,
+      duration: 500,
       easing: 'easeInOutQuad',
     })
   }
@@ -129,9 +129,5 @@ const PageLayout = styled.main`
   grid-auto-rows: min-content;
 `
 const CardFinal = styled.div`
-  padding-bottom: 5px;
-`
-const TextWrapper = styled.div`
-  display: grid;
-  padding: 20px;
+  padding-bottom: 20px;
 `

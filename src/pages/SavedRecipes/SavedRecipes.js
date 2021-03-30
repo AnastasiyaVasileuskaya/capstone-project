@@ -21,21 +21,21 @@ export default function SavedRecipes() {
     'Rate: High To Low'
   )
   const [userInput, setUserInput] = useState('')
-  useEffect(() => {
-    recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
-  }, [])
   const fadeIn = () => {
     const fadeIn = anime.timeline()
     fadeIn.add({
       targets: 'main',
       opacity: [0, 1],
-      duration: 2000,
+      duration: 1000,
       easing: 'easeInOutQuad',
     })
   }
 
   useLayoutEffect(() => {
     fadeIn()
+  }, [recipes])
+  useEffect(() => {
+    recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
   }, [])
 
   async function getRecipes() {
@@ -91,7 +91,7 @@ export default function SavedRecipes() {
     setSavedRecipesMap(copyMapRemovingKey(savedRecipesMap, clickedRecipeId))
   }
   if (recipes.length === 0) {
-    let text = '...Loading'
+    let text = ''
     if (savedRecipesMap.size === 0) {
       text = "You haven't saved recipes yet."
     }
@@ -154,5 +154,5 @@ const TextWrapper = styled.div`
   padding: 20px;
 `
 const CardFinal = styled.div`
-  padding-bottom: 5px;
+  padding-bottom: 20px;
 `

@@ -76,7 +76,7 @@ const RecipeContainer = styled.span`
   background-color: var(--color-lightorange);
   text-align: center;
   border-radius: 20px;
-  box-shadow: 3px 3px 3px #eee;
+  box-shadow: 3px 2px 10px 1px rgba(0, 0, 0, 0.24);
   text-decoration: none;
   color: black;
   h2 {
@@ -99,12 +99,12 @@ const InfoWrapper = styled.div`
 
 const CaloriesNumber = styled.span`
   color: var(--color-orange);
-  font-weight: 500;
+  font-weight: bold;
 `
 
 const IngredientsNumber = styled.span`
   color: var(--color-orange);
-  font-weight: 500;
+  font-weight: bold;
 `
 const IconWrapper = styled.div`
   position: absolute;

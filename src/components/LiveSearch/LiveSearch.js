@@ -26,7 +26,7 @@ const Input = styled.input`
   border-radius: 0;
   position: relative;
   padding-right: 16px;
-  box-sizing: border-box;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
 `
 const DeleteButtonWrapper = styled.span`
   position: absolute;

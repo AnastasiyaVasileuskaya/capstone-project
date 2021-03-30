@@ -210,14 +210,30 @@ const FilterButton = styled(Button)`
   justify-content: space-evenly;
   height: 40px;
   background: var(--gradient-orange);
+  border-radius: 5px;
   box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
 `
 const ClearButton = styled(Button)`
   display: grid;
   place-items: center;
   color: black;
   background: var(--color-lightgrey);
+  border-radius: 5px;
   box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
 `
 const FindButton = styled(Button)`
   display: grid;
@@ -250,6 +266,7 @@ const FilterWrapper = styled.div`
   z-index: 1;
   width: 100%;
   top: 100%;
+  border-radius: 5px;
 `
 const CaloriesContainer = styled.div`
   font-weight: 300;

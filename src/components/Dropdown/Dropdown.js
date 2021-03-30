@@ -15,7 +15,7 @@ export default function Dropdown({ selectedSorting, onSelectionChanged }) {
   }
   return (
     <DropdownWrapper>
-      <Button
+      <SortButton
         onClick={event => {
           event.stopPropagation()
           setIsDropdownContentVisible(!isDropdownContentVisible)
@@ -28,7 +28,7 @@ export default function Dropdown({ selectedSorting, onSelectionChanged }) {
             size={25}
           />
         </IconWrapper>
-      </Button>
+      </SortButton>
       {isDropdownContentVisible && (
         <DropdownContent>
           <DropdownButton onClick={onDropdownSelectionChanged}>
@@ -63,11 +63,17 @@ const DropdownContent = styled.span`
 const DropdownButton = styled(Button)`
   color: black;
   padding: 10px;
-  background: ${props => (props.active ? 'var(--gradient-orange)' : '#fffae5')};
+  background: ${props =>
+    props.active ? 'var(--gradient-orange)' : 'rgb(255, 247, 237)'};
   border: 1px solid orange;
 `
 const IconWrapper = styled.span`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   place-items: center;
+`
+const SortButton = styled(Button)`
+  display: flex;
+  place-items: center;
+  justify-content: space-evenly;
 `

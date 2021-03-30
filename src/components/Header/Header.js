@@ -31,6 +31,9 @@ const HeaderContainer = styled.header`
   align-items: center;
   justify-content: center;
   position: relative;
+  h1 {
+    text-shadow: 3px 6px 3px #ce5937;
+  }
 `
 const LinkWrapperAll = styled(Link)`
   font-family: 'Roboto', sans-serif;
@@ -43,7 +46,7 @@ const LinkWrapperAll = styled(Link)`
   position: absolute;
   left: 20px;
   top: 4px;
-  &:hover {
+  &:active {
     color: lightblue;
   }
   display: ${props => (props.visible === 'true' ? 'grid' : 'none')};
@@ -59,7 +62,7 @@ const LinkWrapperSaved = styled(Link)`
   position: absolute;
   right: 20px;
   top: 4px;
-  &:hover {
+  &:active {
     color: lightblue;
   }
   display: ${props => (props.visible === 'true' ? 'grid' : 'none')};

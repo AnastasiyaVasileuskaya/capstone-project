@@ -15,6 +15,20 @@ export default function DetailPage() {
   const [rating, setRating] = useRatingFromLocalStorage(recipeId)
   const [recipe, setRecipe] = useState(null)
   const [isRatingChanging, setIsRatingChanging] = useState(false)
+
+  const fadeIn = () => {
+    const fadeIn = anime.timeline()
+    fadeIn.add({
+      targets: 'main',
+      opacity: [0, 1],
+      duration: 1000,
+      easing: 'easeInOutQuad',
+    })
+  }
+
+  useLayoutEffect(() => {
+    fadeIn()
+  }, [recipe])
   const isRecipeSaved = !!rating
 
   const totalDaily = recipe ? recipe.totalDaily : null
@@ -26,20 +40,6 @@ export default function DetailPage() {
     setRecipe(data[0])
   }
 
-  const fadeIn = () => {
-    const fadeIn = anime.timeline()
-    fadeIn.add({
-      targets: 'main',
-      opacity: [0, 1],
-      duration: 2000,
-      easing: 'easeInOutQuad',
-    })
-  }
-
-  useLayoutEffect(() => {
-    fadeIn()
-  }, [])
-
   useEffect(() => {
     !recipe && fetchRecipe()
   }, [recipe])
@@ -48,7 +48,6 @@ export default function DetailPage() {
     return (
       <>
         <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />
-        <TextWrapper>Loading...</TextWrapper>
       </>
     )
   }
@@ -292,6 +291,7 @@ const NutritionWrapper = styled.span`
     margin-top: 0;
     margin-bottom: 10px;
   }
+  padding-bottom: 10px;
 `
 const CaloriesNumber = styled.span`
   color: var(--color-orange);

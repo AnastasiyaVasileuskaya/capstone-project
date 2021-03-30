@@ -30,7 +30,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
         </DeleteButtonWrapper>
       </IconContext.Provider>
       <SearchButton>
-        <Icon glyph="search" size={33} />
+        <Icon className="search" glyph="search" size={33} />
       </SearchButton>
     </Form>
   )
@@ -48,6 +48,19 @@ const SearchButton = styled(Button)`
   height: 40px;
   border-radius: 0;
   background: 'var(--gradient-orange)';
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+  .search {
+    position: absolute;
+    top: 3px;
+    right: 12px;
+  }
 `
 const Form = styled.form`
   display: flex;
@@ -64,14 +77,12 @@ const Form = styled.form`
 const Input = styled.input`
   border: 2px solid var(--color-lightorange);
   border-radius: 0;
-  position: relative;
-  padding-right: 16px;
-  box-sizing: border-box;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
 `
 const DeleteButtonWrapper = styled.span`
   position: absolute;
   top: 7px;
-  right: 65px;
+  right: 70px;
   width: 16px;
   height: 16px;
   cursor: pointer;
