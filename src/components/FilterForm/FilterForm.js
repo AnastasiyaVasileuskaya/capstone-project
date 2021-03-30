@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
 import getFilters from '../../services/getFilters'
+
 export default function FilterForm({ filters, onFindClicked }) {
+  const titleRef = useRef()
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
   const [caloriesRangeFrom, setCaloriesRangeFrom] = useState(
@@ -70,18 +72,25 @@ export default function FilterForm({ filters, onFindClicked }) {
     setFilter(newArray)
   }
 
+  function scrollToTop() {
+    titleRef.current.scrollIntoView({ behavior: 'smooth' })
+  }
+
   function handleSubmit(e) {
     if (isCaloriesStateValid()) {
       onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
       setIsFilterFormVisible(false)
+      scrollToTop()
     } else {
       setAlert('Your calories input is not valid')
+      scrollToTop()
     }
   }
 
   return (
     <FilterContainer>
       <FilterButton
+        ref={titleRef}
         onClick={event => {
           event.stopPropagation()
           setIsFilterFormVisible(!isFilterFormVisible)
@@ -200,20 +209,35 @@ const FilterButton = styled(Button)`
   place-items: center;
   justify-content: space-evenly;
   height: 40px;
-  background: var(--color-orange);
+  background: var(--gradient-orange);
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
 `
 const ClearButton = styled(Button)`
   display: grid;
   place-items: center;
   color: black;
   background: var(--color-lightgrey);
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
 `
 const FindButton = styled(Button)`
   display: grid;
   place-items: center;
+  text-decoration: none;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
 `
 const FilterWrapper = styled.div`
-  background-color: #fffae5;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  background: rgb(255, 247, 237);
   display: grid;
   gap: 10px;
   padding-top: 10px;
@@ -235,6 +259,7 @@ const CaloriesContainer = styled.div`
     margin-left: 10px;
     width: 70px;
     height: 30px;
+    border: 2px solid #ffe5c3;
   }
 `
 const ButtonWrapper = styled.span`
@@ -257,13 +282,13 @@ const Container = styled.span`
     height: 30px;
     padding: 6px;
     background-clip: content-box;
-    border: 1.5px solid #bbbbbb;
+    border: 2px solid #ffe5c3;
     border-radius: 6px;
     background-color: #bbbbbb;
     margin-left: 15px;
     margin-right: 15px;
     &:checked {
-      background-color: rgb(255, 170, 84);
+      background-color: var(--color-orange);
     }
   }
 `

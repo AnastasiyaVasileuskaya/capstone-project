@@ -24,7 +24,7 @@ export default function HomePage() {
     fadeIn.add({
       targets: 'main',
       opacity: [0, 1],
-      duration: 1000,
+      duration: 2000,
       easing: 'easeInOutQuad',
     })
   }
@@ -40,7 +40,7 @@ export default function HomePage() {
   useEffect(() => {
     getRecipes()
   }, [url])
-
+  /*
   if (recipes.length === 0) {
     return (
       <>
@@ -49,6 +49,7 @@ export default function HomePage() {
       </>
     )
   }
+  */
 
   async function getRecipes() {
     if (urlParams.query !== '') {

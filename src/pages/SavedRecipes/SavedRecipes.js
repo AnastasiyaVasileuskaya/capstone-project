@@ -29,7 +29,7 @@ export default function SavedRecipes() {
     fadeIn.add({
       targets: 'main',
       opacity: [0, 1],
-      duration: 1000,
+      duration: 2000,
       easing: 'easeInOutQuad',
     })
   }

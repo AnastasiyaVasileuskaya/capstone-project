@@ -21,5 +21,4 @@ const AppGrid = styled.div`
     rgba(255, 255, 255, 1) 77%,
     rgba(255, 255, 255, 1) 98%
   );
-  transition: all 0.5s;
 `

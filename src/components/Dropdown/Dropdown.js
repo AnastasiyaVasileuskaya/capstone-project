@@ -31,9 +31,9 @@ export default function Dropdown({ selectedSorting, onSelectionChanged }) {
       </Button>
       {isDropdownContentVisible && (
         <DropdownContent>
-          <SortButton onClick={onDropdownSelectionChanged}>
+          <DropdownButton onClick={onDropdownSelectionChanged}>
             <span>Rate: Low To High</span>
-          </SortButton>
+          </DropdownButton>
           <DropdownButton onClick={onDropdownSelectionChanged}>
             <span>Rate: High To Low</span>
           </DropdownButton>
@@ -60,14 +60,11 @@ const DropdownContent = styled.span`
   width: 100%;
   top: 100%;
 `
-const SortButton = styled(Button)`
-  color: white;
-  padding: 10px;
-`
-
 const DropdownButton = styled(Button)`
   color: black;
   padding: 10px;
+  background: ${props => (props.active ? 'var(--gradient-orange)' : '#fffae5')};
+  border: 1px solid orange;
 `
 const IconWrapper = styled.span`
   display: flex;

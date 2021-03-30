@@ -22,6 +22,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
         autocomplete="off"
         value={query}
         onChange={e => setQuery(e.target.value)}
+        required
       />
       <IconContext.Provider value={{ size: '25px', color: 'grey' }}>
         <DeleteButtonWrapper isVisible={query.length >= 1}>
