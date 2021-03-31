@@ -30,4 +30,9 @@ export default createGlobalStyle`
 input {
   width:100%;
 }
+
+textarea {
+  font-size: 1.2em;
+  font-weight:500;
+}
   `

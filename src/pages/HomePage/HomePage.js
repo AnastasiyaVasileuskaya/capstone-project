@@ -131,6 +131,6 @@ const PageLayout = styled.main`
   grid-auto-rows: min-content;
   &:after {
     content: '';
-    height: 40px;
+    height: 2px;
   }
 `

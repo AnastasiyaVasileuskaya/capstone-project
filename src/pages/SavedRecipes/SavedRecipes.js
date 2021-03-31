@@ -144,10 +144,11 @@ const PageLayout = styled.main`
   grid-auto-rows: min-content;
   &:after {
     content: '';
-    height: 40px;
+    height: 2px;
   }
 `
 const TextWrapper = styled.div`
   display: grid;
   padding: 20px;
+  font-weight: 400;
 `

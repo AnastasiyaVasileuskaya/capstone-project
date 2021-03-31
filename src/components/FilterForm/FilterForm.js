@@ -106,8 +106,11 @@ export default function FilterForm({ filters, onFindClicked }) {
       </FilterButton>
       {isFilterFormVisible && (
         <FilterWrapper>
+          <AlertWrapper>
+            <Alert text={alert} />
+          </AlertWrapper>
           <Checkboxwrapper>
-            <span>Calories</span>
+            <LabelWrapper>Calories</LabelWrapper>
             <CaloriesContainer>
               <div>
                 <label>
@@ -136,7 +139,7 @@ export default function FilterForm({ filters, onFindClicked }) {
                 </label>
               </div>
             </CaloriesContainer>
-            <span>Diet</span>
+            <LabelWrapper>Diet</LabelWrapper>
             <Container>
               {dietLabels.map((item, index) => (
                 <label key={index}>
@@ -151,7 +154,7 @@ export default function FilterForm({ filters, onFindClicked }) {
                 </label>
               ))}
             </Container>
-            <span>Allergies</span>
+            <LabelWrapper>Allergies</LabelWrapper>
             <Container>
               {allergiesLabels.map((item, index) => (
                 <label key={index}>
@@ -166,7 +169,7 @@ export default function FilterForm({ filters, onFindClicked }) {
                 </label>
               ))}
             </Container>
-            <span>Cuisine</span>
+            <LabelWrapper>Cuisine</LabelWrapper>
             <Container>
               {cuisineTypes.map((item, index) => (
                 <label key={index}>
@@ -182,9 +185,6 @@ export default function FilterForm({ filters, onFindClicked }) {
               ))}
             </Container>
           </Checkboxwrapper>
-          <AlertWrapper>
-            <Alert text={alert} />
-          </AlertWrapper>
           <ButtonWrapper>
             <ClearButton onClick={resetState}>Clear</ClearButton>
             <FindButton onClick={handleSubmit}>Find</FindButton>
@@ -256,7 +256,8 @@ const FilterWrapper = styled.div`
   background: rgb(255, 247, 237);
   display: grid;
   gap: 10px;
-  padding-top: 10px;
+  border-radius: 5px;
+  padding-top: 5px;
   input {
     margin-right: 20px;
     height: 20px;
@@ -268,12 +269,12 @@ const FilterWrapper = styled.div`
   top: 100%;
 `
 const CaloriesContainer = styled.div`
-  font-weight: 300;
+  font-weight: 400;
   display: flex;
   justify-content: space-evenly;
   input {
     margin-left: 10px;
-    width: 70px;
+    width: 53px;
     height: 30px;
     border: 2px solid #ffe5c3;
   }
@@ -281,11 +282,11 @@ const CaloriesContainer = styled.div`
 const ButtonWrapper = styled.span`
   display: grid;
   gap: 20px;
-  margin: 0 15px 20px 15px;
+  margin: 0 15px 30px 15px;
 `
 const Container = styled.span`
   position: relative;
-  font-weight: 300;
+  font-weight: 400;
   display: grid;
   gap: 15px;
   padding: 10px;
@@ -308,9 +309,11 @@ const Container = styled.span`
     }
   }
 `
-const AlertWrapper = styled.div`
+const AlertWrapper = styled.span`
   display: flex;
   justify-content: center;
+  margin: 0;
+  padding: 0;
 `
 const Checkboxwrapper = styled.div`
   display: grid;
@@ -320,4 +323,10 @@ const Checkboxwrapper = styled.div`
 const CheckboxLabel = styled.span`
   position: absolute;
   margin-top: 5px;
+`
+const LabelWrapper = styled.span`
+  font-weight: 500;
+  font-size: 1.1em;
+  padding-left: 10px;
+  color: var(--color-orange);
 `

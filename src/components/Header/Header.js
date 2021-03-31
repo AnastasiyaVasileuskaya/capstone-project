@@ -7,11 +7,11 @@ export default function Header({ title, isVisibleAll, isVisibleSaved }) {
   return (
     <HeaderContainer>
       <LinkWrapperAll visible={isVisibleAll.toString()} to={'/'}>
-        <Icon glyph="home" size={30} /> All
+        <Icon glyph="home" size={33} /> All
       </LinkWrapperAll>
       <h1>{title}</h1>
       <LinkWrapperSaved visible={isVisibleSaved.toString()} to={'/saved'}>
-        <Icon glyph="checkmark" size={30} /> Saved
+        <Icon glyph="checkmark" size={33} /> Saved
       </LinkWrapperSaved>
     </HeaderContainer>
   )
@@ -37,8 +37,8 @@ const HeaderContainer = styled.header`
 `
 const LinkWrapperAll = styled(Link)`
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  font-size: 0.7em;
+  font-weight: 400;
+  font-size: 0.8em;
   text-decoration: none;
   color: black;
   display: grid;
@@ -53,8 +53,8 @@ const LinkWrapperAll = styled(Link)`
 `
 const LinkWrapperSaved = styled(Link)`
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  font-size: 0.7em;
+  font-weight: 400;
+  font-size: 0.8em;
   text-decoration: none;
   color: black;
   display: grid;

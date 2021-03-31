@@ -40,7 +40,7 @@ export default function Recipe({
       }}
     >
       <IconWrapper isVisible={isVisible} to={'/'} onClick={handleClick}>
-        <Icon glyph="view-close" size={30} />
+        <Icon glyph="view-close" size={33} />
       </IconWrapper>
       <Img src={image} alt="recipe" width="200" />
       <h2>{title}</h2>
@@ -80,7 +80,7 @@ const RecipeContainer = styled.span`
   text-decoration: none;
   color: black;
   h2 {
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 0;
   }
   position: relative;
@@ -93,7 +93,7 @@ const Img = styled.img`
 const InfoWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 0;
 `
 
