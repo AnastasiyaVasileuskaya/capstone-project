@@ -1,8 +1,7 @@
-import { useEffect, useState, useLayoutEffect } from 'react'
+import { useEffect, useState, useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components/macro'
 import Alert from '../../components/Alert/Alert'
 import FilterForm from '../../components/FilterForm/FilterForm'
-import Header from '../../components/Header/Header'
 import Recipe from '../../components/Recipe/Recipe'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import useLocalStorage from '../../hooks/useLocalStorage'
@@ -12,6 +11,7 @@ import createUrlQuery from '../../services/createUrlQuery'
 import anime from 'animejs'
 
 export default function HomePage() {
+  const titleRef = useRef()
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
   const [urlParams, setUrlParams] = useLocalStorage(
@@ -59,7 +59,9 @@ export default function HomePage() {
         setAlert('')
         setRecipes(data.hits.map(item => item.recipe))
       } else {
-        setAlert('Cannot find such recipe')
+        setAlert(
+          'Cannot find such recipe!Try changing search query or filters.'
+        )
         setRecipes([])
       }
     } else {
@@ -98,26 +100,26 @@ export default function HomePage() {
   }
 
   return (
-    <>
-      <Header title="CookIdeas" isVisibleSaved={true} isVisibleAll={false} />
-      <PageLayout>
-        <SearchBar
-          initialQuery={urlParams.query}
-          onRecipeSearch={handleQueryChange}
+    <PageLayout>
+      <SearchBar
+        initialQuery={urlParams.query}
+        onRecipeSearch={handleQueryChange}
+      />
+      <FilterForm
+        filters={urlParams}
+        onFindClicked={handeFiltersChanged}
+        ref={titleRef}
+      />
+      <Alert text={alert} />
+      {recipes.map(recipe => (
+        <Recipe
+          selectedStars={0}
+          comment={''}
+          key={recipe.uri}
+          recipe={recipe}
         />
-        <Alert text={alert} />
-        <FilterForm filters={urlParams} onFindClicked={handeFiltersChanged} />
-        {recipes.map(recipe => (
-          <Recipe
-            selectedStars={0}
-            comment={''}
-            key={recipe.uri}
-            recipe={recipe}
-          />
-        ))}
-        <CardFinal></CardFinal>
-      </PageLayout>
-    </>
+      ))}
+    </PageLayout>
   )
 }
 
@@ -127,7 +129,8 @@ const PageLayout = styled.main`
   overflow-y: scroll;
   padding: 20px;
   grid-auto-rows: min-content;
-`
-const CardFinal = styled.div`
-  padding-bottom: 20px;
+  &:after {
+    content: '';
+    height: 40px;
+  }
 `

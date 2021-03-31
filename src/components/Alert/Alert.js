@@ -13,15 +13,11 @@ Alert.propTypes = {
 }
 
 const Container = styled.section`
-  display: ${(props) => (props.visible ? 'flex' : 'none')};
-  background-color: #ff8888;
-  color: #8b0f0f;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
+  display: ${props => (props.visible ? 'block' : 'none')};
 `
 
 const Message = styled.p`
   text-align: center;
-  padding:10px;
+  padding: 5px;
+  color: orange;
 `

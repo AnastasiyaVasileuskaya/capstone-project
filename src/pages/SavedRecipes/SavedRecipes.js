@@ -98,47 +98,41 @@ export default function SavedRecipes() {
 
     return (
       <>
-        <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={false} />
         <TextWrapper>{text}</TextWrapper>
       </>
     )
   }
 
   return (
-    <>
-      <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={false} />
-      <PageLayout>
-        <LiveSearch userInput={userInput} setUserInput={setUserInput} />
-        <Dropdown
-          onSelectionChanged={sortSavedRecipes}
-          selectedSorting={selectedSorting}
-        />
-        {recipes
-          .filter(recipe =>
-            recipe.label.toLowerCase().includes(userInput.toLowerCase())
-          )
-          .map(recipe => (
-            <Recipe
-              onDeleteButtonClick={handleOnRecipeDeleteButtonClick}
-              isVisible={true}
-              key={getRecipeIndexFromString(recipe.uri)}
-              recipe={recipe}
-              selectedStars={
-                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
-                  .selectedStars
-              }
-              date={
-                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri)).date
-              }
-              comment={
-                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
-                  .comment
-              }
-            />
-          ))}
-        <CardFinal></CardFinal>
-      </PageLayout>
-    </>
+    <PageLayout>
+      <LiveSearch userInput={userInput} setUserInput={setUserInput} />
+      <Dropdown
+        onSelectionChanged={sortSavedRecipes}
+        selectedSorting={selectedSorting}
+      />
+      {recipes
+        .filter(recipe =>
+          recipe.label.toLowerCase().includes(userInput.toLowerCase())
+        )
+        .map(recipe => (
+          <Recipe
+            onDeleteButtonClick={handleOnRecipeDeleteButtonClick}
+            isVisible={true}
+            key={getRecipeIndexFromString(recipe.uri)}
+            recipe={recipe}
+            selectedStars={
+              savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
+                .selectedStars
+            }
+            date={
+              savedRecipesMap.get(getRecipeIndexFromString(recipe.uri)).date
+            }
+            comment={
+              savedRecipesMap.get(getRecipeIndexFromString(recipe.uri)).comment
+            }
+          />
+        ))}
+    </PageLayout>
   )
 }
 
@@ -148,11 +142,12 @@ const PageLayout = styled.main`
   overflow-y: scroll;
   padding: 20px;
   grid-auto-rows: min-content;
+  &:after {
+    content: '';
+    height: 40px;
+  }
 `
 const TextWrapper = styled.div`
   display: grid;
   padding: 20px;
-`
-const CardFinal = styled.div`
-  padding-bottom: 20px;
 `

@@ -36,14 +36,13 @@ export default function RatingForm({
       titleRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }
-  function handleRatingButtonClick(event) {
-    setIsRatingFormVisible(!isRatingFormVisible)
-  }
   return (
     <RatingWrapper>
       <h2>Leave the rating for recipe</h2>
       <Form className="rating" onSubmit={handleSubmit}>
-        <StarsContainer onClick={rateRecipe} selectedStars={selectedStars} />
+        <StarsContainerWrapper>
+          <StarsContainer onClick={rateRecipe} selectedStars={selectedStars} />
+        </StarsContainerWrapper>
         <Comment>
           <label>
             Your comment:
@@ -72,7 +71,7 @@ const Form = styled.form`
 const Textarea = styled.textarea`
   border: 2px solid #bbb;
   display: block;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 10px;
   width: 100%;
 `
@@ -86,4 +85,7 @@ const RatingWrapper = styled.div`
 const Comment = styled.div`
   display: grid;
   gap: 20px;
+`
+const StarsContainerWrapper = styled.span`
+  padding-bottom: 5px;
 `

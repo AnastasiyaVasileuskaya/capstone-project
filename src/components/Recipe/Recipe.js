@@ -99,12 +99,12 @@ const InfoWrapper = styled.div`
 
 const CaloriesNumber = styled.span`
   color: var(--color-orange);
-  font-weight: bold;
+  font-weight: 700;
 `
 
 const IngredientsNumber = styled.span`
   color: var(--color-orange);
-  font-weight: bold;
+  font-weight: 700;
 `
 const IconWrapper = styled.div`
   position: absolute;

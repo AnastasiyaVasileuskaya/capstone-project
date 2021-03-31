@@ -47,8 +47,8 @@ export default function FilterForm({ filters, onFindClicked }) {
   function isCaloriesStateValid() {
     return (
       (caloriesRangeFrom === '' && caloriesRangeTo === '') ||
-      (!isNaN(caloriesRangeFrom) &&
-        !isNaN(caloriesRangeTo) &&
+      (caloriesRangeFrom !== '' &&
+        caloriesRangeTo !== '' &&
         caloriesRangeFrom < caloriesRangeTo)
     )
   }
@@ -266,7 +266,6 @@ const FilterWrapper = styled.div`
   z-index: 1;
   width: 100%;
   top: 100%;
-  border-radius: 5px;
 `
 const CaloriesContainer = styled.div`
   font-weight: 300;

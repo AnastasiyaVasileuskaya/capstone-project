@@ -5,7 +5,7 @@ export default styled.button`
   border: none;
   background: ${props =>
     props.disabled ? 'var(--color-lightgrey)' : 'var(--gradient-orange)'};
-  color: white;
+  color: ${props => (props.disabled ? 'black' : 'white')};
   cursor: pointer;
   font-weight: 500;
 `
