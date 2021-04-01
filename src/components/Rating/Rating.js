@@ -33,6 +33,7 @@ export default function Rating({
 
 const StarWrapper = styled.div`
   display: flex;
+  padding-bottom: 5px;
 `
 const RatingWrapper = styled.div`
   display: grid;

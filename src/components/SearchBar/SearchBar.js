@@ -19,7 +19,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
         name="query"
         maxLength="30"
         type="search"
-        autocomplete="off"
+        autoComplete="off"
         value={query}
         onChange={e => setQuery(e.target.value)}
         required

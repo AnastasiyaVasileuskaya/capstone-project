@@ -78,7 +78,8 @@ export default function DetailPage() {
         <ul>
           {recipe.ingredients.map((ingredient, index) => (
             <li key={index}>
-              <span>{ingredient.text}</span>
+              <span>•</span>
+              <p>{ingredient.text}</p>
             </li>
           ))}
         </ul>
@@ -264,16 +265,27 @@ const IngredientsWrapper = styled.span`
     margin-top: 0;
   }
   li {
-    color: orange;
-    font-size: 30px;
+    display: table;
+    line-height: 120%;
   }
+
+  li p {
+    margin: 5px;
+  }
+
   li span {
-    color: black;
-    font-size: 18px;
+    font-size: 30px;
+    width: 30px;
+    color: orange;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
   }
   ul {
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 0;
+    list-style-type: none;
+    padding-left: 0;
   }
 `
 const PreparationLink = styled.span`

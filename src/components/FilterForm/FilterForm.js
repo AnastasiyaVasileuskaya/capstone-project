@@ -120,6 +120,7 @@ export default function FilterForm({ filters, onFindClicked }) {
                     type="number"
                     maxLength="4"
                     placeholder="100"
+                    autoComplete="off"
                     value={caloriesRangeFrom}
                     onChange={e => setCaloriesRangeFrom(e.target.value)}
                   />
@@ -133,6 +134,7 @@ export default function FilterForm({ filters, onFindClicked }) {
                     type="number"
                     maxLength="4"
                     placeholder="300"
+                    autoComplete="off"
                     value={caloriesRangeTo}
                     onChange={e => setCaloriesRangeTo(e.target.value)}
                   />
@@ -277,6 +279,11 @@ const CaloriesContainer = styled.div`
     width: 53px;
     height: 30px;
     border: 2px solid #ffe5c3;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `
 const ButtonWrapper = styled.span`
