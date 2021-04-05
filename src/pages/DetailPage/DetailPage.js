@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro'
-import Header from '../../components/Header/Header'
 import Button from '../../components/Button/Button'
 import RatingForm from '../../components/RatingForm/RatingForm'
 import Rating from '../../components/Rating/Rating'
@@ -21,7 +20,7 @@ export default function DetailPage() {
     fadeIn.add({
       targets: 'main',
       opacity: [0, 1],
-      duration: 1000,
+      duration: 200,
       easing: 'easeInOutQuad',
     })
   }
@@ -332,7 +331,7 @@ const TableHeader = styled.tr`
 `
 const TableCell = styled.td`
   text-align: left;
-  padding-left: 40px;
+  padding-left: 35px;
 `
 const TableCellLabel = styled.td`
   text-align: left;

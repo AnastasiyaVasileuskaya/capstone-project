@@ -7,7 +7,6 @@ import Alert from '../Alert/Alert'
 import getFilters from '../../services/getFilters'
 
 export default function FilterForm({ filters, onFindClicked }) {
-  const titleRef = useRef()
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
   const [caloriesRangeFrom, setCaloriesRangeFrom] = useState(
@@ -73,7 +72,10 @@ export default function FilterForm({ filters, onFindClicked }) {
   }
 
   function scrollToTop() {
-    titleRef.current.scrollIntoView({ behavior: 'smooth' })
+    document.getElementsByTagName('main')[0].scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
   }
 
   function handleSubmit(e) {
@@ -90,7 +92,6 @@ export default function FilterForm({ filters, onFindClicked }) {
   return (
     <FilterContainer>
       <FilterButton
-        ref={titleRef}
         onClick={event => {
           event.stopPropagation()
           setIsFilterFormVisible(!isFilterFormVisible)
@@ -266,7 +267,7 @@ const FilterWrapper = styled.div`
     width: 20px;
   }
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   top: 100%;
 `

@@ -26,14 +26,14 @@ export default function SavedRecipes() {
     fadeIn.add({
       targets: 'main',
       opacity: [0, 1],
-      duration: 1000,
+      duration: 200,
       easing: 'easeInOutQuad',
     })
   }
 
   useLayoutEffect(() => {
     fadeIn()
-  }, [recipes])
+  }, [])
   useEffect(() => {
     recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
   }, [])
@@ -96,11 +96,7 @@ export default function SavedRecipes() {
       text = "You haven't saved recipes yet."
     }
 
-    return (
-      <>
-        <TextWrapper>{text}</TextWrapper>
-      </>
-    )
+    return <TextWrapper>{text}</TextWrapper>
   }
 
   return (
@@ -150,5 +146,13 @@ const PageLayout = styled.main`
 const TextWrapper = styled.div`
   display: grid;
   padding: 20px;
-  font-weight: 400;
+  font-weight: 500;
+  background-color: var(--color-orange);
+  background-image: var(--gradient-orange);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
 `

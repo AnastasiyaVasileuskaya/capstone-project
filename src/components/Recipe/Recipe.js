@@ -59,10 +59,12 @@ export default function Recipe({
       </InfoWrapper>
       <RatingWrapper>
         {selectedStars > 0 && (
-          <StarsContainer
-            selectedStars={selectedStars}
-            onClick={e => e.preventDefault()}
-          />
+          <StarsContainerWrapper>
+            <StarsContainer
+              selectedStars={selectedStars}
+              onClick={e => e.preventDefault()}
+            />
+          </StarsContainerWrapper>
         )}
         {comment.length > 0 && (
           <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
@@ -95,6 +97,9 @@ const InfoWrapper = styled.div`
   justify-content: space-evenly;
   font-weight: 400;
   margin-bottom: 0;
+  p {
+    margin-bottom: 0;
+  }
 `
 
 const CaloriesNumber = styled.span`
@@ -118,6 +123,9 @@ const RatingWrapper = styled.span`
   margin-bottom: 30px;
 `
 const DateWrapper = styled.div`
-  margin-top: 3px;
+  margin-top: 18px;
   margin-left: 15px;
+`
+const StarsContainerWrapper = styled.div`
+  margin-top: 15px;
 `

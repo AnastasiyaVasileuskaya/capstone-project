@@ -16,8 +16,16 @@ const Container = styled.section`
   display: ${props => (props.visible ? 'block' : 'none')};
 `
 
-const Message = styled.p`
-  text-align: center;
-  padding: 5px;
-  color: orange;
+const Message = styled.div`
+  display: grid;
+  padding: 10px;
+  font-weight: 500;
+  background-color: var(--color-orange);
+  background-image: var(--gradient-orange);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
 `

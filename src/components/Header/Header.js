@@ -41,7 +41,6 @@ const LinkWrapperAll = styled(Link)`
   font-size: 0.8em;
   text-decoration: none;
   color: black;
-  display: grid;
   justify-items: center;
   position: absolute;
   left: 20px;
@@ -57,7 +56,6 @@ const LinkWrapperSaved = styled(Link)`
   font-size: 0.8em;
   text-decoration: none;
   color: black;
-  display: grid;
   justify-items: center;
   position: absolute;
   right: 20px;
