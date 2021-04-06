@@ -87,11 +87,12 @@ export default function HomePage() {
   }
 
   return (
-    <PageLayout>
+    <PageLayout data-testid="recipeWrapper">
       <SearchBar
         initialQuery={urlParams.query}
         onRecipeSearch={handleQueryChange}
         className="search"
+        data-testid="searchbar"
       />
       <FilterForm
         filters={urlParams}

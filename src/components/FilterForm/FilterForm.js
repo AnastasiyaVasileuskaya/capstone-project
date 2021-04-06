@@ -96,6 +96,7 @@ export default function FilterForm({ filters, onFindClicked }) {
           event.stopPropagation()
           setIsFilterFormVisible(!isFilterFormVisible)
         }}
+        data-testid="filterButton"
       >
         <IconWrapper>
           Refine your search
@@ -106,7 +107,7 @@ export default function FilterForm({ filters, onFindClicked }) {
         </IconWrapper>
       </FilterButton>
       {isFilterFormVisible && (
-        <FilterWrapper>
+        <FilterWrapper data-testid="filterForm">
           <AlertWrapper>
             <Alert text={alert} />
           </AlertWrapper>
@@ -189,8 +190,12 @@ export default function FilterForm({ filters, onFindClicked }) {
             </Container>
           </Checkboxwrapper>
           <ButtonWrapper>
-            <ClearButton onClick={resetState}>Clear</ClearButton>
-            <FindButton onClick={handleSubmit}>Find</FindButton>
+            <ClearButton onClick={resetState} data-testid="clearButton">
+              Clear
+            </ClearButton>
+            <FindButton onClick={handleSubmit} data-testid="findButton">
+              Find
+            </FindButton>
           </ButtonWrapper>
         </FilterWrapper>
       )}

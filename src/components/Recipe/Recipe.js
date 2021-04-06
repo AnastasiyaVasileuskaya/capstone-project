@@ -43,7 +43,7 @@ export default function Recipe({
         <Icon glyph="view-close" size={33} />
       </IconWrapper>
       <Img src={image} alt="recipe" width="200" />
-      <h2>{title}</h2>
+      <Titlewrapper>{title}</Titlewrapper>
       <InfoWrapper>
         <p>
           <CaloriesNumber>
@@ -128,4 +128,8 @@ const DateWrapper = styled.div`
 `
 const StarsContainerWrapper = styled.div`
   margin-top: 15px;
+`
+const Titlewrapper = styled.h2`
+  padding-right: 10px;
+  padding-left: 10px;
 `

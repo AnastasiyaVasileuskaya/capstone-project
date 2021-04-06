@@ -23,13 +23,17 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
         value={query}
         onChange={e => setQuery(e.target.value)}
         required
+        data-testid="searchbar"
       />
       <IconContext.Provider value={{ size: '25px', color: 'grey' }}>
-        <DeleteButtonWrapper isVisible={query.length >= 1}>
+        <DeleteButtonWrapper
+          isVisible={query.length >= 1}
+          data-testid="delete-searchquery"
+        >
           <AiOutlineCloseCircle onClick={e => setQuery('')} />
         </DeleteButtonWrapper>
       </IconContext.Provider>
-      <SearchButton>
+      <SearchButton data-testid="search">
         <Icon className="search" glyph="search" size={33} />
       </SearchButton>
     </Form>
