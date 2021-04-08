@@ -110,12 +110,13 @@ export default function HomePage() {
           recipe={recipe}
         />
       ))}
-      <ScrollToTop />
+      <ScrollToTop className="scrollTop" />
     </PageLayout>
   )
 }
 
 const PageLayout = styled.main`
+  position: relative;
   display: grid;
   gap: 20px;
   overflow-y: scroll;

@@ -5,12 +5,16 @@ import Icon from 'supercons'
 
 export default function Header({ title, isVisibleAll, isVisibleSaved }) {
   return (
-    <HeaderContainer>
+    <HeaderContainer data-testid="header">
       <LinkWrapperAll visible={isVisibleAll.toString()} to={'/'}>
         <Icon glyph="home" size={33} /> All
       </LinkWrapperAll>
       <h1>{title}</h1>
-      <LinkWrapperSaved visible={isVisibleSaved.toString()} to={'/saved'}>
+      <LinkWrapperSaved
+        data-testid="saved"
+        visible={isVisibleSaved.toString()}
+        to={'/saved'}
+      >
         <Icon glyph="checkmark" size={33} /> Saved
       </LinkWrapperSaved>
     </HeaderContainer>

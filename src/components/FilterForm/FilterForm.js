@@ -272,7 +272,7 @@ const FilterWrapper = styled.div`
     width: 20px;
   }
   position: absolute;
-  z-index: 2;
+  z-index: 100;
   width: 100%;
   top: 100%;
 `
