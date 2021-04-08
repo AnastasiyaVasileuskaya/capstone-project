@@ -16,6 +16,7 @@ export default function Dropdown({ selectedSorting, onSelectionChanged }) {
   return (
     <DropdownWrapper>
       <SortButton
+        data-testid="dropdown"
         onClick={event => {
           event.stopPropagation()
           setIsDropdownContentVisible(!isDropdownContentVisible)
@@ -31,13 +32,19 @@ export default function Dropdown({ selectedSorting, onSelectionChanged }) {
       </SortButton>
       {isDropdownContentVisible && (
         <DropdownContent>
-          <DropdownButton onClick={onDropdownSelectionChanged}>
+          <DropdownButton
+            data-testid="dropdown-low-to-high"
+            onClick={onDropdownSelectionChanged}
+          >
             <span>Rate: Low To High</span>
           </DropdownButton>
           <DropdownButton onClick={onDropdownSelectionChanged}>
             <span>Rate: High To Low</span>
           </DropdownButton>
-          <DropdownButton onClick={onDropdownSelectionChanged}>
+          <DropdownButton
+            data-testid="dropdown-newest-first"
+            onClick={onDropdownSelectionChanged}
+          >
             <span>Rate date: Newest first</span>
           </DropdownButton>
           <DropdownButton onClick={onDropdownSelectionChanged}>

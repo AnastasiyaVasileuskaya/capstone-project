@@ -6,6 +6,7 @@ export default function LiveSearch({ userInput, setUserInput }) {
   return (
     <SearchWrapper>
       <Input
+        data-testid="search-input"
         placeholder="Search recipe..."
         value={userInput}
         onChange={e => setUserInput(e.target.value)}
@@ -14,7 +15,10 @@ export default function LiveSearch({ userInput, setUserInput }) {
         autocomplete="off"
       />
       <IconContext.Provider value={{ size: '25px', color: 'grey' }}>
-        <DeleteButtonWrapper isVisible={userInput.length >= 1}>
+        <DeleteButtonWrapper
+          data-testid="delete-button"
+          isVisible={userInput.length >= 1}
+        >
           <AiOutlineCloseCircle onClick={e => setUserInput('')} />
         </DeleteButtonWrapper>
       </IconContext.Provider>

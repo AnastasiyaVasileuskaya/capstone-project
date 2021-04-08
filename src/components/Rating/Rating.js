@@ -11,7 +11,7 @@ export default function Rating({
 }) {
   return (
     <IconContext.Provider value={{ size: '35px' }}>
-      <RatingWrapper>
+      <RatingWrapper data-testid="recipe-rating">
         <h2>Recipe rating</h2>
         <StarWrapper>
           <StarsContainer

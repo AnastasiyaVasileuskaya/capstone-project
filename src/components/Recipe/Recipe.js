@@ -39,7 +39,12 @@ export default function Recipe({
         pathname: `/recipes/${recipeId}`,
       }}
     >
-      <IconWrapper isVisible={isVisible} to={'/'} onClick={handleClick}>
+      <IconWrapper
+        data-testid="recipe-delete"
+        isVisible={isVisible}
+        to={'/'}
+        onClick={handleClick}
+      >
         <Icon glyph="view-close" size={33} />
       </IconWrapper>
       <Img src={image} alt="recipe" width="200" />

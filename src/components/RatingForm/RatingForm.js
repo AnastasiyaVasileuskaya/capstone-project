@@ -37,7 +37,7 @@ export default function RatingForm({
     }
   }
   return (
-    <RatingWrapper>
+    <RatingWrapper data-testid="rating-form">
       <h2>Leave the rating for recipe</h2>
       <Form className="rating" onSubmit={handleSubmit}>
         <StarsContainerWrapper>
@@ -47,6 +47,7 @@ export default function RatingForm({
           <label>
             Your comment:
             <Textarea
+              data-testid="comment-textarea"
               onChange={e => setComment(e.target.value)}
               placeholder="Your comment..."
               name="comment"
@@ -57,7 +58,9 @@ export default function RatingForm({
             />
           </label>
         </Comment>
-        <Button ref={titleRef}>Rate</Button>
+        <Button data-testid="rate-button" ref={titleRef}>
+          Rate
+        </Button>
       </Form>
     </RatingWrapper>
   )

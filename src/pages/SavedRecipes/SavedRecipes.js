@@ -96,11 +96,11 @@ export default function SavedRecipes() {
       text = "You haven't saved recipes yet."
     }
 
-    return <TextWrapper>{text}</TextWrapper>
+    return <TextWrapper data-testid="saved-recipes-text">{text}</TextWrapper>
   }
 
   return (
-    <PageLayout>
+    <PageLayout data-testid="saved-recipes-wrapper">
       <LiveSearch userInput={userInput} setUserInput={setUserInput} />
       <Dropdown
         onSelectionChanged={sortSavedRecipes}

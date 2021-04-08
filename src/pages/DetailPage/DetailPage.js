@@ -58,7 +58,7 @@ export default function DetailPage() {
     setIsRatingChanging(true)
   }
   return (
-    <PageLayout>
+    <PageLayout data-testid="recipe-information">
       <RecipeTitle>{recipe.label}</RecipeTitle>
       <ImageWrapper>
         <img src={recipe.image} alt="recipe" />
@@ -83,7 +83,11 @@ export default function DetailPage() {
           ))}
         </ul>
       </IngredientsWrapper>
-      <Button onClick={saveRecipe} disabled={isRecipeSaved}>
+      <Button
+        data-testid="save-recipe-button"
+        onClick={saveRecipe}
+        disabled={isRecipeSaved}
+      >
         {isRecipeSaved ? 'Recipe saved' : 'Save recipe'}
       </Button>
       <PreparationWrapper>
@@ -98,6 +102,7 @@ export default function DetailPage() {
         </PreparationLink>
       </PreparationWrapper>
       <Button
+        data-testid="full-instruction-button"
         onClick={() => {
           window.open(recipe.url)
         }}

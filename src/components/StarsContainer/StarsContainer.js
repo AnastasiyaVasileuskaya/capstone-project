@@ -6,7 +6,7 @@ import styled from 'styled-components/macro'
 export default function StarsContainer({ selectedStars, onClick }) {
   return (
     <IconContext.Provider value={{ color: 'orange', size: '35px' }}>
-      <IconWrapper>
+      <IconWrapper data-testid="stars-container">
         {[...Array(5).keys()].map(index => {
           let starNumber = index + 1
           let testId = 'star-' + starNumber
