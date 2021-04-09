@@ -11,14 +11,16 @@ export default function Rating({
 }) {
   return (
     <IconContext.Provider value={{ size: '35px' }}>
-      <RatingWrapper>
+      <RatingWrapper data-testid="recipe-rating">
         <h2>Recipe rating</h2>
         <StarWrapper>
           <StarsContainer
             selectedStars={selectedStars}
             onClick={e => e.preventDefault()}
           />
-          <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
+          <DateWrapper data-testid="rating-date">
+            {new Date(date).toLocaleDateString()}
+          </DateWrapper>
           <IconContext.Provider value={{ size: '25px' }}>
             <EditWrapper>
               <BsPencil data-testid="edit" onClick={onRatingChange} />
@@ -33,6 +35,7 @@ export default function Rating({
 
 const StarWrapper = styled.div`
   display: flex;
+  padding-bottom: 5px;
 `
 const RatingWrapper = styled.div`
   display: grid;

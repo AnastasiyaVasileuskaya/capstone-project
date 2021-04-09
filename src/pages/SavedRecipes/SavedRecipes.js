@@ -21,21 +21,21 @@ export default function SavedRecipes() {
     'Rate: High To Low'
   )
   const [userInput, setUserInput] = useState('')
-  useEffect(() => {
-    recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
-  }, [])
   const fadeIn = () => {
     const fadeIn = anime.timeline()
     fadeIn.add({
       targets: 'main',
       opacity: [0, 1],
-      duration: 1000,
+      duration: 200,
       easing: 'easeInOutQuad',
     })
   }
 
   useLayoutEffect(() => {
     fadeIn()
+  }, [])
+  useEffect(() => {
+    recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
   }, [])
 
   async function getRecipes() {
@@ -91,54 +91,44 @@ export default function SavedRecipes() {
     setSavedRecipesMap(copyMapRemovingKey(savedRecipesMap, clickedRecipeId))
   }
   if (recipes.length === 0) {
-    let text = '...Loading'
+    let text = ''
     if (savedRecipesMap.size === 0) {
       text = "You haven't saved recipes yet."
     }
 
-    return (
-      <>
-        <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={false} />
-        <TextWrapper>{text}</TextWrapper>
-      </>
-    )
+    return <TextWrapper data-testid="saved-recipes-text">{text}</TextWrapper>
   }
 
   return (
-    <>
-      <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={false} />
-      <PageLayout>
-        <LiveSearch userInput={userInput} setUserInput={setUserInput} />
-        <Dropdown
-          onSelectionChanged={sortSavedRecipes}
-          selectedSorting={selectedSorting}
-        />
-        {recipes
-          .filter(recipe =>
-            recipe.label.toLowerCase().includes(userInput.toLowerCase())
-          )
-          .map(recipe => (
-            <Recipe
-              onDeleteButtonClick={handleOnRecipeDeleteButtonClick}
-              isVisible={true}
-              key={getRecipeIndexFromString(recipe.uri)}
-              recipe={recipe}
-              selectedStars={
-                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
-                  .selectedStars
-              }
-              date={
-                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri)).date
-              }
-              comment={
-                savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
-                  .comment
-              }
-            />
-          ))}
-        <CardFinal></CardFinal>
-      </PageLayout>
-    </>
+    <PageLayout data-testid="saved-recipes-wrapper">
+      <LiveSearch userInput={userInput} setUserInput={setUserInput} />
+      <Dropdown
+        onSelectionChanged={sortSavedRecipes}
+        selectedSorting={selectedSorting}
+      />
+      {recipes
+        .filter(recipe =>
+          recipe.label.toLowerCase().includes(userInput.toLowerCase())
+        )
+        .map(recipe => (
+          <Recipe
+            onDeleteButtonClick={handleOnRecipeDeleteButtonClick}
+            isVisible={true}
+            key={getRecipeIndexFromString(recipe.uri)}
+            recipe={recipe}
+            selectedStars={
+              savedRecipesMap.get(getRecipeIndexFromString(recipe.uri))
+                .selectedStars
+            }
+            date={
+              savedRecipesMap.get(getRecipeIndexFromString(recipe.uri)).date
+            }
+            comment={
+              savedRecipesMap.get(getRecipeIndexFromString(recipe.uri)).comment
+            }
+          />
+        ))}
+    </PageLayout>
   )
 }
 
@@ -148,11 +138,21 @@ const PageLayout = styled.main`
   overflow-y: scroll;
   padding: 20px;
   grid-auto-rows: min-content;
+  &:after {
+    content: '';
+    height: 2px;
+  }
 `
 const TextWrapper = styled.div`
   display: grid;
   padding: 20px;
-`
-const CardFinal = styled.div`
-  padding-bottom: 5px;
+  font-weight: 500;
+  background-color: var(--color-orange);
+  background-image: var(--gradient-orange);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
 `

@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
 import getFilters from '../../services/getFilters'
+
 export default function FilterForm({ filters, onFindClicked }) {
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
@@ -45,8 +46,8 @@ export default function FilterForm({ filters, onFindClicked }) {
   function isCaloriesStateValid() {
     return (
       (caloriesRangeFrom === '' && caloriesRangeTo === '') ||
-      (!isNaN(caloriesRangeFrom) &&
-        !isNaN(caloriesRangeTo) &&
+      (caloriesRangeFrom !== '' &&
+        caloriesRangeTo !== '' &&
         caloriesRangeFrom < caloriesRangeTo)
     )
   }
@@ -70,12 +71,21 @@ export default function FilterForm({ filters, onFindClicked }) {
     setFilter(newArray)
   }
 
+  function scrollToTop() {
+    document.getElementsByTagName('main')[0].scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
+  }
+
   function handleSubmit(e) {
     if (isCaloriesStateValid()) {
       onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
       setIsFilterFormVisible(false)
+      scrollToTop()
     } else {
       setAlert('Your calories input is not valid')
+      scrollToTop()
     }
   }
 
@@ -86,6 +96,7 @@ export default function FilterForm({ filters, onFindClicked }) {
           event.stopPropagation()
           setIsFilterFormVisible(!isFilterFormVisible)
         }}
+        data-testid="filter-button"
       >
         <IconWrapper>
           Refine your search
@@ -96,9 +107,12 @@ export default function FilterForm({ filters, onFindClicked }) {
         </IconWrapper>
       </FilterButton>
       {isFilterFormVisible && (
-        <FilterWrapper>
+        <FilterWrapper data-testid="filter-form">
+          <AlertWrapper>
+            <Alert text={alert} />
+          </AlertWrapper>
           <Checkboxwrapper>
-            <span>Calories</span>
+            <LabelWrapper>Calories</LabelWrapper>
             <CaloriesContainer>
               <div>
                 <label>
@@ -108,6 +122,7 @@ export default function FilterForm({ filters, onFindClicked }) {
                     type="number"
                     maxLength="4"
                     placeholder="100"
+                    autoComplete="off"
                     value={caloriesRangeFrom}
                     onChange={e => setCaloriesRangeFrom(e.target.value)}
                   />
@@ -121,13 +136,14 @@ export default function FilterForm({ filters, onFindClicked }) {
                     type="number"
                     maxLength="4"
                     placeholder="300"
+                    autoComplete="off"
                     value={caloriesRangeTo}
                     onChange={e => setCaloriesRangeTo(e.target.value)}
                   />
                 </label>
               </div>
             </CaloriesContainer>
-            <span>Diet</span>
+            <LabelWrapper>Diet</LabelWrapper>
             <Container>
               {dietLabels.map((item, index) => (
                 <label key={index}>
@@ -142,7 +158,7 @@ export default function FilterForm({ filters, onFindClicked }) {
                 </label>
               ))}
             </Container>
-            <span>Allergies</span>
+            <LabelWrapper>Allergies</LabelWrapper>
             <Container>
               {allergiesLabels.map((item, index) => (
                 <label key={index}>
@@ -157,7 +173,7 @@ export default function FilterForm({ filters, onFindClicked }) {
                 </label>
               ))}
             </Container>
-            <span>Cuisine</span>
+            <LabelWrapper>Cuisine</LabelWrapper>
             <Container>
               {cuisineTypes.map((item, index) => (
                 <label key={index}>
@@ -173,12 +189,13 @@ export default function FilterForm({ filters, onFindClicked }) {
               ))}
             </Container>
           </Checkboxwrapper>
-          <AlertWrapper>
-            <Alert text={alert} />
-          </AlertWrapper>
           <ButtonWrapper>
-            <ClearButton onClick={resetState}>Clear</ClearButton>
-            <FindButton onClick={handleSubmit}>Find</FindButton>
+            <ClearButton onClick={resetState} data-testid="clear-button">
+              Clear
+            </ClearButton>
+            <FindButton onClick={handleSubmit} data-testid="find-button">
+              Find
+            </FindButton>
           </ButtonWrapper>
         </FilterWrapper>
       )}
@@ -200,51 +217,89 @@ const FilterButton = styled(Button)`
   place-items: center;
   justify-content: space-evenly;
   height: 40px;
-  background: var(--color-orange);
+  background: var(--gradient-orange);
+  border-radius: 5px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
 `
 const ClearButton = styled(Button)`
   display: grid;
   place-items: center;
   color: black;
   background: var(--color-lightgrey);
+  border-radius: 5px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
 `
 const FindButton = styled(Button)`
   display: grid;
   place-items: center;
+  text-decoration: none;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
 `
 const FilterWrapper = styled.div`
-  background-color: #fffae5;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  background: rgb(255, 247, 237);
   display: grid;
   gap: 10px;
-  padding-top: 10px;
+  border-radius: 5px;
+  padding-top: 5px;
   input {
     margin-right: 20px;
     height: 20px;
     width: 20px;
   }
   position: absolute;
-  z-index: 1;
+  z-index: 100;
   width: 100%;
   top: 100%;
 `
 const CaloriesContainer = styled.div`
-  font-weight: 300;
+  font-weight: 400;
   display: flex;
   justify-content: space-evenly;
   input {
     margin-left: 10px;
-    width: 70px;
+    width: 53px;
     height: 30px;
+    border: 2px solid #ffe5c3;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `
 const ButtonWrapper = styled.span`
   display: grid;
   gap: 20px;
-  margin: 0 15px 20px 15px;
+  margin: 0 15px 30px 15px;
 `
 const Container = styled.span`
   position: relative;
-  font-weight: 300;
+  font-weight: 400;
   display: grid;
   gap: 15px;
   padding: 10px;
@@ -257,19 +312,21 @@ const Container = styled.span`
     height: 30px;
     padding: 6px;
     background-clip: content-box;
-    border: 1.5px solid #bbbbbb;
+    border: 2px solid #ffe5c3;
     border-radius: 6px;
     background-color: #bbbbbb;
     margin-left: 15px;
     margin-right: 15px;
     &:checked {
-      background-color: rgb(255, 170, 84);
+      background-color: var(--color-orange);
     }
   }
 `
-const AlertWrapper = styled.div`
+const AlertWrapper = styled.span`
   display: flex;
   justify-content: center;
+  margin: 0;
+  padding: 0;
 `
 const Checkboxwrapper = styled.div`
   display: grid;
@@ -279,4 +336,10 @@ const Checkboxwrapper = styled.div`
 const CheckboxLabel = styled.span`
   position: absolute;
   margin-top: 5px;
+`
+const LabelWrapper = styled.span`
+  font-weight: 500;
+  font-size: 1.1em;
+  padding-left: 10px;
+  color: var(--color-orange);
 `

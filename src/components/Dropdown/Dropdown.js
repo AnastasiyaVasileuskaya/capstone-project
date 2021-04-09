@@ -15,7 +15,8 @@ export default function Dropdown({ selectedSorting, onSelectionChanged }) {
   }
   return (
     <DropdownWrapper>
-      <Button
+      <SortButton
+        data-testid="dropdown"
         onClick={event => {
           event.stopPropagation()
           setIsDropdownContentVisible(!isDropdownContentVisible)
@@ -28,16 +29,22 @@ export default function Dropdown({ selectedSorting, onSelectionChanged }) {
             size={25}
           />
         </IconWrapper>
-      </Button>
+      </SortButton>
       {isDropdownContentVisible && (
         <DropdownContent>
-          <SortButton onClick={onDropdownSelectionChanged}>
+          <DropdownButton
+            data-testid="dropdown-low-to-high"
+            onClick={onDropdownSelectionChanged}
+          >
             <span>Rate: Low To High</span>
-          </SortButton>
+          </DropdownButton>
           <DropdownButton onClick={onDropdownSelectionChanged}>
             <span>Rate: High To Low</span>
           </DropdownButton>
-          <DropdownButton onClick={onDropdownSelectionChanged}>
+          <DropdownButton
+            data-testid="dropdown-newest-first"
+            onClick={onDropdownSelectionChanged}
+          >
             <span>Rate date: Newest first</span>
           </DropdownButton>
           <DropdownButton onClick={onDropdownSelectionChanged}>
@@ -59,18 +66,31 @@ const DropdownContent = styled.span`
   z-index: 1;
   width: 100%;
   top: 100%;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
 `
-const SortButton = styled(Button)`
-  color: white;
-  padding: 10px;
-`
-
 const DropdownButton = styled(Button)`
   color: black;
   padding: 10px;
+  background: ${props =>
+    props.active ? 'var(--gradient-orange)' : 'rgb(255, 247, 237)'};
+  border: 1px solid orange;
+  cursor: pointer;
 `
 const IconWrapper = styled.span`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   place-items: center;
+`
+const SortButton = styled(Button)`
+  display: flex;
+  place-items: center;
+  justify-content: space-evenly;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s all;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
 `

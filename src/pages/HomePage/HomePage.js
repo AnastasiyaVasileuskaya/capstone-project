@@ -1,8 +1,7 @@
-import { useEffect, useState, useLayoutEffect } from 'react'
+import { useEffect, useState, useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components/macro'
 import Alert from '../../components/Alert/Alert'
 import FilterForm from '../../components/FilterForm/FilterForm'
-import Header from '../../components/Header/Header'
 import Recipe from '../../components/Recipe/Recipe'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import useLocalStorage from '../../hooks/useLocalStorage'
@@ -10,8 +9,10 @@ import createInitialUrlParams from '../../services/createInitialUrlParams'
 import createUrlParams from '../../services/createUrlParams'
 import createUrlQuery from '../../services/createUrlQuery'
 import anime from 'animejs'
+import ScrollToTop from '../../components/ScrollToTop'
 
 export default function HomePage() {
+  const titleRef = useRef()
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
   const [urlParams, setUrlParams] = useLocalStorage(
@@ -24,7 +25,7 @@ export default function HomePage() {
     fadeIn.add({
       targets: 'main',
       opacity: [0, 1],
-      duration: 1000,
+      duration: 200,
       easing: 'easeInOutQuad',
     })
   }
@@ -32,7 +33,6 @@ export default function HomePage() {
   useLayoutEffect(() => {
     fadeIn()
   }, [])
-
   useEffect(() => {
     setUrl(createUrlQuery(urlParams))
   }, [urlParams])
@@ -40,15 +40,6 @@ export default function HomePage() {
   useEffect(() => {
     getRecipes()
   }, [url])
-
-  if (recipes.length === 0) {
-    return (
-      <>
-        <Header title="CookIdeas" isVisibleSaved={true} isVisibleAll={false} />
-        <TextWrapper>Loading...</TextWrapper>
-      </>
-    )
-  }
 
   async function getRecipes() {
     if (urlParams.query !== '') {
@@ -58,12 +49,11 @@ export default function HomePage() {
         setAlert('')
         setRecipes(data.hits.map(item => item.recipe))
       } else {
-        setAlert('Cannot find such recipe')
+        setAlert(
+          'Cannot find such recipe!Try changing search query or/and filters.'
+        )
         setRecipes([])
       }
-    } else {
-      setAlert('Please fill the Search Bar')
-      setRecipes([])
     }
   }
 
@@ -97,40 +87,43 @@ export default function HomePage() {
   }
 
   return (
-    <>
-      <Header title="CookIdeas" isVisibleSaved={true} isVisibleAll={false} />
-      <PageLayout>
-        <SearchBar
-          initialQuery={urlParams.query}
-          onRecipeSearch={handleQueryChange}
+    <PageLayout data-testid="recipes">
+      <SearchBar
+        initialQuery={urlParams.query}
+        onRecipeSearch={handleQueryChange}
+        className="search"
+        data-testid="searchbar"
+      />
+      <FilterForm
+        filters={urlParams}
+        onFindClicked={handeFiltersChanged}
+        ref={titleRef}
+        className="filter"
+      />
+      <Alert text={alert} />
+      {recipes.map(recipe => (
+        <Recipe
+          className="recipe"
+          selectedStars={0}
+          comment={''}
+          key={recipe.uri}
+          recipe={recipe}
         />
-        <Alert text={alert} />
-        <FilterForm filters={urlParams} onFindClicked={handeFiltersChanged} />
-        {recipes.map(recipe => (
-          <Recipe
-            selectedStars={0}
-            comment={''}
-            key={recipe.uri}
-            recipe={recipe}
-          />
-        ))}
-        <CardFinal></CardFinal>
-      </PageLayout>
-    </>
+      ))}
+      <ScrollToTop className="scrollTop" />
+    </PageLayout>
   )
 }
 
 const PageLayout = styled.main`
+  position: relative;
   display: grid;
   gap: 20px;
   overflow-y: scroll;
   padding: 20px;
   grid-auto-rows: min-content;
-`
-const CardFinal = styled.div`
-  padding-bottom: 5px;
-`
-const TextWrapper = styled.div`
-  display: grid;
-  padding: 20px;
+  &:after {
+    content: '';
+    height: 2px;
+  }
 `

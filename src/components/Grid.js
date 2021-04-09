@@ -7,6 +7,8 @@ export default function Grid({ children }) {
 
 const AppGrid = styled.div`
   display: grid;
+  max-width: 380px;
+  margin: 0 auto;
   grid-template-rows: 60px auto;
   position: fixed;
   top: 0;
@@ -21,5 +23,4 @@ const AppGrid = styled.div`
     rgba(255, 255, 255, 1) 77%,
     rgba(255, 255, 255, 1) 98%
   );
-  transition: all 0.5s;
 `

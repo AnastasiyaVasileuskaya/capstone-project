@@ -1,11 +1,11 @@
 import styled from 'styled-components/macro'
 
 export default styled.button`
-  padding: 5px;
+  padding: 10px;
   border: none;
   background: ${props =>
     props.disabled ? 'var(--color-lightgrey)' : 'var(--gradient-orange)'};
-  color: white;
+  color: ${props => (props.disabled ? 'black' : 'white')};
   cursor: pointer;
   font-weight: 500;
 `

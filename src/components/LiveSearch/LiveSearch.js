@@ -6,14 +6,19 @@ export default function LiveSearch({ userInput, setUserInput }) {
   return (
     <SearchWrapper>
       <Input
+        data-testid="search-input"
         placeholder="Search recipe..."
         value={userInput}
         onChange={e => setUserInput(e.target.value)}
         type="search"
         maxLength={30}
+        autocomplete="off"
       />
       <IconContext.Provider value={{ size: '25px', color: 'grey' }}>
-        <DeleteButtonWrapper isVisible={userInput.length >= 1}>
+        <DeleteButtonWrapper
+          data-testid="delete-button"
+          isVisible={userInput.length >= 1}
+        >
           <AiOutlineCloseCircle onClick={e => setUserInput('')} />
         </DeleteButtonWrapper>
       </IconContext.Provider>
@@ -26,7 +31,7 @@ const Input = styled.input`
   border-radius: 0;
   position: relative;
   padding-right: 16px;
-  box-sizing: border-box;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
 `
 const DeleteButtonWrapper = styled.span`
   position: absolute;

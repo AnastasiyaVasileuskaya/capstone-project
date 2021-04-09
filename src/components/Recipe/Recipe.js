@@ -39,11 +39,16 @@ export default function Recipe({
         pathname: `/recipes/${recipeId}`,
       }}
     >
-      <IconWrapper isVisible={isVisible} to={'/'} onClick={handleClick}>
-        <Icon glyph="view-close" size={30} />
+      <IconWrapper
+        data-testid="recipe-delete"
+        isVisible={isVisible}
+        to={'/'}
+        onClick={handleClick}
+      >
+        <Icon glyph="view-close" size={33} />
       </IconWrapper>
       <Img src={image} alt="recipe" width="200" />
-      <h2>{title}</h2>
+      <Titlewrapper>{title}</Titlewrapper>
       <InfoWrapper>
         <p>
           <CaloriesNumber>
@@ -59,13 +64,17 @@ export default function Recipe({
       </InfoWrapper>
       <RatingWrapper>
         {selectedStars > 0 && (
-          <StarsContainer
-            selectedStars={selectedStars}
-            onClick={e => e.preventDefault()}
-          />
+          <StarsContainerWrapper>
+            <StarsContainer
+              selectedStars={selectedStars}
+              onClick={e => e.preventDefault()}
+            />
+          </StarsContainerWrapper>
         )}
         {comment.length > 0 && (
-          <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
+          <DateWrapper data-testid="rating-date">
+            {new Date(date).toLocaleDateString()}
+          </DateWrapper>
         )}
       </RatingWrapper>
     </RecipeContainer>
@@ -76,11 +85,11 @@ const RecipeContainer = styled.span`
   background-color: var(--color-lightorange);
   text-align: center;
   border-radius: 20px;
-  box-shadow: 3px 3px 3px #eee;
+  box-shadow: 3px 2px 10px 1px rgba(0, 0, 0, 0.24);
   text-decoration: none;
   color: black;
   h2 {
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 0;
   }
   position: relative;
@@ -93,18 +102,21 @@ const Img = styled.img`
 const InfoWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 0;
+  p {
+    margin-bottom: 0;
+  }
 `
 
 const CaloriesNumber = styled.span`
   color: var(--color-orange);
-  font-weight: 500;
+  font-weight: 700;
 `
 
 const IngredientsNumber = styled.span`
   color: var(--color-orange);
-  font-weight: 500;
+  font-weight: 700;
 `
 const IconWrapper = styled.div`
   position: absolute;
@@ -118,6 +130,13 @@ const RatingWrapper = styled.span`
   margin-bottom: 30px;
 `
 const DateWrapper = styled.div`
-  margin-top: 3px;
+  margin-top: 18px;
   margin-left: 15px;
+`
+const StarsContainerWrapper = styled.div`
+  margin-top: 15px;
+`
+const Titlewrapper = styled.h2`
+  padding-right: 10px;
+  padding-left: 10px;
 `
