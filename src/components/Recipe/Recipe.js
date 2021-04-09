@@ -72,7 +72,9 @@ export default function Recipe({
           </StarsContainerWrapper>
         )}
         {comment.length > 0 && (
-          <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
+          <DateWrapper data-testid="rating-date">
+            {new Date(date).toLocaleDateString()}
+          </DateWrapper>
         )}
       </RatingWrapper>
     </RecipeContainer>

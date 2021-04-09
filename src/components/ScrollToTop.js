@@ -34,7 +34,7 @@ export default function ScrollToTop() {
     <IconWrapper
       onClick={scrollToTop}
       style={{ display: visible ? 'inline-flex' : 'none' }}
-      data-testid="scroll-to-top"
+      data-testid="scroll-to-top-button"
     >
       <Icon glyph="up-caret" size={33} />
     </IconWrapper>

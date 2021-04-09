@@ -1,14 +1,16 @@
 /// <reference types="Cypress" />
 
-describe('<SavedRecipes /> component', () => {
+describe('<SavedRecipes />', () => {
   beforeEach(() => {
     cy.visit('/recipes/recipe_03e61ddd90bcc170639178a19cf665eb')
   })
 
   it('should render', () => {
     cy.get('[data-testid="save-recipe-button"]').click()
+    cy.get('[data-testid="star-3"]').click()
+    cy.get('[data-testid="comment-textarea"]').type('Tasty')
+    cy.get('[data-testid="rate-button"]').click()
     cy.get('[data-testid="saved-recipes"]').click().visit('/saved')
-
     cy.get('[data-testid="header"]').should('exist')
     cy.get('[data-testid="search-input"]').should('exist')
     cy.get('[data-testid="dropdown"]')
@@ -17,6 +19,8 @@ describe('<SavedRecipes /> component', () => {
     cy.get('[data-testid="saved-recipes-wrapper"]').contains(
       'Quick Broiled Shrimp With Harissa and Beer Recipe'
     )
+    cy.get('[data-testid="rating-date"]').scrollIntoView().should('be.visible')
+    cy.get('[data-testid="stars-container"]').should('be.visible')
     cy.get('[data-testid="all-recipes"]')
       .contains('All')
       .should('have.attr', 'href', '/')
@@ -32,7 +36,7 @@ describe('<SavedRecipes /> component', () => {
     )
   })
 
-  it('dropdown sort by rate and rate date', () => {
+  it('dropdown sort by rate and rate date, searchbar searchs for recipes and displays them', () => {
     cy.get('[data-testid="save-recipe-button"]').click()
     cy.get('[data-testid="star-3"]').click()
     cy.get('[data-testid="rate-button"]').click()
@@ -55,13 +59,11 @@ describe('<SavedRecipes /> component', () => {
     cy.get('[data-testid="saved-recipes-wrapper"]')
       .first()
       .contains('New Orleans Barbecue Shrimp')
+    cy.get('[data-testid="search-input"]').type('garlic')
+    cy.get('[data-testid="saved-recipes-wrapper"]').contains(
+      'Beer-Steamed Shrimp With Garlic'
+    )
+    cy.get('[data-testid="delete-button"]').click()
+    cy.get('[data-testid="search-input"]').should('be.empty')
   })
 })
-/*
-cy.get('[data-testid="search-input"]').type('garlic')
-cy.get('[data-testid="saved-recipes-wrapper"]').contains(
-  'Beer-Steamed Shrimp With Garlic'
-)
-cy.get('[data-testid="delete-button"]').click()
-cy.get('[data-testid="search-input"]').should('be.empty')
-*/

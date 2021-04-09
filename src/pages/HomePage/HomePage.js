@@ -87,7 +87,7 @@ export default function HomePage() {
   }
 
   return (
-    <PageLayout data-testid="recipeWrapper">
+    <PageLayout data-testid="recipes">
       <SearchBar
         initialQuery={urlParams.query}
         onRecipeSearch={handleQueryChange}

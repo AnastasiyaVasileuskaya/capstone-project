@@ -18,7 +18,9 @@ export default function Rating({
             selectedStars={selectedStars}
             onClick={e => e.preventDefault()}
           />
-          <DateWrapper>{new Date(date).toLocaleDateString()}</DateWrapper>
+          <DateWrapper data-testid="rating-date">
+            {new Date(date).toLocaleDateString()}
+          </DateWrapper>
           <IconContext.Provider value={{ size: '25px' }}>
             <EditWrapper>
               <BsPencil data-testid="edit" onClick={onRatingChange} />

@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 
-describe('<DetailPage /> component', () => {
+describe('<DetailPage />', () => {
   beforeEach(() => {
     cy.visit('/recipes/recipe_03e61ddd90bcc170639178a19cf665eb')
   })
@@ -25,8 +25,7 @@ describe('<DetailPage /> component', () => {
     )
   })
 
-  it('recipe will be saved on save recipe button click', () => {
-    cy.get('[data-testid="save-recipe-button"]').contains('Save recipe')
+  it('recipe will be saved after save recipe button click', () => {
     cy.get('[data-testid="save-recipe-button"]').click()
     cy.get('[data-testid="rating-form"]').scrollIntoView().should('be.visible')
     cy.get('[data-testid="save-recipe-button"]').contains('Recipe saved')
@@ -36,7 +35,7 @@ describe('<DetailPage /> component', () => {
     )
   })
 
-  it('rating will be saved on rate button click', () => {
+  it('rating will be saved after rate button click', () => {
     cy.get('[data-testid="save-recipe-button"]').click()
     cy.get('[data-testid="star-3"]').click()
     cy.get('[data-testid="comment-textarea"]').type('Tasty')
@@ -44,7 +43,7 @@ describe('<DetailPage /> component', () => {
     cy.get('[data-testid="rating-form"]').should('not.exist')
   })
 
-  it('comment can be edited on edit button click', () => {
+  it('rating can be edited after edit button click', () => {
     cy.get('[data-testid="save-recipe-button"]').click()
     cy.get('[data-testid="star-3"]').click()
     cy.get('[data-testid="comment-textarea"]').type('Tasty')
@@ -54,6 +53,8 @@ describe('<DetailPage /> component', () => {
       .should('be.visible')
     cy.get('[data-testid="recipe-rating"]').contains('Tasty')
     cy.get('[data-testid="edit"]').should('be.visible')
+    cy.get('[data-testid="rating-date"]').should('be.visible')
+    cy.get('[data-testid="stars-container"]').should('be.visible')
     cy.get('[data-testid="edit"]').click()
     cy.get('[data-testid="star-5"]').click()
     cy.get('[data-testid="comment-textarea"]').clear()
@@ -62,7 +63,7 @@ describe('<DetailPage /> component', () => {
     cy.get('[data-testid="recipe-rating"]').contains('Very tasty')
   })
 
-  it('should redirect to external web seite when  instruction button clicked', () => {
+  it('should redirect to external website when instruction button clicked', () => {
     cy.get('[data-testid="full-instruction-button"]').click()
   })
 })
