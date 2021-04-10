@@ -46,9 +46,11 @@ export default function FilterForm({ filters, onFindClicked }) {
   function isCaloriesStateValid() {
     return (
       (caloriesRangeFrom === '' && caloriesRangeTo === '') ||
+      (caloriesRangeFrom !== '' && caloriesRangeTo === '') ||
+      (caloriesRangeFrom === '' && caloriesRangeTo !== '') ||
       (caloriesRangeFrom !== '' &&
         caloriesRangeTo !== '' &&
-        caloriesRangeFrom < caloriesRangeTo)
+        caloriesRangeFrom <= caloriesRangeTo)
     )
   }
 
@@ -285,6 +287,10 @@ const CaloriesContainer = styled.div`
     width: 53px;
     height: 30px;
     border: 2px solid #ffe5c3;
+    ::placeholder {
+      color: #c2c2c2;
+      opacity: 1;
+    }
   }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {

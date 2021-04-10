@@ -31,16 +31,28 @@ Header.propTypes = {
 
 const HeaderContainer = styled.header`
   text-align: center;
-  color: white;
   font-family: 'Lobster', cursive;
-  background: var(--color-orange);
-  background: var(--gradient-orange);
+  background: rgb(255, 247, 237);
+  background: linear-gradient(
+    176deg,
+    rgba(255, 247, 237, 1) 1%,
+    rgba(255, 255, 255, 1) 77%,
+    rgba(255, 255, 255, 1) 98%
+  );
+  box-shadow: 2px 4px 6px 1px rgba(0, 0, 0, 0.24);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   h1 {
-    text-shadow: 3px 6px 3px #ce5937;
+    background-color: var(--color-orange);
+    background-image: var(--gradient-orange);
+    background-size: 100%;
+    background-repeat: repeat;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
   }
 `
 const LinkWrapperAll = styled(Link)`
@@ -48,7 +60,7 @@ const LinkWrapperAll = styled(Link)`
   font-weight: 400;
   font-size: 0.8em;
   text-decoration: none;
-  color: black;
+  color: orange;
   justify-items: center;
   position: absolute;
   left: 20px;
@@ -63,7 +75,7 @@ const LinkWrapperSaved = styled(Link)`
   font-weight: 400;
   font-size: 0.8em;
   text-decoration: none;
-  color: black;
+  color: orange;
   justify-items: center;
   position: absolute;
   right: 20px;

@@ -18,7 +18,7 @@ const Container = styled.section`
 
 const Message = styled.div`
   display: grid;
-  padding: 10px;
+  padding-top: 10px;
   font-weight: 500;
   background-color: var(--color-orange);
   background-image: var(--gradient-orange);

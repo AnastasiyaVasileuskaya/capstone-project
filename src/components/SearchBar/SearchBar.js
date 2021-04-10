@@ -7,6 +7,7 @@ import { IconContext } from 'react-icons'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 
 export default function SearchBar({ initialQuery, onRecipeSearch }) {
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [query, setQuery] = useState(initialQuery)
   SearchBar.propTypes = {
     onRecipeSearch: PropTypes.func,
@@ -22,6 +23,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
         autoComplete="off"
         value={query}
         onChange={e => setQuery(e.target.value)}
+        className={isSubmitting && !query ? 'error' : undefined}
         required
         data-testid="searchbar"
       />
@@ -42,6 +44,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
   function handleSubmit(event) {
     event.preventDefault()
     onRecipeSearch(query)
+    setIsSubmitting(true)
   }
 }
 
@@ -82,6 +85,9 @@ const Input = styled.input`
   border: 2px solid var(--color-lightorange);
   border-radius: 0;
   box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  .error {
+    border: 1px solid red;
+  }
 `
 const DeleteButtonWrapper = styled.span`
   position: absolute;

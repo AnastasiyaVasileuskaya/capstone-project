@@ -16,6 +16,7 @@ export default createGlobalStyle`
     font-size: 112.5%;
     line-height: 1.5;
     align-items: center;
+    background:var(--color-lightorange);
   }
 
  input,
