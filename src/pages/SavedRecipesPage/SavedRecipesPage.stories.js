@@ -1,4 +1,4 @@
-import SavedRecipes from './SavedRecipes'
+import SavedRecipes from './SavedRecipesPage'
 
 export default {
   title: 'SavedRecipes',

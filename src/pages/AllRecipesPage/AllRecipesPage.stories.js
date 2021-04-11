@@ -1,4 +1,4 @@
-import HomePage from './HomePage'
+import HomePage from './AllRecipesPage'
 import { action } from '@storybook/addon-actions'
 
 export default {

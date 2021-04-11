@@ -1,26 +1,11 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
-import Icon from 'supercons'
 
-export default function Header({ title, isVisibleAll, isVisibleSaved }) {
+export default function Header({ title }) {
   return (
     <HeaderContainer data-testid="header">
-      <LinkWrapperAll
-        data-testid="all-recipes"
-        visible={isVisibleAll.toString()}
-        to={'/'}
-      >
-        <Icon glyph="home" size={33} /> All
-      </LinkWrapperAll>
       <h1>{title}</h1>
-      <LinkWrapperSaved
-        data-testid="saved-recipes"
-        visible={isVisibleSaved.toString()}
-        to={'/saved'}
-      >
-        <Icon glyph="checkmark" size={33} /> Saved
-      </LinkWrapperSaved>
     </HeaderContainer>
   )
 }

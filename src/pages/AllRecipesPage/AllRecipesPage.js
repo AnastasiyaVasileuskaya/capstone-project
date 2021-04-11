@@ -10,9 +10,6 @@ import createUrlParams from '../../services/createUrlParams'
 import createUrlQuery from '../../services/createUrlQuery'
 import anime from 'animejs'
 import ScrollToTop from '../../components/ScrollToTop'
-import recipebook from '../../assets/recipe-book.svg'
-import recipe from '../../assets/recipe.svg'
-import cooking from '../../assets/cooking.svg'
 
 export default function HomePage() {
   const [recipes, setRecipes] = useState([])
@@ -56,6 +53,22 @@ export default function HomePage() {
     }
   }
 
+  function handleFindClick() {
+    setUrl(createUrlQuery(urlParams))
+  }
+
+  function handleFiltersChanged(filtersParams) {
+    setUrlParams(
+      createUrlParams(
+        urlParams.query,
+        filtersParams.caloriesRangeFrom,
+        filtersParams.caloriesRangeTo,
+        filtersParams.healthLabels,
+        filtersParams.dishTypes
+      )
+    )
+  }
+
   function handleQueryChange(query) {
     if (query !== urlParams.query) {
       setUrlParams(createUrlParams(query, '', '', [], []))
@@ -74,43 +87,30 @@ export default function HomePage() {
   }
 
   return (
-    <PageLayout>
+    <PageLayout data-testid="recipes">
       <SearchBar
         initialQuery={urlParams.query}
         onRecipeSearch={handleQueryChange}
         className="search"
         data-testid="searchbar"
       />
-      <ContentWrapper>
-        <h2>Welcome to CookIdeas.</h2>
-        Tired of the frozen pizza? With CookIdeas you can get inspiration for
-        the new dishes that you can cook.
-        <h2>How it works</h2>
-        <div>
-          <HeaderWrapper>
-            <h3>Search by recipe</h3>
-            <img src={recipebook} alt="" />
-          </HeaderWrapper>
-          Just type the recipe name in searchbar, e.g., Chicken Vesuvio, Bean
-          soup, and choose a recipe.
-        </div>
-        <div>
-          <HeaderWrapper>
-            <h3>Search by ingredients</h3>
-            <img src={cooking} alt="" />
-          </HeaderWrapper>
-          Just type the ingredients in searchbar, e.g., chocolate, eggs, and see
-          what comes up.
-        </div>
-        <div>
-          <HeaderWrapper>
-            <h3>Filter recipes</h3>
-            <img src={recipe} alt="" />
-          </HeaderWrapper>
-          You can also refine your search by Calories- ,Diet- ,Allergies- and
-          Cuisinetypesfilters.
-        </div>
-      </ContentWrapper>
+      <FilterForm
+        filters={urlParams}
+        onFindClicked={handleFindClick}
+        onFiltersChanged={handleFiltersChanged}
+        className="filter"
+      />
+      <Alert text={alert} />
+      {recipes.map(recipe => (
+        <Recipe
+          className="recipe"
+          selectedStars={0}
+          comment={''}
+          key={recipe.uri}
+          recipe={recipe}
+        />
+      ))}
+      <ScrollToTop className="scrollTop" />
     </PageLayout>
   )
 }

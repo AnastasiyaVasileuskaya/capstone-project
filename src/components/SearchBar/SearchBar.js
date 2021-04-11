@@ -5,6 +5,7 @@ import Icon from 'supercons'
 import Button from '../Button/Button'
 import { IconContext } from 'react-icons'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { Link } from 'react-router-dom'
 
 export default function SearchBar({ initialQuery, onRecipeSearch }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -23,7 +24,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
         autoComplete="off"
         value={query}
         onChange={e => setQuery(e.target.value)}
-        className={isSubmitting && !query ? 'error' : undefined}
+        //className={isSubmitting && !query ? 'error' : undefined}
         required
         data-testid="searchbar"
       />
@@ -35,16 +36,22 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
           <AiOutlineCloseCircle onClick={e => setQuery('')} />
         </DeleteButtonWrapper>
       </IconContext.Provider>
-      <SearchButton data-testid="search">
+      <SearchButton
+        as={Link}
+        to={{
+          pathname: `/recipes`,
+        }}
+        data-testid="search"
+      >
         <Icon className="search" glyph="search" size={33} />
       </SearchButton>
     </Form>
   )
 
   function handleSubmit(event) {
-    event.preventDefault()
+    //event.preventDefault()
     onRecipeSearch(query)
-    setIsSubmitting(true)
+    //setIsSubmitting(true)
   }
 }
 
