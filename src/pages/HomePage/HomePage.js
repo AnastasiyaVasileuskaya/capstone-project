@@ -35,10 +35,11 @@ export default function HomePage() {
   useLayoutEffect(() => {
     fadeIn()
   }, [])
+  /*
   useEffect(() => {
     setUrl(createUrlQuery(urlParams))
   }, [urlParams])
-
+*/
   useEffect(() => {
     getRecipes()
   }, [url])
@@ -59,33 +60,37 @@ export default function HomePage() {
     }
   }
 
-  function handeFiltersChanged(
-    caloriesRangeFrom,
-    caloriesRangeTo,
-    healthLabels,
-    dishTypes
-  ) {
+  function handleFindClick() {
+    setUrl(createUrlQuery(urlParams))
+  }
+
+  function handleFiltersChanged(filtersParams) {
     setUrlParams(
       createUrlParams(
         urlParams.query,
-        caloriesRangeFrom,
-        caloriesRangeTo,
-        healthLabels,
-        dishTypes
+        filtersParams.caloriesRangeFrom,
+        filtersParams.caloriesRangeTo,
+        filtersParams.healthLabels,
+        filtersParams.dishTypes
       )
     )
   }
 
   function handleQueryChange(query) {
-    setUrlParams(
-      createUrlParams(
-        query,
-        urlParams.caloriesRangeFrom,
-        urlParams.caloriesRangeTo,
-        urlParams.healthLabels,
-        urlParams.dishTypes
+    if (query !== urlParams.query) {
+      setUrlParams(createUrlParams(query, '', '', [], []))
+    } else {
+      setUrlParams(
+        createUrlParams(
+          query,
+          urlParams.caloriesRangeFrom,
+          urlParams.caloriesRangeTo,
+          urlParams.healthLabels,
+          urlParams.dishTypes
+        )
       )
-    )
+    }
+    setUrl(createUrlQuery(urlParams))
   }
 
   if (recipes.length === 0 && urlParams.query === '') {
@@ -99,7 +104,8 @@ export default function HomePage() {
         />
         <FilterForm
           filters={urlParams}
-          onFindClicked={handeFiltersChanged}
+          onFindClicked={handleFindClick}
+          onFiltersChanged={handleFiltersChanged}
           className="filter"
         />
         <Alert text={alert} />
@@ -147,7 +153,8 @@ export default function HomePage() {
       />
       <FilterForm
         filters={urlParams}
-        onFindClicked={handeFiltersChanged}
+        onFindClicked={handleFindClick}
+        onFiltersChanged={handleFiltersChanged}
         className="filter"
       />
       <Alert text={alert} />

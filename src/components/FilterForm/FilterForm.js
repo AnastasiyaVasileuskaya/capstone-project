@@ -6,18 +6,13 @@ import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
 import getFilters from '../../services/getFilters'
 
-export default function FilterForm({ filters, onFindClicked }) {
+export default function FilterForm({
+  filters,
+  onFiltersChanged,
+  onFindClicked,
+}) {
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
-  const [caloriesRangeFrom, setCaloriesRangeFrom] = useState(
-    filters.caloriesRangeFrom ?? ''
-  )
-  const [caloriesRangeTo, setCaloriesRangeTo] = useState(
-    filters.caloriesRangeTo ?? ''
-  )
-  const [healthLabels, setHealthLabels] = useState(filters.healthLabels ?? [])
-  const [dishTypes, setDishTypes] = useState(filters.dishTypes ?? [])
-
   const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
 
   FilterForm.propTypes = {
@@ -28,49 +23,59 @@ export default function FilterForm({ filters, onFindClicked }) {
   }
 
   function resetState() {
-    setCaloriesRangeFrom('')
-    setCaloriesRangeTo('')
-    setHealthLabels([])
-    setDishTypes([])
+    onFiltersChanged(createFiltersParams('', '', [], []))
     setAlert('')
   }
 
-  function handleHealthFilter(e) {
-    handleClick(e, healthLabels, setHealthLabels)
-  }
-
-  function handleDishFilter(e) {
-    handleClick(e, dishTypes, setDishTypes)
+  function createFiltersParams(
+    caloriesRangeFrom,
+    caloriesRangeTo,
+    healthLabels,
+    dishTypes
+  ) {
+    return {
+      caloriesRangeFrom: caloriesRangeFrom,
+      caloriesRangeTo: caloriesRangeTo,
+      healthLabels: healthLabels,
+      dishTypes: dishTypes,
+    }
   }
 
   function isCaloriesStateValid() {
     return (
-      (caloriesRangeFrom === '' && caloriesRangeTo === '') ||
-      (caloriesRangeFrom !== '' && caloriesRangeTo === '') ||
-      (caloriesRangeFrom === '' && caloriesRangeTo !== '') ||
-      (caloriesRangeFrom !== '' &&
-        caloriesRangeTo !== '' &&
-        caloriesRangeFrom <= caloriesRangeTo)
+      (filters.caloriesRangeFrom === '' && filters.caloriesRangeTo === '') ||
+      (filters.caloriesRangeFrom !== '' && filters.caloriesRangeTo === '') ||
+      (filters.caloriesRangeFrom === '' && filters.caloriesRangeTo !== '') ||
+      (filters.caloriesRangeFrom !== '' &&
+        filters.caloriesRangeTo !== '' &&
+        filters.caloriesRangeFrom <= filters.caloriesRangeTo)
     )
   }
 
-  function handleClick(e, filter, setFilter) {
-    const clickedFilter = e.target.value
-    const isFilterChecked = e.target.checked
-
-    let newArray
-    if (!isFilterChecked) {
-      newArray = []
-      filter.forEach(e => {
-        if (e !== clickedFilter) {
-          newArray.push(e)
+  function onFormChanged(e) {
+    let filtersParams = createFiltersParams('', '', [], [])
+    let formElements = e.target.form.elements
+    let formElementsArray = Array.from(formElements)
+    formElementsArray.forEach(element => {
+      if (element.type === 'checkbox' || element.type === 'number') {
+        if (element.name === 'caloriesRangeFrom') {
+          filtersParams.caloriesRangeFrom = element.value
+        } else if (element.name === 'caloriesRangeTo') {
+          filtersParams.caloriesRangeTo = element.value
+        } else if (
+          element.getAttribute('filter-type') === 'health-labels' &&
+          element.checked
+        ) {
+          filtersParams.healthLabels.push(element.value)
+        } else if (
+          element.getAttribute('filter-type') === 'cuisine-types' &&
+          element.checked
+        ) {
+          filtersParams.dishTypes.push(element.value)
         }
-      })
-    } else {
-      newArray = filter.slice()
-      newArray.push(clickedFilter)
-    }
-    setFilter(newArray)
+      }
+    })
+    onFiltersChanged(filtersParams)
   }
 
   function scrollToTop() {
@@ -82,7 +87,7 @@ export default function FilterForm({ filters, onFindClicked }) {
 
   function handleSubmit(e) {
     if (isCaloriesStateValid()) {
-      onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
+      onFindClicked()
       setIsFilterFormVisible(false)
       scrollToTop()
     } else {
@@ -125,8 +130,8 @@ export default function FilterForm({ filters, onFindClicked }) {
                     maxLength="4"
                     placeholder="100"
                     autoComplete="off"
-                    value={caloriesRangeFrom}
-                    onChange={e => setCaloriesRangeFrom(e.target.value)}
+                    value={filters.caloriesRangeFrom}
+                    onChange={onFormChanged}
                   />
                 </label>
               </div>
@@ -139,8 +144,8 @@ export default function FilterForm({ filters, onFindClicked }) {
                     maxLength="4"
                     placeholder="300"
                     autoComplete="off"
-                    value={caloriesRangeTo}
-                    onChange={e => setCaloriesRangeTo(e.target.value)}
+                    value={filters.caloriesRangeTo}
+                    onChange={onFormChanged}
                   />
                 </label>
               </div>
@@ -153,8 +158,8 @@ export default function FilterForm({ filters, onFindClicked }) {
                     type="checkbox"
                     value={item}
                     filter-type="health-labels"
-                    checked={healthLabels.includes(item)}
-                    onChange={handleHealthFilter}
+                    checked={filters.healthLabels.includes(item)}
+                    onChange={onFormChanged}
                   />
                   <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
@@ -168,8 +173,8 @@ export default function FilterForm({ filters, onFindClicked }) {
                     type="checkbox"
                     filter-type="health-labels"
                     value={item}
-                    checked={healthLabels.includes(item)}
-                    onChange={handleHealthFilter}
+                    checked={filters.healthLabels.includes(item)}
+                    onChange={onFormChanged}
                   />
                   <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
@@ -183,8 +188,8 @@ export default function FilterForm({ filters, onFindClicked }) {
                     type="checkbox"
                     filter-type="cuisine-types"
                     value={item}
-                    checked={dishTypes.includes(item)}
-                    onChange={handleDishFilter}
+                    checked={filters.dishTypes.includes(item)}
+                    onChange={onFormChanged}
                   />
                   <CheckboxLabel>{item}</CheckboxLabel>
                 </label>
@@ -192,7 +197,11 @@ export default function FilterForm({ filters, onFindClicked }) {
             </Container>
           </Checkboxwrapper>
           <ButtonWrapper>
-            <ClearButton onClick={resetState} data-testid="clear-button">
+            <ClearButton
+              type="button"
+              onClick={resetState}
+              data-testid="clear-button"
+            >
               Clear
             </ClearButton>
             <FindButton onClick={handleSubmit} data-testid="find-button">
@@ -261,7 +270,7 @@ const FindButton = styled(Button)`
     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
   }
 `
-const FilterWrapper = styled.div`
+const FilterWrapper = styled.form`
   box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
   background: rgb(255, 247, 237);
   display: grid;
