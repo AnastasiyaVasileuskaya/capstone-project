@@ -8,18 +8,13 @@ const AppGrid = styled.div`
   display: grid;
   max-width: 375px;
   margin: 0 auto;
-  grid-template-rows: 60px auto 48px;
+  grid-template-rows: 60px auto 50px;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
   height: 100vh;
-  background: rgb(255, 247, 237);
-  background: linear-gradient(
-    176deg,
-    rgba(255, 247, 237, 1) 1%,
-    rgba(255, 255, 255, 1) 77%,
-    rgba(255, 255, 255, 1) 98%
-  );
+  background: var(--color-beige);
+  background: var(--gradient-beige);
 `

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
-import Button from './Button/Button'
 import Icon from 'supercons'
+import Button from './Button/Button'
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false)
@@ -45,8 +45,6 @@ export default function ScrollToTop() {
 
 const ScrollButton = styled(Button)`
   position: fixed;
-  right: 0;
-  top: 0;
   place-items: center;
   height: 45px;
   width: 45px;
