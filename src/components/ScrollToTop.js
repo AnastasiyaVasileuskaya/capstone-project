@@ -31,25 +31,31 @@ export default function ScrollToTop() {
   }
 
   return (
-    <IconWrapper
-      onClick={scrollToTop}
-      style={{ display: visible ? 'inline-flex' : 'none' }}
-      data-testid="scroll-to-top-button"
-    >
-      <Icon glyph="up-caret" size={33} />
+    <IconWrapper>
+      <ScrollButton
+        onClick={scrollToTop}
+        style={{ display: visible ? 'inline-flex' : 'none' }}
+        data-testid="scroll-to-top-button"
+      >
+        <Icon glyph="up-caret" size={33} />
+      </ScrollButton>
     </IconWrapper>
   )
 }
 
-const IconWrapper = styled(Button)`
+const ScrollButton = styled(Button)`
   position: fixed;
+  right: 0;
+  top: 0;
   place-items: center;
-  right: 5%;
   height: 45px;
   width: 45px;
   border-radius: 50%;
-  z-index: 1;
+  z-index: 15;
   cursor: pointer;
   color: black;
   background: var(--gradient-orange);
+`
+const IconWrapper = styled.div`
+  padding: 10px;
 `

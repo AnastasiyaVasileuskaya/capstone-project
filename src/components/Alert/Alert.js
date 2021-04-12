@@ -1,6 +1,11 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
+
 export default function Alert({ text }) {
+  Alert.propTypes = {
+    text: PropTypes.string,
+  }
+
   return (
     <Container visible={text !== ''}>
       <Message>{text}</Message>
@@ -8,17 +13,11 @@ export default function Alert({ text }) {
   )
 }
 
-Alert.propTypes = {
-  text: PropTypes.string,
-}
-
 const Container = styled.section`
   display: ${props => (props.visible ? 'block' : 'none')};
 `
 
 const Message = styled.div`
-  display: grid;
-  padding-top: 10px;
   font-weight: 500;
   background-color: var(--color-orange);
   background-image: var(--gradient-orange);

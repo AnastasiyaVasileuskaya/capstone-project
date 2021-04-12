@@ -15,68 +15,16 @@ import recipe from '../../assets/recipe.svg'
 import cooking from '../../assets/cooking.svg'
 
 export default function HomePage() {
-  const [recipes, setRecipes] = useState([])
-  const [alert, setAlert] = useState('')
-  const [urlParams, setUrlParams] = useLocalStorage(
-    'cookIdeasUrlParams',
-    createInitialUrlParams()
-  )
-  const [url, setUrl] = useState(createUrlQuery(urlParams))
-  const fadeIn = () => {
-    const fadeIn = anime.timeline()
-    fadeIn.add({
-      targets: 'main',
-      opacity: [0, 1],
-      duration: 200,
-      easing: 'easeInOutQuad',
-    })
-  }
-
-  useLayoutEffect(() => {
-    fadeIn()
-  }, [])
-
-  useEffect(() => {
-    getRecipes()
-  }, [url])
-
-  async function getRecipes() {
-    if (urlParams.query !== '') {
-      const response = await fetch(url)
-      const data = await response.json()
-      if (data.more && data.hits) {
-        setAlert('')
-        setRecipes(data.hits.map(item => item.recipe))
-      } else {
-        setAlert(
-          'Cannot find such recipe!Try changing search query or/and filters.'
-        )
-        setRecipes([])
-      }
-    }
-  }
+  const [query, setQuery] = useState('')
 
   function handleQueryChange(query) {
-    if (query !== urlParams.query) {
-      setUrlParams(createUrlParams(query, '', '', [], []))
-    } else {
-      setUrlParams(
-        createUrlParams(
-          query,
-          urlParams.caloriesRangeFrom,
-          urlParams.caloriesRangeTo,
-          urlParams.healthLabels,
-          urlParams.dishTypes
-        )
-      )
-    }
-    setUrl(createUrlQuery(urlParams))
+    setQuery('')
   }
 
   return (
     <PageLayout>
       <SearchBar
-        initialQuery={urlParams.query}
+        initialQuery={query}
         onRecipeSearch={handleQueryChange}
         className="search"
         data-testid="searchbar"

@@ -7,7 +7,7 @@ export default function Grid({ children }) {
 
 const AppGrid = styled.div`
   display: grid;
-  max-width: 380px;
+  max-width: 375px;
   margin: 0 auto;
   grid-template-rows: 60px auto 48px;
   position: fixed;
