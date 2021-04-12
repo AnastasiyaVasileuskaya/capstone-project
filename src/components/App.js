@@ -12,31 +12,19 @@ export default function App() {
     <Grid>
       <Switch>
         <Route exact path="/">
-          <Header
-            title="CookIdeas"
-            isVisibleSaved={true}
-            isVisibleAll={false}
-          />
+          <Header title="CookIdeas" />
           <HomePage />
         </Route>
         <Route exact path="/recipes">
-          <Header
-            title="CookIdeas"
-            isVisibleSaved={true}
-            isVisibleAll={false}
-          />
+          <Header title="CookIdeas" />
           <AllRecipesPage />
         </Route>
         <Route exact path="/saved">
-          <Header
-            title="CookIdeas"
-            isVisibleAll={true}
-            isVisibleSaved={false}
-          />
+          <Header title="CookIdeas" />
           <SavedRecipes />
         </Route>
         <Route path="/recipes/:recipeId">
-          <Header title="CookIdeas" isVisibleAll={true} isVisibleSaved={true} />
+          <Header title="CookIdeas" />
           <DetailPage />
         </Route>
       </Switch>

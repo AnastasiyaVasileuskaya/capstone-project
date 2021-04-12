@@ -19,33 +19,25 @@ export default createGlobalStyle`
     --box-shadow-middle:7px 6px 28px 1px rgba(0, 0, 0, 0.24);
     --box-shadow-active:3px 2px 22px 1px rgba(0, 0, 0, 0.24);
   }
+
   * {
     box-sizing: border-box
   }
+  
   body {
-    margin: 0 auto;
     font-family: 'Roboto', sans-serif;
     font-size: 112.5%;
     line-height: 1.5;
-    align-items: center;
     background:#FFD8AD;
   }
 
  input,
-    button {
+    button, textarea {
   font-size: 1.2em;
   font-weight:500;
   padding: 5px;
   outline:none;
   border-radius:5px;
-}
-
-input {
   width:100%;
-}
-
-textarea {
-  font-size: 1.2em;
-  font-weight:500;
 }
   `

@@ -13,7 +13,7 @@ export default function RatingForm({
   const [comment, setComment] = useState(ratingComment)
 
   RatingForm.propTypes = {
-    ratingStars: PropTypes.bool,
+    ratingStars: PropTypes.number,
     ratingComment: PropTypes.string,
     onAddComment: PropTypes.func,
   }

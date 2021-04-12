@@ -11,7 +11,7 @@ export default function Rating({
   onRatingChange,
 }) {
   Rating.propTypes = {
-    selectedStars: PropTypes.bool,
+    selectedStars: PropTypes.number,
     date: PropTypes.instanceOf(Date),
     comment: PropTypes.string,
     onRatingChange: PropTypes.func,

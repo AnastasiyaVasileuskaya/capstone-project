@@ -1,6 +1,6 @@
+import { Link } from 'react-router-dom'
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import Icon from 'supercons'
 import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 import StarsContainer from '../StarsContainer/StarsContainer'
@@ -27,8 +27,8 @@ export default function Recipe({
     onDeleteButtonClick: PropTypes.func,
   }
 
-  function handleClick(e) {
-    e.preventDefault()
+  function handleClick(event) {
+    event.preventDefault()
     onDeleteButtonClick(recipeId)
   }
 
@@ -50,24 +50,20 @@ export default function Recipe({
       <Img src={image} alt="recipe" width="200" />
       <Titlewrapper>{title}</Titlewrapper>
       <InfoWrapper>
-        <p>
-          <CaloriesNumber>
-            {Math.floor(calories / servings)} kcal
-          </CaloriesNumber>
-          <br />
-          Calories/Serving
-        </p>
-        <p>
-          <IngredientsNumber>{ingredients}</IngredientsNumber>
-          <br /> Ingredients
-        </p>
+        <span>
+          <div>{Math.floor(calories / servings)} kcal</div> Calories/Serving
+        </span>
+        <span>
+          <div>{ingredients}</div>
+          Ingredients
+        </span>
       </InfoWrapper>
       <RatingWrapper>
         {selectedStars > 0 && (
           <StarsContainerWrapper>
             <StarsContainer
               selectedStars={selectedStars}
-              onClick={e => e.preventDefault()}
+              onClick={event => event.preventDefault()}
             />
           </StarsContainerWrapper>
         )}
@@ -84,8 +80,8 @@ export default function Recipe({
 const RecipeContainer = styled.span`
   background-color: var(--color-lightorange);
   text-align: center;
-  border-radius: 20px;
-  box-shadow: 3px 2px 10px 1px rgba(0, 0, 0, 0.24);
+  border-radius: 5px;
+  box-shadow: var(--box-shadow-small);
   text-decoration: none;
   color: black;
   h2 {
@@ -95,48 +91,43 @@ const RecipeContainer = styled.span`
   position: relative;
 `
 
-const Img = styled.img`
-  padding-top: 20px;
-`
-
-const InfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  font-weight: 400;
-  margin-bottom: 0;
-  p {
-    margin-bottom: 0;
-  }
-`
-
-const CaloriesNumber = styled.span`
-  color: var(--color-orange);
-  font-weight: 700;
-`
-
-const IngredientsNumber = styled.span`
-  color: var(--color-orange);
-  font-weight: 700;
-`
 const IconWrapper = styled.div`
   position: absolute;
   right: 10px;
   top: 2px;
   display: ${props => (props.isVisible ? 'block' : 'none')};
 `
+
+const Img = styled.img`
+  padding-top: 20px;
+`
+
+const Titlewrapper = styled.h2`
+  padding-right: 10px;
+  padding-left: 10px;
+`
+
+const InfoWrapper = styled.div`
+  padding-top: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  div {
+    color: var(--color-orange);
+    font-weight: 700;
+  }
+`
+
 const RatingWrapper = styled.span`
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
 `
-const DateWrapper = styled.div`
-  margin-top: 18px;
-  margin-left: 15px;
-`
+
 const StarsContainerWrapper = styled.div`
   margin-top: 15px;
 `
-const Titlewrapper = styled.h2`
-  padding-right: 10px;
-  padding-left: 10px;
+
+const DateWrapper = styled.div`
+  margin-top: 18px;
+  margin-left: 15px;
 `
