@@ -4,16 +4,21 @@ Digitales Gesellenstück as final project for neuefische web dev bootcamp.
 
 ## Recipe app CookIdeas
 
-Tired of the frozen pizza? With my app **CookIdeas** you can get inspiration for the new dishes that you can cook at home. You can also search for a suitable recipe using the recipe or ingredients name and refine your search by Calories,Diet and Allergies.
+Tired of the frozen pizza? With app **CookIdeas** you can get inspiration for the new dishes that you can cook at home. You can also search for a suitable recipe using the recipe or ingredients name and refine your search by Calories,Diet and Allergies.
 
 ## How it works
 
-- Search by recipe
-  ⋅⋅⋅Just type the recipe name in searchbar, e.g., Chicken Vesuvio, Bean soup, and choose a recipe.
-- Search by ingredients
-  ⋅⋅⋅Just type the ingredients in searchbar, e.g., chocolate, eggs, and see what comes up.
-- Filter recipes
-  ⋅⋅⋅You can also refine your search by Calories- ,Diet- ,Allergies- and Cuisinetypesfilters.
+1. Search by recipe
+
+   Just type the recipe name in searchbar, e.g., Chicken Vesuvio, Bean soup, and choose a recipe.
+
+2. Search by ingredients
+
+   Just type the ingredients in searchbar, e.g., chocolate, eggs, and see what comes up.
+
+3. Filter recipes
+
+   You can also refine your search by Calories- ,Diet- ,Allergies- and Cuisinetypesfilters.
 
 ## Technologies
 
@@ -37,4 +42,4 @@ Tired of the frozen pizza? With my app **CookIdeas** you can get inspiration for
 
 ## Demo
 
-![](src\assets\CookIdeas.gif)
+![CookIdeas](https://github.com/AnastasiyaVasileuskaya/capstone-project/blob/landingpage/src/assets/CookIdeas.gif)
