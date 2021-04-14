@@ -1,24 +1,22 @@
-import { useEffect, useState, useLayoutEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components/macro'
-import Alert from '../../components/Alert/Alert'
-import FilterForm from '../../components/FilterForm/FilterForm'
-import Recipe from '../../components/Recipe/Recipe'
 import SearchBar from '../../components/SearchBar/SearchBar'
-import useLocalStorage from '../../hooks/useLocalStorage'
-import createInitialUrlParams from '../../services/createInitialUrlParams'
 import createUrlParams from '../../services/createUrlParams'
-import createUrlQuery from '../../services/createUrlQuery'
-import anime from 'animejs'
-import ScrollToTop from '../../components/ScrollToTop'
 import recipebook from '../../assets/recipe-book.svg'
 import recipe from '../../assets/recipe.svg'
 import cooking from '../../assets/cooking.svg'
+import { useHistory } from 'react-router'
 
 export default function HomePage() {
-  const [query, setQuery] = useState('')
+  const history = useHistory()
+  const [query, setQuery] = useState(history.location.state?.query ?? '')
 
   function handleQueryChange(query) {
-    setQuery('')
+    setQuery(query)
+    history.replace(history.location.pathname, { query: query })
+    history.push('/recipes?query=' + query, {
+      urlParams: createUrlParams(query, '', '', [], []),
+    })
   }
 
   return (

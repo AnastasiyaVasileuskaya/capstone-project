@@ -1,33 +1,28 @@
 import { useEffect, useState, useLayoutEffect } from 'react'
 import styled from 'styled-components/macro'
+import useLocalStorage from '../../hooks/useLocalStorage'
+import fadeIn from '../../lib/fadeIn'
+import createInitialUrlParams from '../../services/createInitialUrlParams'
+import createUrlParams from '../../services/createUrlParams'
+import createUrlQuery from '../../services/createUrlQuery'
 import Alert from '../../components/Alert/Alert'
 import FilterForm from '../../components/FilterForm/FilterForm'
 import Recipe from '../../components/Recipe/Recipe'
 import SearchBar from '../../components/SearchBar/SearchBar'
-import useLocalStorage from '../../hooks/useLocalStorage'
-import createInitialUrlParams from '../../services/createInitialUrlParams'
-import createUrlParams from '../../services/createUrlParams'
-import createUrlQuery from '../../services/createUrlQuery'
-import anime from 'animejs'
-import ScrollToTop from '../../components/ScrollToTop'
+import ScrollToTop from '../../components/ScrollToTop/ScrollToTop'
+import loadFromLocal from '../../lib/loadFromLocal'
+import { useHistory } from 'react-router'
 
-export default function HomePage() {
+export default function AllRecipesPage() {
+  const history = useHistory()
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
-  const [urlParams, setUrlParams] = useLocalStorage(
+  /*const [urlParams, setUrlParams] = useLocalStorage(
     'cookIdeasUrlParams',
-    createInitialUrlParams()
-  )
+    getUrlParams()
+  )*/
+  const [urlParams, setUrlParams] = useState(getUrlParams())
   const [url, setUrl] = useState(createUrlQuery(urlParams))
-  const fadeIn = () => {
-    const fadeIn = anime.timeline()
-    fadeIn.add({
-      targets: 'main',
-      opacity: [0, 1],
-      duration: 200,
-      easing: 'easeInOutQuad',
-    })
-  }
 
   useLayoutEffect(() => {
     fadeIn()
@@ -53,8 +48,34 @@ export default function HomePage() {
     }
   }
 
-  function handleFindClick() {
-    setUrl(createUrlQuery(urlParams))
+  function getUrlParams() {
+    if (history.location.state?.urlParams) {
+      return history.location.state?.urlParams
+    }
+    if (history.location.search) {
+      const urlParams = new URLSearchParams(history.location.search)
+      const query = urlParams.get('query')
+      if (query) {
+        return createUrlParams(query, '', '', [], [])
+      }
+    }
+    return createInitialUrlParams()
+  }
+
+  function getUrlParams1() {
+    if (history.location.state?.urlParams) {
+      return history.location.state?.urlParams
+    }
+    const localStorageUrlParams = loadFromLocal('cookIdeasUrlParams')
+    if (history.location.search) {
+      const urlParams = new URLSearchParams(history.location.search)
+      const query = urlParams.get('query')
+      if (query === localStorageUrlParams?.query) {
+        return localStorageUrlParams
+      }
+      return createUrlParams(query, '', '', [], [])
+    }
+    return localStorageUrlParams ?? createInitialUrlParams()
   }
 
   function handleFiltersChanged(filtersParams) {
@@ -69,7 +90,7 @@ export default function HomePage() {
     )
   }
 
-  function handleQueryChange(query) {
+  function handleQueryChange_old(query) {
     if (query !== urlParams.query) {
       setUrlParams(createUrlParams(query, '', '', [], []))
     } else {
@@ -86,19 +107,45 @@ export default function HomePage() {
     setUrl(createUrlQuery(urlParams))
   }
 
+  function handleQueryChange(query) {
+    if (query !== urlParams.query) {
+      history.push(history.location.pathname, {
+        urlParams: createUrlParams(query, '', '', [], []),
+      })
+    } else {
+      history.push(history.location.pathname, {
+        urlParams: createUrlParams(
+          query,
+          urlParams.caloriesRangeFrom,
+          urlParams.caloriesRangeTo,
+          urlParams.healthLabels,
+          urlParams.dishTypes
+        ),
+      })
+    }
+  }
+
+  function handleFindClick(e) {
+    const newUrlParams = {
+      ...urlParams,
+      ...{ query: document.getElementsByName('query')[0].value },
+    }
+
+    history.push(history.location.pathname, { urlParams: newUrlParams })
+    //setUrl(createUrlQuery(urlParams))
+  }
+
   return (
     <PageLayout data-testid="recipes">
       <SearchBar
         initialQuery={urlParams.query}
         onRecipeSearch={handleQueryChange}
-        className="search"
         data-testid="searchbar"
       />
       <FilterForm
         filters={urlParams}
         onFindClicked={handleFindClick}
         onFiltersChanged={handleFiltersChanged}
-        className="filter"
       />
       <Alert text={alert} />
       {recipes.map(recipe => (
@@ -110,13 +157,12 @@ export default function HomePage() {
           recipe={recipe}
         />
       ))}
-      <ScrollToTop className="scrollTop" />
+      <ScrollToTop />
     </PageLayout>
   )
 }
 
 const PageLayout = styled.main`
-  position: relative;
   display: grid;
   gap: 20px;
   overflow-y: scroll;
@@ -125,46 +171,5 @@ const PageLayout = styled.main`
   &:after {
     content: '';
     height: 2px;
-  }
-`
-const ContentWrapper = styled.span`
-  h3 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: var(--color-orange);
-    background-image: var(--gradient-orange);
-    background-size: 100%;
-    background-repeat: repeat;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
-  }
-  h2 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: var(--color-orange);
-    background-image: var(--gradient-orange);
-    background-size: 100%;
-    background-repeat: repeat;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
-  }
-  div {
-    border: 2px solid lightgrey;
-    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-    margin-bottom: 10px;
-    padding: 10px;
-  }
-`
-const HeaderWrapper = styled.span`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  img {
-    width: 50px;
-    height: 50px;
   }
 `

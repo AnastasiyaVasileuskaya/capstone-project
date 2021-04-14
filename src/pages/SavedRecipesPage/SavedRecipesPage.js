@@ -10,6 +10,7 @@ import Dropdown from '../../components/Dropdown/Dropdown'
 import useLocalStorage from '../../hooks/useLocalStorage'
 import LiveSearch from '../../components/LiveSearch/LiveSearch'
 import anime from 'animejs'
+import ScrollToTop from '../../components/ScrollToTop/ScrollToTop'
 
 export default function SavedRecipes() {
   const [savedRecipesMap, setSavedRecipesMap] = useMapFromLocalStorage(
@@ -128,6 +129,7 @@ export default function SavedRecipes() {
             }
           />
         ))}
+      <ScrollToTop />
     </PageLayout>
   )
 }

@@ -42,7 +42,6 @@ export default function Recipe({
       <IconWrapper
         data-testid="recipe-delete"
         isVisible={isVisible}
-        to={'/'}
         onClick={handleClick}
       >
         <Icon glyph="view-close" size={33} />

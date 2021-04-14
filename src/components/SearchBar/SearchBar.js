@@ -4,16 +4,23 @@ import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import { IconContext } from 'react-icons'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
-import { Link } from 'react-router-dom'
 import Button from '../Button/Button'
 
 export default function SearchBar({ initialQuery, onRecipeSearch }) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isError, setIsError] = useState(false)
   const [query, setQuery] = useState(initialQuery)
 
   SearchBar.propTypes = {
     initialQuery: PropTypes.string,
     onRecipeSearch: PropTypes.func,
+  }
+
+  function handleSubmit(event) {
+    if (query === '') {
+      setIsError(true)
+    } else {
+      onRecipeSearch(query)
+    }
   }
 
   return (
@@ -26,7 +33,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
         autoComplete="off"
         value={query}
         onChange={event => setQuery(event.target.value)}
-        className={isSubmitting && !query ? 'error' : undefined}
+        className={isError ? 'error' : ''}
         required
         data-testid="searchbar"
       />
@@ -38,23 +45,11 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
           <AiOutlineCloseCircle onClick={event => setQuery('')} />
         </DeleteButtonWrapper>
       </IconContext.Provider>
-      <SearchButton
-        as={Link}
-        to={{
-          pathname: `/recipes`,
-        }}
-        data-testid="search"
-      >
+      <SearchButton data-testid="search">
         <Icon className="search" glyph="search" size={33} />
       </SearchButton>
     </Form>
   )
-
-  function handleSubmit(event) {
-    //event.preventDefault()
-    onRecipeSearch(query)
-    setIsSubmitting(true)
-  }
 }
 
 const Form = styled.form`

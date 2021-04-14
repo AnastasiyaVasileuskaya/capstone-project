@@ -1,4 +1,6 @@
 import styled from 'styled-components/macro'
+import Icon from 'supercons'
+import { Link } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import RatingForm from '../../components/RatingForm/RatingForm'
 import Rating from '../../components/Rating/Rating'
@@ -7,7 +9,7 @@ import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
 import useRatingFromLocalStorage from '../../hooks/useRatingFromLocalStorage'
 import createRating from '../../services/createRating'
 import { useState, useEffect, useLayoutEffect } from 'react'
-import anime from 'animejs'
+import fadeIn from '../../lib/fadeIn'
 
 export default function DetailPage() {
   const recipeId = getRecipeIndexFromString(window.location.pathname)
@@ -15,23 +17,17 @@ export default function DetailPage() {
   const [recipe, setRecipe] = useState(null)
   const [isRatingChanging, setIsRatingChanging] = useState(false)
 
-  const fadeIn = () => {
-    const fadeIn = anime.timeline()
-    fadeIn.add({
-      targets: 'main',
-      opacity: [0, 1],
-      duration: 200,
-      easing: 'easeInOutQuad',
-    })
-  }
+  const isRecipeSaved = !!rating
+  const totalDaily = recipe ? recipe.totalDaily : null
+  const totalNutrients = recipe ? recipe.totalNutrients : null
+
+  useEffect(() => {
+    !recipe && fetchRecipe()
+  }, [recipe])
 
   useLayoutEffect(() => {
     fadeIn()
   }, [recipe])
-  const isRecipeSaved = !!rating
-
-  const totalDaily = recipe ? recipe.totalDaily : null
-  const totalNutrients = recipe ? recipe.totalNutrients : null
 
   async function fetchRecipe() {
     const response = await fetch(createUrlQueryByRecipeIds([recipeId]))
@@ -39,27 +35,36 @@ export default function DetailPage() {
     setRecipe(data[0])
   }
 
-  useEffect(() => {
-    !recipe && fetchRecipe()
-  }, [recipe])
-
-  if (!recipe) {
-    return <TextWrapper></TextWrapper>
+  function saveRecipe(event) {
+    setRating(createRating(0, ''))
   }
 
   function onSaveRating(comment, selectedStars) {
     setIsRatingChanging(false)
     setRating(createRating(selectedStars, comment))
   }
-  function saveRecipe(e) {
-    setRating(createRating(0, ''))
-  }
-  function onRatingChange(e) {
+
+  function onRatingChange(event) {
     setIsRatingChanging(true)
   }
+
+  if (!recipe) {
+    return <TextWrapper></TextWrapper>
+  }
+
   return (
     <PageLayout data-testid="recipe-information">
-      <RecipeTitle>{recipe.label}</RecipeTitle>
+      <TitleWrapper>
+        <BackButton
+          as={Link}
+          to={{
+            pathname: `/recipes`,
+          }}
+        >
+          <Icon glyph="view-back" size={33} />
+        </BackButton>
+        <RecipeTitle>{recipe.label}</RecipeTitle>
+      </TitleWrapper>
       <ImageWrapper>
         <img src={recipe.image} alt="recipe" />
       </ImageWrapper>
@@ -253,6 +258,20 @@ const PageLayout = styled.main`
     height: 2px;
   }
 `
+const TitleWrapper = styled.div`
+  display: flex;
+  place-items: center;
+`
+const BackButton = styled(Button)`
+  display: flex;
+  place-items: center;
+  margin-right: 20px;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: black;
+`
 const ImageWrapper = styled.div`
   display: grid;
   place-items: center;
@@ -297,6 +316,7 @@ const PreparationLink = styled.span`
   color: var(--color-orange);
   margin-left: 5px;
   font-weight: 700;
+  cursor: pointer;
 `
 const PreparationWrapper = styled.span`
   h2 {

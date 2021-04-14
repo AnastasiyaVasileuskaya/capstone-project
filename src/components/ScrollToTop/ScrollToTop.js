@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
-import Button from './Button/Button'
+import Button from '../Button/Button'
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false)
@@ -14,16 +14,16 @@ export default function ScrollToTop() {
     []
   )
 
-  const toggleVisible = e => {
+  function toggleVisible(event) {
     const scrolled = document.getElementsByTagName('main')[0].scrollTop
-    if (scrolled > 1425) {
+    if (scrolled > 1100) {
       setVisible(true)
-    } else if (scrolled <= 1425) {
+    } else if (scrolled <= 1100) {
       setVisible(false)
     }
   }
 
-  const scrollToTop = () => {
+  function scrollToTop() {
     document.getElementsByTagName('main')[0].scrollTo({
       top: 0,
       behavior: 'smooth',
@@ -43,8 +43,16 @@ export default function ScrollToTop() {
   )
 }
 
+const IconWrapper = styled.div`
+  position: absolute;
+  top: 92.5%;
+  right: 4%;
+`
+
 const ScrollButton = styled(Button)`
   position: fixed;
+  margin-left: -50px;
+  bottom: 10%;
   place-items: center;
   height: 45px;
   width: 45px;
@@ -52,8 +60,4 @@ const ScrollButton = styled(Button)`
   z-index: 15;
   cursor: pointer;
   color: black;
-  background: var(--gradient-orange);
-`
-const IconWrapper = styled.div`
-  padding: 10px;
 `
