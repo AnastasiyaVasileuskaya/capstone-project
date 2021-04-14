@@ -9,11 +9,11 @@ Tired of the frozen pizza? With my app **CookIdeas** you can get inspiration for
 ## How it works
 
 - Search by recipe
-  Just type the recipe name in searchbar, e.g., Chicken Vesuvio, Bean soup, and choose a recipe.
+  ⋅⋅⋅Just type the recipe name in searchbar, e.g., Chicken Vesuvio, Bean soup, and choose a recipe.
 - Search by ingredients
-  Just type the ingredients in searchbar, e.g., chocolate, eggs, and see what comes up.
+  ⋅⋅⋅Just type the ingredients in searchbar, e.g., chocolate, eggs, and see what comes up.
 - Filter recipes
-  You can also refine your search by Calories- ,Diet- ,Allergies- and Cuisinetypesfilters.
+  ⋅⋅⋅You can also refine your search by Calories- ,Diet- ,Allergies- and Cuisinetypesfilters.
 
 ## Technologies
 
@@ -37,4 +37,4 @@ Tired of the frozen pizza? With my app **CookIdeas** you can get inspiration for
 
 ## Demo
 
-![](CookIdeas.gif)
+![](src\assets\CookIdeas.gif)
