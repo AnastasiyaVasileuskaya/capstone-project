@@ -49,7 +49,8 @@ export default function DetailPage() {
   }
 
   if (!recipe) {
-    return <TextWrapper></TextWrapper>
+    let text = ''
+    return <TextWrapper>{text}</TextWrapper>
   }
 
   return (
@@ -70,11 +71,11 @@ export default function DetailPage() {
       </ImageWrapper>
       <CaloriesWrapper>
         <span>
-          <CaloriesNumber>{Math.floor(recipe.calories)} kcal </CaloriesNumber>
+          <AmountWrapper>{Math.floor(recipe.calories)} kcal </AmountWrapper>
           calories
         </span>
         <span>
-          <ServingsNumber>{recipe.yield}</ServingsNumber> servings
+          <AmountWrapper>{recipe.yield}</AmountWrapper> servings
         </span>
       </CaloriesWrapper>
       <IngredientsWrapper>
@@ -98,13 +99,7 @@ export default function DetailPage() {
       <PreparationWrapper>
         <h2>Preparation</h2>
         You can see full recipe on
-        <PreparationLink
-          onClick={() => {
-            window.open(recipe.url)
-          }}
-        >
-          {recipe.source}
-        </PreparationLink>
+        <PreparationLink>{recipe.source}</PreparationLink>
       </PreparationWrapper>
       <Button
         data-testid="full-instruction-button"
@@ -251,7 +246,6 @@ const PageLayout = styled.main`
   gap: 20px;
   overflow-y: scroll;
   padding: 20px;
-  font-weight: 400;
   grid-auto-rows: min-content;
   &:after {
     content: '';
@@ -272,6 +266,10 @@ const BackButton = styled(Button)`
   cursor: pointer;
   color: black;
 `
+const RecipeTitle = styled.h2`
+  margin-bottom: 0;
+  margin-top: 0;
+`
 const ImageWrapper = styled.div`
   display: grid;
   place-items: center;
@@ -279,10 +277,13 @@ const ImageWrapper = styled.div`
 const CaloriesWrapper = styled.span`
   display: flex;
   justify-content: space-evenly;
-  font-size: 18px;
+`
+const AmountWrapper = styled.span`
+  color: var(--color-orange);
+  font-weight: 700;
+  margin-right: 5px;
 `
 const IngredientsWrapper = styled.span`
-  display: grid;
   h2 {
     margin-bottom: 0;
     margin-top: 0;
@@ -291,11 +292,9 @@ const IngredientsWrapper = styled.span`
     display: table;
     line-height: 120%;
   }
-
   li p {
     margin: 5px;
   }
-
   li span {
     font-size: 30px;
     width: 30px;
@@ -307,8 +306,13 @@ const IngredientsWrapper = styled.span`
   ul {
     margin-top: 10px;
     margin-bottom: 0;
-    list-style-type: none;
     padding-left: 0;
+  }
+`
+const PreparationWrapper = styled.span`
+  h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
   }
 `
 const PreparationLink = styled.span`
@@ -316,36 +320,12 @@ const PreparationLink = styled.span`
   color: var(--color-orange);
   margin-left: 5px;
   font-weight: 700;
-  cursor: pointer;
-`
-const PreparationWrapper = styled.span`
-  h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  font-size: 18px;
 `
 const NutritionWrapper = styled.span`
-  display: grid;
   h2 {
     margin-top: 0;
     margin-bottom: 10px;
   }
-  font-size: 18px;
-`
-const CaloriesNumber = styled.span`
-  color: var(--color-orange);
-  font-weight: 700;
-  margin-right: 5px;
-`
-const ServingsNumber = styled.span`
-  color: var(--color-orange);
-  font-weight: 700;
-  margin-right: 5px;
-`
-const RecipeTitle = styled.h2`
-  margin-bottom: 0;
-  margin-top: 0;
 `
 const TableHeader = styled.tr`
   font-weight: 700;

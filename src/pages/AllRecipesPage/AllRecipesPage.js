@@ -1,7 +1,8 @@
 import { useEffect, useState, useLayoutEffect } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
-import useLocalStorage from '../../hooks/useLocalStorage'
 import fadeIn from '../../lib/fadeIn'
+import loadFromLocal from '../../lib/loadFromLocal'
 import createInitialUrlParams from '../../services/createInitialUrlParams'
 import createUrlParams from '../../services/createUrlParams'
 import createUrlQuery from '../../services/createUrlQuery'
@@ -10,8 +11,6 @@ import FilterForm from '../../components/FilterForm/FilterForm'
 import Recipe from '../../components/Recipe/Recipe'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop'
-import loadFromLocal from '../../lib/loadFromLocal'
-import { useHistory } from 'react-router'
 
 export default function AllRecipesPage() {
   const history = useHistory()
@@ -24,13 +23,13 @@ export default function AllRecipesPage() {
   const [urlParams, setUrlParams] = useState(getUrlParams())
   const [url, setUrl] = useState(createUrlQuery(urlParams))
 
-  useLayoutEffect(() => {
-    fadeIn()
-  }, [])
-
   useEffect(() => {
     getRecipes()
   }, [url])
+
+  useLayoutEffect(() => {
+    fadeIn()
+  }, [])
 
   async function getRecipes() {
     if (urlParams.query !== '') {

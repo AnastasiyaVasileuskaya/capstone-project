@@ -1,12 +1,12 @@
-import HomePage from './AllRecipesPage'
+import AllRecipesPage from './AllRecipesPage'
 import { action } from '@storybook/addon-actions'
 
 export default {
-  title: 'HomePage',
-  component: HomePage,
+  title: 'AllRecipesPage',
+  component: AllRecipesPage,
 }
 
-const Template = args => <HomePage {...args} />
+const Template = args => <AllRecipesPage {...args} />
 
 export const Primary = Template.bind({})
 

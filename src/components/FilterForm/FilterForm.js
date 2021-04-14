@@ -123,6 +123,7 @@ export default function FilterForm({
                 autoComplete="off"
                 value={filters.caloriesRangeFrom}
                 onChange={onFormChanged}
+                className={!isCaloriesStateValid() ? 'error' : ''}
               />
             </label>
             <label>
@@ -135,6 +136,7 @@ export default function FilterForm({
                 autoComplete="off"
                 value={filters.caloriesRangeTo}
                 onChange={onFormChanged}
+                className={!isCaloriesStateValid() ? 'error' : ''}
               />
             </label>
           </CaloriesContainer>
@@ -251,6 +253,9 @@ const CaloriesContainer = styled.span`
     width: 53px;
     height: 30px;
     border: 2px solid var(--color-warmorange);
+    .error {
+      border: 2px solid red;
+    }
     ::placeholder {
       color: #c2c2c2;
       opacity: 1;

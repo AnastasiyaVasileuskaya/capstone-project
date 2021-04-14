@@ -1,10 +1,10 @@
-import SavedRecipes from './SavedRecipesPage'
+import SavedRecipesPage from './SavedRecipesPage'
 
 export default {
-  title: 'SavedRecipes',
-  component: SavedRecipes,
+  title: 'SavedRecipesPage',
+  component: SavedRecipesPage,
 }
 
-const Template = args => <SavedRecipes />
+const Template = args => <SavedRecipesPage />
 
 export const Primary = Template.bind({})

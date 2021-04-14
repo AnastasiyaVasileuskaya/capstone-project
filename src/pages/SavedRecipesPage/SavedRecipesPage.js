@@ -1,18 +1,17 @@
 import styled from 'styled-components/macro'
-import Recipe from '../../components/Recipe/Recipe'
-import Header from '../../components/Header/Header'
-import useMapFromLocalStorage from '../../hooks/useMapFromLocalStorage'
-import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
-import copyMapRemovingKey from '../../lib/copyMapRemovingKey'
 import { useEffect, useState, useLayoutEffect } from 'react'
-import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
-import Dropdown from '../../components/Dropdown/Dropdown'
+import useMapFromLocalStorage from '../../hooks/useMapFromLocalStorage'
 import useLocalStorage from '../../hooks/useLocalStorage'
+import copyMapRemovingKey from '../../lib/copyMapRemovingKey'
+import fadeIn from '../../lib/fadeIn'
+import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
+import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
+import Recipe from '../../components/Recipe/Recipe'
+import Dropdown from '../../components/Dropdown/Dropdown'
 import LiveSearch from '../../components/LiveSearch/LiveSearch'
-import anime from 'animejs'
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop'
 
-export default function SavedRecipes() {
+export default function SavedRecipesPage() {
   const [savedRecipesMap, setSavedRecipesMap] = useMapFromLocalStorage(
     'savedRecipes'
   )
@@ -22,21 +21,13 @@ export default function SavedRecipes() {
     'Rate: High To Low'
   )
   const [userInput, setUserInput] = useState('')
-  const fadeIn = () => {
-    const fadeIn = anime.timeline()
-    fadeIn.add({
-      targets: 'main',
-      opacity: [0, 1],
-      duration: 200,
-      easing: 'easeInOutQuad',
-    })
-  }
+
+  useEffect(() => {
+    recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
+  }, [])
 
   useLayoutEffect(() => {
     fadeIn()
-  }, [])
-  useEffect(() => {
-    recipes.length === 0 && savedRecipesMap.size > 0 && getRecipes()
   }, [])
 
   async function getRecipes() {
@@ -54,6 +45,7 @@ export default function SavedRecipes() {
     sortArray(unsortedRecipes, selectedSorting)
     setRecipes(unsortedRecipes)
   }
+
   function sortArray(array, selection) {
     array.sort((recipe1, recipe2) => {
       switch (selection) {
@@ -75,12 +67,14 @@ export default function SavedRecipes() {
       }
     })
   }
+
   function sortSavedRecipes(selection) {
     let newArray = recipes.slice()
     sortArray(newArray, selection)
     setRecipes(newArray)
     setSelectedSorting(selection)
   }
+
   function handleOnRecipeDeleteButtonClick(clickedRecipeId) {
     let newRecipes = []
     recipes.forEach(recipe => {
@@ -91,6 +85,7 @@ export default function SavedRecipes() {
     setRecipes(newRecipes)
     setSavedRecipesMap(copyMapRemovingKey(savedRecipesMap, clickedRecipeId))
   }
+
   if (recipes.length === 0) {
     let text = ''
     if (savedRecipesMap.size === 0) {
@@ -146,7 +141,6 @@ const PageLayout = styled.main`
   }
 `
 const TextWrapper = styled.div`
-  display: grid;
   padding: 20px;
   font-weight: 500;
   background-color: var(--color-orange);

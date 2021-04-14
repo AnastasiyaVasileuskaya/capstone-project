@@ -1,8 +1,8 @@
-import HomePage from './HomePage'
+import AllRecipesPage from './AllRecipesPage'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom.min'
 
-describe('HomePage', () => {
+describe('AllRecipesPage', () => {
   const recipes = [
     {
       calories: '234 kcal',
@@ -19,7 +19,7 @@ describe('HomePage', () => {
   it('renders a link with path /saved and multiply recipecards', () => {
     const callback = jest.fn()
     render(
-      <HomePage
+      <AllRecipesPage
         onFindClicked={callback}
         dietLabels={['vegan']}
         allergiesLabels={['egg-free']}

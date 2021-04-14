@@ -103,4 +103,5 @@ const DropdownButton = styled(Button)`
     props.active ? 'var(--gradient-orange)' : 'var(--color-beige)'};
   border: 1px solid orange;
   cursor: pointer;
+  box-shadow: none;
 `

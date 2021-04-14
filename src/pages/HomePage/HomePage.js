@@ -1,11 +1,11 @@
 import { useState } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
-import SearchBar from '../../components/SearchBar/SearchBar'
-import createUrlParams from '../../services/createUrlParams'
 import recipebook from '../../assets/recipe-book.svg'
 import recipe from '../../assets/recipe.svg'
 import cooking from '../../assets/cooking.svg'
-import { useHistory } from 'react-router'
+import createUrlParams from '../../services/createUrlParams'
+import SearchBar from '../../components/SearchBar/SearchBar'
 
 export default function HomePage() {
   const history = useHistory()
@@ -35,7 +35,7 @@ export default function HomePage() {
         <div>
           <HeaderWrapper>
             <h3>Search by recipe</h3>
-            <img src={recipebook} alt="" />
+            <img src={recipebook} alt="recipebook" />
           </HeaderWrapper>
           Just type the recipe name in searchbar, e.g., Chicken Vesuvio, Bean
           soup, and choose a recipe.
@@ -43,7 +43,7 @@ export default function HomePage() {
         <div>
           <HeaderWrapper>
             <h3>Search by ingredients</h3>
-            <img src={cooking} alt="" />
+            <img src={cooking} alt="cooking" />
           </HeaderWrapper>
           Just type the ingredients in searchbar, e.g., chocolate, eggs, and see
           what comes up.
@@ -51,7 +51,7 @@ export default function HomePage() {
         <div>
           <HeaderWrapper>
             <h3>Filter recipes</h3>
-            <img src={recipe} alt="" />
+            <img src={recipe} alt="recipe" />
           </HeaderWrapper>
           You can also refine your search by Calories- ,Diet- ,Allergies- and
           Cuisinetypesfilters.
@@ -62,9 +62,8 @@ export default function HomePage() {
 }
 
 const PageLayout = styled.main`
-  position: relative;
   display: grid;
-  gap: 20px;
+  gap: 5px;
   overflow-y: scroll;
   padding: 20px;
   grid-auto-rows: min-content;
@@ -74,19 +73,8 @@ const PageLayout = styled.main`
   }
 `
 const ContentWrapper = styled.span`
+  h2,
   h3 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    background-color: var(--color-orange);
-    background-image: var(--gradient-orange);
-    background-size: 100%;
-    background-repeat: repeat;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    -moz-background-clip: text;
-    -moz-text-fill-color: transparent;
-  }
-  h2 {
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: var(--color-orange);
@@ -100,8 +88,8 @@ const ContentWrapper = styled.span`
   }
   div {
     border: 2px solid lightgrey;
-    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-    margin-bottom: 10px;
+    box-shadow: var(--box-shadow-middle);
+    margin-bottom: 15px;
     padding: 10px;
   }
 `
