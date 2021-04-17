@@ -4,12 +4,9 @@ import Header from './Header'
 
 describe('Header', () => {
   it('should render a component from props', () => {
-    render(
-      <Header title="CookIdeas" isVisibleAll={false} isVisibleSaved={false} />,
-      {
-        wrapper: MemoryRouter,
-      }
-    )
+    render(<Header title="CookIdeas" />, {
+      wrapper: MemoryRouter,
+    })
     expect(screen.getByText('CookIdeas')).toBeInTheDocument()
   })
 })

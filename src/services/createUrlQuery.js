@@ -1,4 +1,3 @@
-require('dotenv').config()
 export default function createUrlQuery(urlParams) {
   const {
     caloriesRangeFrom,
@@ -17,6 +16,10 @@ export default function createUrlQuery(urlParams) {
   }
   if (caloriesRangeFrom.length > 0 && caloriesRangeTo.length > 0) {
     result += '&calories=' + caloriesRangeFrom + '-' + caloriesRangeTo
+  } else if (caloriesRangeFrom.length > 0) {
+    result += '&calories=' + caloriesRangeFrom + '%2B'
+  } else if (caloriesRangeTo.length > 0) {
+    result += '&calories=' + caloriesRangeTo
   }
   return result
 }

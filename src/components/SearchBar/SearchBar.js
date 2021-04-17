@@ -1,21 +1,26 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import { IconContext } from 'react-icons'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import Button from '../Button/Button'
 
-export default function SearchBar({ initialQuery, onRecipeSearch }) {
+export default function SearchBar({ initialQuery, onRecipeSearch, onChange }) {
   const [isError, setIsError] = useState(false)
-  const [query, setQuery] = useState(initialQuery)
+  const [query, setQuery] = useState(initialQuery ?? '')
 
   SearchBar.propTypes = {
     initialQuery: PropTypes.string,
     onRecipeSearch: PropTypes.func,
   }
 
+  useEffect(() => {
+    setQuery(initialQuery ?? '')
+  }, [initialQuery])
+
   function handleSubmit(event) {
+    event.preventDefault()
     if (query === '') {
       setIsError(true)
     } else {
@@ -34,6 +39,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch }) {
         value={query}
         onChange={event => setQuery(event.target.value)}
         className={isError ? 'error' : ''}
+        onChange={event => onChange(event.target.value)}
         required
         data-testid="searchbar"
       />

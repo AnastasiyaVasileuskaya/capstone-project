@@ -13,7 +13,8 @@ export default function Alert({ text }) {
   )
 }
 
-const Container = styled.section`
+const Container = styled.div`
+  padding: 15px;
   display: ${props => (props.visible ? 'block' : 'none')};
 `
 

@@ -5,17 +5,12 @@ import Button from '../Button/Button'
 
 export default function ScrollToTop() {
   const [visible, setVisible] = useState(false)
+  const pageLayout = document.getElementsByTagName('main')[0]
 
-  useEffect(
-    () =>
-      document
-        .getElementsByTagName('main')[0]
-        .addEventListener('scroll', toggleVisible),
-    []
-  )
+  useEffect(() => pageLayout.addEventListener('scroll', toggleVisible), [])
 
   function toggleVisible(event) {
-    const scrolled = document.getElementsByTagName('main')[0].scrollTop
+    const scrolled = pageLayout.scrollTop
     if (scrolled > 1100) {
       setVisible(true)
     } else if (scrolled <= 1100) {
@@ -24,7 +19,7 @@ export default function ScrollToTop() {
   }
 
   function scrollToTop() {
-    document.getElementsByTagName('main')[0].scrollTo({
+    pageLayout.scrollTo({
       top: 0,
       behavior: 'smooth',
     })

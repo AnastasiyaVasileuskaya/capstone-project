@@ -22,9 +22,11 @@ describe('Recipe', () => {
     render(
       <Recipe
         recipe={recipe}
+        selectedStars={'3'}
+        comment={'Very tasty'}
+        date={'25.3.2021'}
         isVisible={true}
         onDeleteButtonClick={onDeleteButtonClickCallback}
-        comment={'Very tasty'}
       />,
       {
         wrapper: MemoryRouter,

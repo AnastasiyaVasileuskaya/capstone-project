@@ -10,9 +10,10 @@ import useRatingFromLocalStorage from '../../hooks/useRatingFromLocalStorage'
 import createRating from '../../services/createRating'
 import { useState, useEffect, useLayoutEffect } from 'react'
 import fadeIn from '../../lib/fadeIn'
+import { useHistory } from 'react-router'
 
-export default function DetailPage() {
-  const recipeId = getRecipeIndexFromString(window.location.pathname)
+export default function DetailPage({ recipeId, backUrlParams }) {
+  const history = useHistory()
   const [rating, setRating] = useRatingFromLocalStorage(recipeId)
   const [recipe, setRecipe] = useState(null)
   const [isRatingChanging, setIsRatingChanging] = useState(false)
@@ -22,8 +23,10 @@ export default function DetailPage() {
   const totalNutrients = recipe ? recipe.totalNutrients : null
 
   useEffect(() => {
-    !recipe && fetchRecipe()
-  }, [recipe])
+    setRecipe(null)
+    setIsRatingChanging(false)
+    fetchRecipe()
+  }, [recipeId])
 
   useLayoutEffect(() => {
     fadeIn()
@@ -53,15 +56,18 @@ export default function DetailPage() {
     return <TextWrapper>{text}</TextWrapper>
   }
 
+  function onBackButtonClick(event) {
+    if (backUrlParams?.query !== '') {
+      history.goBack()
+    } else {
+      history.replace('/')
+    }
+  }
+
   return (
     <PageLayout data-testid="recipe-information">
       <TitleWrapper>
-        <BackButton
-          as={Link}
-          to={{
-            pathname: `/recipes`,
-          }}
-        >
+        <BackButton onClick={onBackButtonClick}>
           <Icon glyph="view-back" size={33} />
         </BackButton>
         <RecipeTitle>{recipe.label}</RecipeTitle>

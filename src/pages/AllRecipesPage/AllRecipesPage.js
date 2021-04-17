@@ -2,8 +2,6 @@ import { useEffect, useState, useLayoutEffect } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components/macro'
 import fadeIn from '../../lib/fadeIn'
-import loadFromLocal from '../../lib/loadFromLocal'
-import createInitialUrlParams from '../../services/createInitialUrlParams'
 import createUrlParams from '../../services/createUrlParams'
 import createUrlQuery from '../../services/createUrlQuery'
 import Alert from '../../components/Alert/Alert'
@@ -11,28 +9,32 @@ import FilterForm from '../../components/FilterForm/FilterForm'
 import Recipe from '../../components/Recipe/Recipe'
 import SearchBar from '../../components/SearchBar/SearchBar'
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop'
+import isCaloriesInputValid from '../../services/isCaloriesInputValid'
 
-export default function AllRecipesPage() {
+export default function AllRecipesPage({ urlParams }) {
   const history = useHistory()
   const [recipes, setRecipes] = useState([])
   const [alert, setAlert] = useState('')
-  /*const [urlParams, setUrlParams] = useLocalStorage(
-    'cookIdeasUrlParams',
-    getUrlParams()
-  )*/
-  const [urlParams, setUrlParams] = useState(getUrlParams())
-  const [url, setUrl] = useState(createUrlQuery(urlParams))
+  const [query, setQuery] = useState(urlParams.query)
+  const [filters, setFilters] = useState(urlParams)
 
   useEffect(() => {
+    setQuery(urlParams.query)
+    setFilters(urlParams)
     getRecipes()
-  }, [url])
+  }, [urlParams])
 
   useLayoutEffect(() => {
     fadeIn()
   }, [])
 
   async function getRecipes() {
-    if (urlParams.query !== '') {
+    if (urlParams.query === '') {
+      setAlert('Please fill searchbar')
+    } else if (!isCaloriesInputValid(urlParams)) {
+      setAlert('Your calories input is not valid')
+    } else {
+      const url = createUrlQuery(urlParams)
       const response = await fetch(url)
       const data = await response.json()
       if (data.more && data.hits) {
@@ -47,104 +49,55 @@ export default function AllRecipesPage() {
     }
   }
 
-  function getUrlParams() {
-    if (history.location.state?.urlParams) {
-      return history.location.state?.urlParams
-    }
-    if (history.location.search) {
-      const urlParams = new URLSearchParams(history.location.search)
-      const query = urlParams.get('query')
-      if (query) {
-        return createUrlParams(query, '', '', [], [])
+  function parseUrlParamsToString(urlParams) {
+    for (let param in urlParams) {
+      if (
+        !urlParams[param] ||
+        (Array.isArray(urlParams[param]) && urlParams[param].length === 0)
+      ) {
+        delete urlParams[param]
       }
     }
-    return createInitialUrlParams()
+    return '?' + new URLSearchParams(urlParams).toString()
   }
 
-  function getUrlParams1() {
-    if (history.location.state?.urlParams) {
-      return history.location.state?.urlParams
+  function handleSearch() {
+    if (query === '') {
+      setAlert('Your searchbar is empty')
+      return
+    } else if (!isCaloriesInputValid(filters)) {
+      setAlert('Your calories input is not valid')
+      return
     }
-    const localStorageUrlParams = loadFromLocal('cookIdeasUrlParams')
-    if (history.location.search) {
-      const urlParams = new URLSearchParams(history.location.search)
-      const query = urlParams.get('query')
-      if (query === localStorageUrlParams?.query) {
-        return localStorageUrlParams
-      }
-      return createUrlParams(query, '', '', [], [])
-    }
-    return localStorageUrlParams ?? createInitialUrlParams()
-  }
 
-  function handleFiltersChanged(filtersParams) {
-    setUrlParams(
-      createUrlParams(
-        urlParams.query,
-        filtersParams.caloriesRangeFrom,
-        filtersParams.caloriesRangeTo,
-        filtersParams.healthLabels,
-        filtersParams.dishTypes
-      )
-    )
-  }
-
-  function handleQueryChange_old(query) {
     if (query !== urlParams.query) {
-      setUrlParams(createUrlParams(query, '', '', [], []))
+      history.push(history.location.pathname + '?query=' + query)
     } else {
-      setUrlParams(
-        createUrlParams(
-          query,
-          urlParams.caloriesRangeFrom,
-          urlParams.caloriesRangeTo,
-          urlParams.healthLabels,
-          urlParams.dishTypes
-        )
+      const updatedUrlParams = createUrlParams(
+        query,
+        filters.caloriesRangeFrom,
+        filters.caloriesRangeTo,
+        filters.healthLabels,
+        filters.dishTypes
+      )
+      history.push(
+        history.location.pathname + parseUrlParamsToString(updatedUrlParams)
       )
     }
-    setUrl(createUrlQuery(urlParams))
-  }
-
-  function handleQueryChange(query) {
-    if (query !== urlParams.query) {
-      history.push(history.location.pathname, {
-        urlParams: createUrlParams(query, '', '', [], []),
-      })
-    } else {
-      history.push(history.location.pathname, {
-        urlParams: createUrlParams(
-          query,
-          urlParams.caloriesRangeFrom,
-          urlParams.caloriesRangeTo,
-          urlParams.healthLabels,
-          urlParams.dishTypes
-        ),
-      })
-    }
-  }
-
-  function handleFindClick(e) {
-    const newUrlParams = {
-      ...urlParams,
-      ...{ query: document.getElementsByName('query')[0].value },
-    }
-
-    history.push(history.location.pathname, { urlParams: newUrlParams })
-    //setUrl(createUrlQuery(urlParams))
   }
 
   return (
     <PageLayout data-testid="recipes">
       <SearchBar
-        initialQuery={urlParams.query}
-        onRecipeSearch={handleQueryChange}
+        initialQuery={query}
+        onChange={query => setQuery(query)}
+        onRecipeSearch={handleSearch}
         data-testid="searchbar"
       />
       <FilterForm
-        filters={urlParams}
-        onFindClicked={handleFindClick}
-        onFiltersChanged={handleFiltersChanged}
+        filters={filters}
+        onChange={filters => setFilters(filters)}
+        onFindClicked={handleSearch}
       />
       <Alert text={alert} />
       {recipes.map(recipe => (

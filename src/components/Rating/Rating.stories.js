@@ -11,7 +11,7 @@ const Template = args => <Rating {...args} />
 export const Primary = Template.bind({})
 Primary.args = {
   selectedStars: '3',
-  date: '25.3.2021',
+  date: '2021-03-28T12:50:15.557Z',
   comment: 'Very tasty',
   onRatingChange: action('onRatingChange'),
 }

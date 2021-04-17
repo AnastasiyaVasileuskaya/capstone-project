@@ -6,12 +6,9 @@ import getFilters from '../../services/getFilters'
 import scrollToTop from '../../lib/scrollToTop'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
+import isCaloriesInputValid from '../../services/isCaloriesInputValid'
 
-export default function FilterForm({
-  filters,
-  onFiltersChanged,
-  onFindClicked,
-}) {
+export default function FilterForm({ filters, onChange, onFindClicked }) {
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
 
@@ -38,18 +35,7 @@ export default function FilterForm({
     }
   }
 
-  function isCaloriesStateValid() {
-    return (
-      (filters.caloriesRangeFrom === '' && filters.caloriesRangeTo === '') ||
-      (filters.caloriesRangeFrom !== '' && filters.caloriesRangeTo === '') ||
-      (filters.caloriesRangeFrom === '' && filters.caloriesRangeTo !== '') ||
-      (filters.caloriesRangeFrom !== '' &&
-        filters.caloriesRangeTo !== '' &&
-        filters.caloriesRangeFrom <= filters.caloriesRangeTo)
-    )
-  }
-
-  function onFormChanged(event) {
+  function createFormFilters(event) {
     let filtersParams = createFiltersParams('', '', [], [])
     let formElements = event.target.form.elements
     let formElementsArray = Array.from(formElements)
@@ -72,12 +58,14 @@ export default function FilterForm({
         }
       }
     })
-    onFiltersChanged(filtersParams)
+    return filtersParams
   }
 
   function handleSubmit(event) {
-    if (isCaloriesStateValid()) {
-      onFindClicked()
+    event.preventDefault()
+    const formFilters = createFormFilters(event)
+    if (isCaloriesInputValid(formFilters)) {
+      onFindClicked(formFilters)
       setIsFilterFormVisible(false)
       scrollToTop()
     } else {
@@ -87,7 +75,7 @@ export default function FilterForm({
   }
 
   function resetState() {
-    onFiltersChanged(createFiltersParams('', '', [], []))
+    onChange(createFiltersParams('', '', [], []))
     setAlert('')
   }
 
@@ -107,7 +95,10 @@ export default function FilterForm({
         />
       </FilterButton>
       {isFilterFormVisible && (
-        <FilterWrapper data-testid="filter-form">
+        <FilterWrapper
+          data-testid="filter-form"
+          onChange={e => onChange(createFormFilters(e))}
+        >
           <AlertWrapper>
             <Alert text={alert} />
           </AlertWrapper>
@@ -122,8 +113,7 @@ export default function FilterForm({
                 placeholder="100"
                 autoComplete="off"
                 value={filters.caloriesRangeFrom}
-                onChange={onFormChanged}
-                className={!isCaloriesStateValid() ? 'error' : ''}
+                className={isCaloriesInputValid(filters) ? '' : 'error'}
               />
             </label>
             <label>
@@ -135,8 +125,7 @@ export default function FilterForm({
                 placeholder="300"
                 autoComplete="off"
                 value={filters.caloriesRangeTo}
-                onChange={onFormChanged}
-                className={!isCaloriesStateValid() ? 'error' : ''}
+                className={isCaloriesInputValid(filters) ? '' : 'error'}
               />
             </label>
           </CaloriesContainer>
@@ -149,7 +138,6 @@ export default function FilterForm({
                   value={item}
                   filter-type="health-labels"
                   checked={filters.healthLabels.includes(item)}
-                  onChange={onFormChanged}
                 />
                 <CheckboxLabel>{item}</CheckboxLabel>
               </label>
@@ -164,7 +152,6 @@ export default function FilterForm({
                   filter-type="health-labels"
                   value={item}
                   checked={filters.healthLabels.includes(item)}
-                  onChange={onFormChanged}
                 />
                 <CheckboxLabel>{item}</CheckboxLabel>
               </label>
@@ -179,7 +166,6 @@ export default function FilterForm({
                   filter-type="cuisine-types"
                   value={item}
                   checked={filters.dishTypes.includes(item)}
-                  onChange={onFormChanged}
                 />
                 <CheckboxLabel>{item}</CheckboxLabel>
               </label>
@@ -227,7 +213,6 @@ const FilterWrapper = styled.form`
   top: 100%;
 `
 
-//Proverit
 const AlertWrapper = styled.span`
   display: flex;
   justify-content: center;

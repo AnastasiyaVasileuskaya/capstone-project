@@ -9,15 +9,10 @@ Tired of the frozen pizza? With app **CookIdeas** you can get inspiration for th
 ## How it works
 
 1. Search by recipe
-
    Just type the recipe name in searchbar, e.g., Chicken Vesuvio, Bean soup, and choose a recipe.
-
 2. Search by ingredients
-
    Just type the ingredients in searchbar, e.g., chocolate, eggs, and see what comes up.
-
 3. Filter recipes
-
    You can also refine your search by Calories- ,Diet- ,Allergies- and Cuisinetypesfilters.
 
 ## Technologies

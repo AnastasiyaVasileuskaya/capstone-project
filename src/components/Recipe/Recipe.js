@@ -23,6 +23,9 @@ export default function Recipe({
     ingredients: PropTypes.string,
     servings: PropTypes.string,
     recipeId: PropTypes.string,
+    selectedStars: PropTypes.number,
+    comment: PropTypes.string,
+    date: PropTypes.instanceOf(Date),
     isVisible: PropTypes.bool,
     onDeleteButtonClick: PropTypes.func,
   }
@@ -49,13 +52,13 @@ export default function Recipe({
       <Img src={image} alt="recipe" width="200" />
       <Titlewrapper>{title}</Titlewrapper>
       <InfoWrapper>
-        <span>
+        <Amount>
           <div>{Math.floor(calories / servings)} kcal</div> Calories/Serving
-        </span>
-        <span>
+        </Amount>
+        <Amount>
           <div>{ingredients}</div>
           Ingredients
-        </span>
+        </Amount>
       </InfoWrapper>
       <RatingWrapper>
         {selectedStars > 0 && (
@@ -76,7 +79,9 @@ export default function Recipe({
   )
 }
 
-const RecipeContainer = styled.span`
+const RecipeContainer = styled.div`
+  display: grid;
+  place-items: center;
   background-color: var(--color-lightorange);
   text-align: center;
   border-radius: 5px;
@@ -110,6 +115,10 @@ const InfoWrapper = styled.div`
   padding-top: 10px;
   display: flex;
   justify-content: space-evenly;
+`
+const Amount = styled.div`
+  padding-left: 10px;
+  padding-right: 10px;
   div {
     color: var(--color-orange);
     font-weight: 700;

@@ -4,26 +4,22 @@ import styled from 'styled-components/macro'
 import recipebook from '../../assets/recipe-book.svg'
 import recipe from '../../assets/recipe.svg'
 import cooking from '../../assets/cooking.svg'
-import createUrlParams from '../../services/createUrlParams'
 import SearchBar from '../../components/SearchBar/SearchBar'
 
 export default function HomePage() {
   const history = useHistory()
-  const [query, setQuery] = useState(history.location.state?.query ?? '')
+  const [query, setQuery] = useState('')
 
-  function handleQueryChange(query) {
-    setQuery(query)
-    history.replace(history.location.pathname, { query: query })
-    history.push('/recipes?query=' + query, {
-      urlParams: createUrlParams(query, '', '', [], []),
-    })
+  function handleSearch() {
+    history.push('/recipes?query=' + query)
   }
 
   return (
     <PageLayout>
       <SearchBar
         initialQuery={query}
-        onRecipeSearch={handleQueryChange}
+        onRecipeSearch={handleSearch}
+        onChange={query => setQuery(query)}
         className="search"
         data-testid="searchbar"
       />
