@@ -1,7 +1,8 @@
-import { IconContext } from 'react-icons'
 import styled from 'styled-components/macro'
-import StarsContainer from '../StarsContainer/StarsContainer'
+import { IconContext } from 'react-icons'
 import { BsPencil } from 'react-icons/bs'
+import PropTypes from 'prop-types'
+import StarsContainer from '../StarsContainer/StarsContainer'
 
 export default function Rating({
   selectedStars,
@@ -9,6 +10,13 @@ export default function Rating({
   comment,
   onRatingChange,
 }) {
+  Rating.propTypes = {
+    selectedStars: PropTypes.number,
+    date: PropTypes.instanceOf(Date),
+    comment: PropTypes.string,
+    onRatingChange: PropTypes.func,
+  }
+
   return (
     <IconContext.Provider value={{ size: '35px' }}>
       <RatingWrapper data-testid="recipe-rating">
@@ -33,10 +41,6 @@ export default function Rating({
   )
 }
 
-const StarWrapper = styled.div`
-  display: flex;
-  padding-bottom: 5px;
-`
 const RatingWrapper = styled.div`
   display: grid;
   gap: 10px;
@@ -45,10 +49,17 @@ const RatingWrapper = styled.div`
     margin-bottom: 0;
   }
 `
+
+const StarWrapper = styled.div`
+  display: flex;
+  padding-bottom: 5px;
+`
+
 const DateWrapper = styled.div`
   margin-top: 3px;
   margin-left: 15px;
 `
+
 const EditWrapper = styled.div`
   margin-left: 20px;
 `

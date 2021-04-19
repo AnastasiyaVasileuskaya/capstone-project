@@ -3,7 +3,7 @@ import loadFromLocal from '../lib/loadFromLocal'
 import saveToLocal from '../lib/saveToLocal'
 
 export default function useLocalStorage(key, initialData) {
-  const [data, setData] = useState(loadFromLocal(key) ?? initialData)
+  const [data, setData] = useState(initialData ?? loadFromLocal(key))
 
   useEffect(() => {
     saveToLocal(key, data)

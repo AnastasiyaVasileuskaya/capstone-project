@@ -4,17 +4,44 @@ import SearchBar from './SearchBar'
 
 describe('SearchBar', () => {
   it('renders a form with a input and a button', () => {
-    render(<SearchBar initialQuery={'chicken'} />)
+    const onRecipeSearchCallback = jest.fn()
+    const onChangeCallback = jest.fn()
+    render(
+      <SearchBar
+        query={''}
+        onRecipeSearch={onRecipeSearchCallback}
+        onChange={onChangeCallback}
+      />
+    )
     expect(screen.getByPlaceholderText('Search recipe...')).toBeInTheDocument()
     expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  it('calls onSubmit-callback with form data', () => {
-    const callback = jest.fn()
-    render(<SearchBar initialQuery={''} onRecipeSearch={callback} />)
-    userEvent.type(screen.getByPlaceholderText('Search recipe...'), 'chicken')
+  it('calls onChangeCallback with selected query', () => {
+    const onRecipeSearchCallback = jest.fn()
+    const onChangeCallback = jest.fn()
+    render(
+      <SearchBar
+        query={'chi'}
+        onRecipeSearch={onRecipeSearchCallback}
+        onChange={onChangeCallback}
+      />
+    )
+    userEvent.type(screen.getByTestId('searchbar'), 'k')
+    expect(onChangeCallback).toHaveBeenCalledWith('chik')
+  })
 
+  it('calls onSubmit-callback with form data', () => {
+    const onRecipeSearchCallback = jest.fn()
+    const onChangeCallback = jest.fn()
+    render(
+      <SearchBar
+        query={'chicken'}
+        onRecipeSearch={onRecipeSearchCallback}
+        onChange={onChangeCallback}
+      />
+    )
     userEvent.click(screen.getByRole('button'))
-    expect(callback).toHaveBeenCalledWith('chicken')
+    expect(onRecipeSearchCallback).toHaveBeenCalledWith('chicken')
   })
 })

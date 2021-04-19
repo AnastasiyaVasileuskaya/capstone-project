@@ -1,18 +1,25 @@
-import Button from '../Button/Button'
-import styled from 'styled-components/macro'
 import { useState } from 'react'
+import styled from 'styled-components/macro'
 import Icon from 'supercons'
+import PropTypes from 'prop-types'
+import Button from '../Button/Button'
 
 export default function Dropdown({ selectedSorting, onSelectionChanged }) {
   const [isDropdownContentVisible, setIsDropdownContentVisible] = useState(
     false
   )
 
-  function onDropdownSelectionChanged(e) {
-    let selection = e.currentTarget.textContent
+  Dropdown.propTypes = {
+    selectedSorting: PropTypes.string,
+    onSelectionChanged: PropTypes.func,
+  }
+
+  function onDropdownSelectionChanged(event) {
+    let selection = event.currentTarget.textContent
     onSelectionChanged(selection)
     setIsDropdownContentVisible(false)
   }
+
   return (
     <DropdownWrapper>
       <SortButton
@@ -60,37 +67,41 @@ const DropdownWrapper = styled.span`
   position: relative;
   display: grid;
 `
-const DropdownContent = styled.span`
-  display: grid;
-  position: absolute;
-  z-index: 1;
-  width: 100%;
-  top: 100%;
-  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-`
-const DropdownButton = styled(Button)`
-  color: black;
-  padding: 10px;
-  background: ${props =>
-    props.active ? 'var(--gradient-orange)' : 'rgb(255, 247, 237)'};
-  border: 1px solid orange;
-  cursor: pointer;
-`
-const IconWrapper = styled.span`
-  display: flex;
-  justify-content: space-between;
-  place-items: center;
-`
+
 const SortButton = styled(Button)`
   display: flex;
   place-items: center;
   justify-content: space-evenly;
-  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  box-shadow: var(--box-shadow-middle);
   cursor: pointer;
   outline: none;
   transition: 0.2s all;
   &:active {
     transform: scale(0.98);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    box-shadow: var(--box-shadow-active);
   }
+`
+
+const IconWrapper = styled.span`
+  display: flex;
+  justify-content: space-between;
+  place-items: center;
+`
+
+const DropdownContent = styled.span`
+  display: grid;
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  top: 100%;
+  box-shadow: var(--box-shadow-middle);
+`
+
+const DropdownButton = styled(Button)`
+  color: black;
+  background: ${props =>
+    props.active ? 'var(--gradient-orange)' : 'var(--color-beige)'};
+  border: 1px solid orange;
+  cursor: pointer;
+  box-shadow: none;
 `

@@ -1,24 +1,24 @@
-import { useState, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
+import getFilters from '../../services/getFilters'
+import scrollToTop from '../../lib/scrollToTop'
 import Button from '../Button/Button'
 import Alert from '../Alert/Alert'
-import getFilters from '../../services/getFilters'
+import isCaloriesInputValid from '../../services/isCaloriesInputValid'
 
-export default function FilterForm({ filters, onFindClicked }) {
+export default function FilterForm({ filters, onChange, onFindClicked }) {
   const [alert, setAlert] = useState('')
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
-  const [caloriesRangeFrom, setCaloriesRangeFrom] = useState(
-    filters.caloriesRangeFrom ?? ''
-  )
-  const [caloriesRangeTo, setCaloriesRangeTo] = useState(
-    filters.caloriesRangeTo ?? ''
-  )
-  const [healthLabels, setHealthLabels] = useState(filters.healthLabels ?? [])
-  const [dishTypes, setDishTypes] = useState(filters.dishTypes ?? [])
 
   const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
+
+  useEffect(() => {
+    if (isCaloriesInputValid(filters)) {
+      setAlert('')
+    }
+  }, [filters])
 
   FilterForm.propTypes = {
     dietLabels: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -27,66 +27,63 @@ export default function FilterForm({ filters, onFindClicked }) {
     onFindClicked: PropTypes.func,
   }
 
-  function resetState() {
-    setCaloriesRangeFrom('')
-    setCaloriesRangeTo('')
-    setHealthLabels([])
-    setDishTypes([])
-    setAlert('')
-  }
-
-  function handleHealthFilter(e) {
-    handleClick(e, healthLabels, setHealthLabels)
-  }
-
-  function handleDishFilter(e) {
-    handleClick(e, dishTypes, setDishTypes)
-  }
-
-  function isCaloriesStateValid() {
-    return (
-      (caloriesRangeFrom === '' && caloriesRangeTo === '') ||
-      (caloriesRangeFrom !== '' &&
-        caloriesRangeTo !== '' &&
-        caloriesRangeFrom < caloriesRangeTo)
-    )
-  }
-
-  function handleClick(e, filter, setFilter) {
-    const clickedFilter = e.target.value
-    const isFilterChecked = e.target.checked
-
-    let newArray
-    if (!isFilterChecked) {
-      newArray = []
-      filter.forEach(e => {
-        if (e !== clickedFilter) {
-          newArray.push(e)
-        }
-      })
-    } else {
-      newArray = filter.slice()
-      newArray.push(clickedFilter)
+  function createFiltersParams(
+    caloriesRangeFrom,
+    caloriesRangeTo,
+    healthLabels,
+    dishTypes
+  ) {
+    return {
+      caloriesRangeFrom: caloriesRangeFrom,
+      caloriesRangeTo: caloriesRangeTo,
+      healthLabels: healthLabels,
+      dishTypes: dishTypes,
     }
-    setFilter(newArray)
   }
 
-  function scrollToTop() {
-    document.getElementsByTagName('main')[0].scrollTo({
-      top: 0,
-      behavior: 'smooth',
+  function createFormFilters(event) {
+    let filtersParams = createFiltersParams('', '', [], [])
+    let formElements = event.target.form.elements
+    let formElementsArray = Array.from(formElements)
+    formElementsArray.forEach(element => {
+      if (element.type === 'checkbox' || element.type === 'number') {
+        if (element.name === 'caloriesRangeFrom') {
+          filtersParams.caloriesRangeFrom = element.value
+        } else if (element.name === 'caloriesRangeTo') {
+          filtersParams.caloriesRangeTo = element.value
+        } else if (
+          element.getAttribute('filter-type') === 'health-labels' &&
+          element.checked
+        ) {
+          filtersParams.healthLabels.push(element.value)
+        } else if (
+          element.getAttribute('filter-type') === 'cuisine-types' &&
+          element.checked
+        ) {
+          filtersParams.dishTypes.push(element.value)
+        }
+      }
     })
+    return filtersParams
   }
 
-  function handleSubmit(e) {
-    if (isCaloriesStateValid()) {
-      onFindClicked(caloriesRangeFrom, caloriesRangeTo, healthLabels, dishTypes)
+  function handleSubmit(event) {
+    event.preventDefault()
+    const formFilters = createFormFilters(event)
+    if (isCaloriesInputValid(formFilters)) {
+      setAlert('')
       setIsFilterFormVisible(false)
       scrollToTop()
+      onFindClicked(formFilters)
     } else {
       setAlert('Your calories input is not valid')
       scrollToTop()
     }
+  }
+
+  function resetState() {
+    onChange(createFiltersParams('', '', [], []))
+    setAlert('')
   }
 
   return (
@@ -98,104 +95,102 @@ export default function FilterForm({ filters, onFindClicked }) {
         }}
         data-testid="filter-button"
       >
-        <IconWrapper>
-          Refine your search
-          <Icon
-            glyph={isFilterFormVisible ? 'up-caret' : 'down-caret'}
-            size={25}
-          />
-        </IconWrapper>
+        Refine your search
+        <Icon
+          glyph={isFilterFormVisible ? 'up-caret' : 'down-caret'}
+          size={25}
+        />
       </FilterButton>
       {isFilterFormVisible && (
         <FilterWrapper data-testid="filter-form">
           <AlertWrapper>
             <Alert text={alert} />
           </AlertWrapper>
-          <Checkboxwrapper>
-            <LabelWrapper>Calories</LabelWrapper>
-            <CaloriesContainer>
-              <div>
-                <label>
-                  From
-                  <input
-                    name="caloriesRangeFrom"
-                    type="number"
-                    maxLength="4"
-                    placeholder="100"
-                    autoComplete="off"
-                    value={caloriesRangeFrom}
-                    onChange={e => setCaloriesRangeFrom(e.target.value)}
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  To
-                  <input
-                    name="caloriesRangeTo"
-                    type="number"
-                    maxLength="4"
-                    placeholder="300"
-                    autoComplete="off"
-                    value={caloriesRangeTo}
-                    onChange={e => setCaloriesRangeTo(e.target.value)}
-                  />
-                </label>
-              </div>
-            </CaloriesContainer>
-            <LabelWrapper>Diet</LabelWrapper>
-            <Container>
-              {dietLabels.map((item, index) => (
-                <label key={index}>
-                  <input
-                    type="checkbox"
-                    value={item}
-                    filter-type="health-labels"
-                    checked={healthLabels.includes(item)}
-                    onChange={handleHealthFilter}
-                  />
-                  <CheckboxLabel>{item}</CheckboxLabel>
-                </label>
-              ))}
-            </Container>
-            <LabelWrapper>Allergies</LabelWrapper>
-            <Container>
-              {allergiesLabels.map((item, index) => (
-                <label key={index}>
-                  <input
-                    type="checkbox"
-                    filter-type="health-labels"
-                    value={item}
-                    checked={healthLabels.includes(item)}
-                    onChange={handleHealthFilter}
-                  />
-                  <CheckboxLabel>{item}</CheckboxLabel>
-                </label>
-              ))}
-            </Container>
-            <LabelWrapper>Cuisine</LabelWrapper>
-            <Container>
-              {cuisineTypes.map((item, index) => (
-                <label key={index}>
-                  <input
-                    type="checkbox"
-                    filter-type="cuisine-types"
-                    value={item}
-                    checked={dishTypes.includes(item)}
-                    onChange={handleDishFilter}
-                  />
-                  <CheckboxLabel>{item}</CheckboxLabel>
-                </label>
-              ))}
-            </Container>
-          </Checkboxwrapper>
+          <LabelWrapper>Calories</LabelWrapper>
+          <CaloriesContainer>
+            <label>
+              From
+              <input
+                name="caloriesRangeFrom"
+                type="number"
+                maxLength="4"
+                placeholder="100"
+                autoComplete="off"
+                value={filters.caloriesRangeFrom}
+                className={isCaloriesInputValid(filters) ? '' : 'error'}
+                onChange={event => onChange(createFormFilters(event))}
+              />
+            </label>
+            <label>
+              To
+              <input
+                name="caloriesRangeTo"
+                type="number"
+                maxLength="4"
+                placeholder="300"
+                autoComplete="off"
+                value={filters.caloriesRangeTo}
+                className={isCaloriesInputValid(filters) ? '' : 'error'}
+                onChange={event => onChange(createFormFilters(event))}
+              />
+            </label>
+          </CaloriesContainer>
+          <LabelWrapper>Diet</LabelWrapper>
+          <CheckboxContainer>
+            {dietLabels.map((item, index) => (
+              <label key={index}>
+                <input
+                  type="checkbox"
+                  value={item}
+                  filter-type="health-labels"
+                  checked={filters.healthLabels.includes(item)}
+                  onChange={event => onChange(createFormFilters(event))}
+                />
+                <CheckboxLabel>{item}</CheckboxLabel>
+              </label>
+            ))}
+          </CheckboxContainer>
+          <LabelWrapper>Allergies</LabelWrapper>
+          <CheckboxContainer>
+            {allergiesLabels.map((item, index) => (
+              <label key={index}>
+                <input
+                  type="checkbox"
+                  filter-type="health-labels"
+                  value={item}
+                  checked={filters.healthLabels.includes(item)}
+                  onChange={event => onChange(createFormFilters(event))}
+                />
+                <CheckboxLabel>{item}</CheckboxLabel>
+              </label>
+            ))}
+          </CheckboxContainer>
+          <LabelWrapper>Cuisine</LabelWrapper>
+          <CheckboxContainer>
+            {cuisineTypes.map((item, index) => (
+              <label key={index}>
+                <input
+                  type="checkbox"
+                  filter-type="cuisine-types"
+                  value={item}
+                  checked={filters.dishTypes.includes(item)}
+                  onChange={event => onChange(createFormFilters(event))}
+                />
+                <CheckboxLabel>{item}</CheckboxLabel>
+              </label>
+            ))}
+          </CheckboxContainer>
           <ButtonWrapper>
-            <ClearButton onClick={resetState} data-testid="clear-button">
+            <ClearButton
+              type="button"
+              onClick={resetState}
+              data-testid="clear-button"
+            >
               Clear
             </ClearButton>
-            <FindButton onClick={handleSubmit} data-testid="find-button">
+            <Button onClick={handleSubmit} data-testid="find-button">
               Find
-            </FindButton>
+            </Button>
           </ButtonWrapper>
         </FilterWrapper>
       )}
@@ -207,84 +202,58 @@ const FilterContainer = styled.span`
   display: grid;
   position: relative;
 `
-const IconWrapper = styled.span`
-  display: flex;
-  justify-content: space-between;
-  place-items: center;
-`
+
 const FilterButton = styled(Button)`
   display: flex;
   place-items: center;
-  justify-content: space-evenly;
-  height: 40px;
-  background: var(--gradient-orange);
-  border-radius: 5px;
-  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-  cursor: pointer;
-  outline: none;
-  transition: 0.2s all;
-  &:active {
-    transform: scale(0.98);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-  }
+  justify-content: center;
 `
-const ClearButton = styled(Button)`
-  display: grid;
-  place-items: center;
-  color: black;
-  background: var(--color-lightgrey);
+
+const FilterWrapper = styled.form`
+  transition: all 0.5s;
+  box-shadow: var(--box-shadow-middle);
+  background: var(--color-beige);
   border-radius: 5px;
-  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-  cursor: pointer;
-  outline: none;
-  transition: 0.2s all;
-  &:active {
-    transform: scale(0.98);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-  }
-`
-const FindButton = styled(Button)`
-  display: grid;
-  place-items: center;
-  text-decoration: none;
-  border: none;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-  cursor: pointer;
-  outline: none;
-  transition: 0.2s all;
-  &:active {
-    transform: scale(0.98);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-  }
-`
-const FilterWrapper = styled.div`
-  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-  background: rgb(255, 247, 237);
-  display: grid;
-  gap: 10px;
-  border-radius: 5px;
-  padding-top: 5px;
-  input {
-    margin-right: 20px;
-    height: 20px;
-    width: 20px;
-  }
+  padding-top: 15px;
+  padding-left: 15px;
   position: absolute;
-  z-index: 100;
+  z-index: 15;
   width: 100%;
   top: 100%;
 `
-const CaloriesContainer = styled.div`
-  font-weight: 400;
+
+const AlertWrapper = styled.span`
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+`
+
+const LabelWrapper = styled.span`
+  font-weight: 500;
+  font-size: 1.1em;
+  padding-left: 10px;
+  color: var(--color-orange);
+`
+
+const CaloriesContainer = styled.span`
   display: flex;
   justify-content: space-evenly;
+  margin-left: -16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   input {
     margin-left: 10px;
     width: 53px;
     height: 30px;
-    border: 2px solid #ffe5c3;
+    border: 2px solid var(--color-warmorange);
+    .error {
+      border: 2px solid red;
+    }
+    ::placeholder {
+      color: #c2c2c2;
+      opacity: 1;
+    }
   }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
@@ -292,14 +261,9 @@ const CaloriesContainer = styled.div`
     margin: 0;
   }
 `
-const ButtonWrapper = styled.span`
-  display: grid;
-  gap: 20px;
-  margin: 0 15px 30px 15px;
-`
-const Container = styled.span`
+
+const CheckboxContainer = styled.span`
   position: relative;
-  font-weight: 400;
   display: grid;
   gap: 15px;
   padding: 10px;
@@ -312,9 +276,9 @@ const Container = styled.span`
     height: 30px;
     padding: 6px;
     background-clip: content-box;
-    border: 2px solid #ffe5c3;
+    border: 2px solid var(--color-warmorange);
     border-radius: 6px;
-    background-color: #bbbbbb;
+    background-color: var(--color-grey);
     margin-left: 15px;
     margin-right: 15px;
     &:checked {
@@ -322,24 +286,19 @@ const Container = styled.span`
     }
   }
 `
-const AlertWrapper = styled.span`
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-`
-const Checkboxwrapper = styled.div`
-  display: grid;
-  gap: 10px;
-  margin-left: 15px;
-`
+
 const CheckboxLabel = styled.span`
   position: absolute;
   margin-top: 5px;
 `
-const LabelWrapper = styled.span`
-  font-weight: 500;
-  font-size: 1.1em;
-  padding-left: 10px;
-  color: var(--color-orange);
+
+const ButtonWrapper = styled.span`
+  display: grid;
+  gap: 20px;
+  margin: 10px 15px 30px 15px;
+`
+
+const ClearButton = styled(Button)`
+  color: black;
+  background: var(--color-lightgrey);
 `

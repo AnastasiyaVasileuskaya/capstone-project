@@ -1,24 +1,24 @@
 import styled from 'styled-components/macro'
 import PropTypes from 'prop-types'
+
 export default function Alert({ text }) {
+  Alert.propTypes = {
+    text: PropTypes.string,
+  }
+
   return (
-    <Container visible={text !== ''}>
+    <Container visible={text !== ''} data-testid="alert">
       <Message>{text}</Message>
     </Container>
   )
 }
 
-Alert.propTypes = {
-  text: PropTypes.string,
-}
-
-const Container = styled.section`
+const Container = styled.div`
+  padding: 5px;
   display: ${props => (props.visible ? 'block' : 'none')};
 `
 
 const Message = styled.div`
-  display: grid;
-  padding: 10px;
   font-weight: 500;
   background-color: var(--color-orange);
   background-image: var(--gradient-orange);

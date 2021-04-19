@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions'
 import SearchBar from './SearchBar'
 
 export default {
@@ -10,5 +11,6 @@ const Template = args => <SearchBar {...args} />
 export const Primary = Template.bind({})
 
 Primary.args = {
-  search: 'chocolate',
+  initialQuery: 'chocolate',
+  onRecipeSearch: action('onRecipeSearch'),
 }

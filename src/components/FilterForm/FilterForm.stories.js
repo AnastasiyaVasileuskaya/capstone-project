@@ -12,6 +12,7 @@ export const Primary = Template.bind({})
 
 Primary.args = {
   onFindClicked: action('onFindClicked'),
+  onFiltersChanged: action('onFiltersChanged'),
   filters: {
     caloriesRangeFrom: '235',
     caloriesRangeTo: '353',

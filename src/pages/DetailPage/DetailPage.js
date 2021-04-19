@@ -1,37 +1,34 @@
 import styled from 'styled-components/macro'
+import Icon from 'supercons'
 import Button from '../../components/Button/Button'
 import RatingForm from '../../components/RatingForm/RatingForm'
 import Rating from '../../components/Rating/Rating'
-import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
 import useRatingFromLocalStorage from '../../hooks/useRatingFromLocalStorage'
 import createRating from '../../services/createRating'
 import { useState, useEffect, useLayoutEffect } from 'react'
-import anime from 'animejs'
+import fadeIn from '../../lib/fadeIn'
+import { useHistory } from 'react-router'
 
-export default function DetailPage() {
-  const recipeId = getRecipeIndexFromString(window.location.pathname)
+export default function DetailPage({ recipeId, backUrlParams }) {
+  const history = useHistory()
   const [rating, setRating] = useRatingFromLocalStorage(recipeId)
   const [recipe, setRecipe] = useState(null)
   const [isRatingChanging, setIsRatingChanging] = useState(false)
 
-  const fadeIn = () => {
-    const fadeIn = anime.timeline()
-    fadeIn.add({
-      targets: 'main',
-      opacity: [0, 1],
-      duration: 200,
-      easing: 'easeInOutQuad',
-    })
-  }
+  const isRecipeSaved = !!rating
+  const totalDaily = recipe ? recipe.totalDaily : null
+  const totalNutrients = recipe ? recipe.totalNutrients : null
+
+  useEffect(() => {
+    setRecipe(null)
+    setIsRatingChanging(false)
+    fetchRecipe()
+  }, [recipeId])
 
   useLayoutEffect(() => {
     fadeIn()
   }, [recipe])
-  const isRecipeSaved = !!rating
-
-  const totalDaily = recipe ? recipe.totalDaily : null
-  const totalNutrients = recipe ? recipe.totalNutrients : null
 
   async function fetchRecipe() {
     const response = await fetch(createUrlQueryByRecipeIds([recipeId]))
@@ -39,37 +36,50 @@ export default function DetailPage() {
     setRecipe(data[0])
   }
 
-  useEffect(() => {
-    !recipe && fetchRecipe()
-  }, [recipe])
-
-  if (!recipe) {
-    return <TextWrapper></TextWrapper>
+  function saveRecipe(event) {
+    setRating(createRating(0, ''))
   }
 
   function onSaveRating(comment, selectedStars) {
     setIsRatingChanging(false)
     setRating(createRating(selectedStars, comment))
   }
-  function saveRecipe(e) {
-    setRating(createRating(0, ''))
-  }
-  function onRatingChange(e) {
+
+  function onRatingChange(event) {
     setIsRatingChanging(true)
   }
+
+  if (!recipe) {
+    let text = ''
+    return <TextWrapper>{text}</TextWrapper>
+  }
+
+  function onBackButtonClick(event) {
+    if (backUrlParams?.query !== '') {
+      history.goBack()
+    } else {
+      history.replace('/')
+    }
+  }
+
   return (
     <PageLayout data-testid="recipe-information">
-      <RecipeTitle>{recipe.label}</RecipeTitle>
+      <TitleWrapper>
+        <BackButton data-testid="back-button" onClick={onBackButtonClick}>
+          <Icon glyph="view-back" size={33} />
+        </BackButton>
+        <RecipeTitle>{recipe.label}</RecipeTitle>
+      </TitleWrapper>
       <ImageWrapper>
         <img src={recipe.image} alt="recipe" />
       </ImageWrapper>
       <CaloriesWrapper>
         <span>
-          <CaloriesNumber>{Math.floor(recipe.calories)} kcal </CaloriesNumber>
+          <AmountWrapper>{Math.floor(recipe.calories)} kcal </AmountWrapper>
           calories
         </span>
         <span>
-          <ServingsNumber>{recipe.yield}</ServingsNumber> servings
+          <AmountWrapper>{recipe.yield}</AmountWrapper> servings
         </span>
       </CaloriesWrapper>
       <IngredientsWrapper>
@@ -93,13 +103,7 @@ export default function DetailPage() {
       <PreparationWrapper>
         <h2>Preparation</h2>
         You can see full recipe on
-        <PreparationLink
-          onClick={() => {
-            window.open(recipe.url)
-          }}
-        >
-          {recipe.source}
-        </PreparationLink>
+        <PreparationLink>{recipe.source}</PreparationLink>
       </PreparationWrapper>
       <Button
         data-testid="full-instruction-button"
@@ -121,99 +125,99 @@ export default function DetailPage() {
             <tr>
               <TableCellLabel>{totalNutrients.CHOCDF.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.CHOCDF.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.CHOCDF.quantity / recipe.yield)}{' '}
                 {totalNutrients.CHOCDF.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.CHOCDF.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.CHOCDF.quantity / recipe.yield)}{' '}
                 {totalDaily.CHOCDF.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.FAT.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.FAT.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.FAT.quantity / recipe.yield)}{' '}
                 {totalNutrients.FAT.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.FAT.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.FAT.quantity / recipe.yield)}{' '}
                 {totalDaily.FAT.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.PROCNT.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.PROCNT.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.PROCNT.quantity / recipe.yield)}{' '}
                 {totalNutrients.PROCNT.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.PROCNT.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.PROCNT.quantity / recipe.yield)}{' '}
                 {totalDaily.PROCNT.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.ZN.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.ZN.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.ZN.quantity / recipe.yield)}{' '}
                 {totalNutrients.ZN.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.ZN.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.ZN.quantity / recipe.yield)}{' '}
                 {totalDaily.ZN.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.MG.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.MG.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.MG.quantity / recipe.yield)}{' '}
                 {totalNutrients.MG.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.MG.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.MG.quantity / recipe.yield)}{' '}
                 {totalDaily.MG.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.CA.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.CA.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.CA.quantity / recipe.yield)}{' '}
                 {totalNutrients.CA.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.CA.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.CA.quantity / recipe.yield)}{' '}
                 {totalDaily.CA.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.VITA_RAE.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.VITA_RAE.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.VITA_RAE.quantity / recipe.yield)}{' '}
                 {totalNutrients.VITA_RAE.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.VITA_RAE.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.VITA_RAE.quantity / recipe.yield)}{' '}
                 {totalDaily.VITA_RAE.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.VITC.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.VITC.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.VITC.quantity / recipe.yield)}{' '}
                 {totalNutrients.VITC.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.VITC.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.VITC.quantity / recipe.yield)}{' '}
                 {totalDaily.VITC.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.VITD.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.VITD.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.VITD.quantity / recipe.yield)}{' '}
                 {totalNutrients.VITD.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.VITD.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.VITD.quantity / recipe.yield)}{' '}
                 {totalDaily.VITD.unit}
               </TableCell>
             </tr>
@@ -246,12 +250,29 @@ const PageLayout = styled.main`
   gap: 20px;
   overflow-y: scroll;
   padding: 20px;
-  font-weight: 400;
   grid-auto-rows: min-content;
   &:after {
     content: '';
     height: 2px;
   }
+`
+const TitleWrapper = styled.div`
+  display: flex;
+  place-items: center;
+`
+const BackButton = styled(Button)`
+  display: flex;
+  place-items: center;
+  margin-right: 20px;
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: black;
+`
+const RecipeTitle = styled.h2`
+  margin-bottom: 0;
+  margin-top: 0;
 `
 const ImageWrapper = styled.div`
   display: grid;
@@ -260,10 +281,13 @@ const ImageWrapper = styled.div`
 const CaloriesWrapper = styled.span`
   display: flex;
   justify-content: space-evenly;
-  font-size: 18px;
+`
+const AmountWrapper = styled.span`
+  color: var(--color-orange);
+  font-weight: 700;
+  margin-right: 5px;
 `
 const IngredientsWrapper = styled.span`
-  display: grid;
   h2 {
     margin-bottom: 0;
     margin-top: 0;
@@ -272,11 +296,9 @@ const IngredientsWrapper = styled.span`
     display: table;
     line-height: 120%;
   }
-
   li p {
     margin: 5px;
   }
-
   li span {
     font-size: 30px;
     width: 30px;
@@ -288,8 +310,13 @@ const IngredientsWrapper = styled.span`
   ul {
     margin-top: 10px;
     margin-bottom: 0;
-    list-style-type: none;
     padding-left: 0;
+  }
+`
+const PreparationWrapper = styled.span`
+  h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
   }
 `
 const PreparationLink = styled.span`
@@ -298,34 +325,11 @@ const PreparationLink = styled.span`
   margin-left: 5px;
   font-weight: 700;
 `
-const PreparationWrapper = styled.span`
-  h2 {
-    margin-top: 0;
-    margin-bottom: 10px;
-  }
-  font-size: 18px;
-`
 const NutritionWrapper = styled.span`
-  display: grid;
   h2 {
     margin-top: 0;
     margin-bottom: 10px;
   }
-  font-size: 18px;
-`
-const CaloriesNumber = styled.span`
-  color: var(--color-orange);
-  font-weight: 700;
-  margin-right: 5px;
-`
-const ServingsNumber = styled.span`
-  color: var(--color-orange);
-  font-weight: 700;
-  margin-right: 5px;
-`
-const RecipeTitle = styled.h2`
-  margin-bottom: 0;
-  margin-top: 0;
 `
 const TableHeader = styled.tr`
   font-weight: 700;

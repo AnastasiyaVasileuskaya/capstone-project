@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom.min'
 import Recipe from './Recipe'
 
@@ -19,12 +20,15 @@ describe('Recipe', () => {
 
   it('renders a card with title, image, number of calories and ingredients of recipe', () => {
     const onDeleteButtonClickCallback = jest.fn()
+    const date = '2021-03-28T12:50:15.557Z'
     render(
       <Recipe
         recipe={recipe}
+        selectedStars={'3'}
+        comment={'Very tasty'}
+        date={date}
         isVisible={true}
         onDeleteButtonClick={onDeleteButtonClickCallback}
-        comment={'Very tasty'}
       />,
       {
         wrapper: MemoryRouter,
@@ -33,6 +37,7 @@ describe('Recipe', () => {
     expect(screen.getByText('Chicken Vesuvio')).toBeInTheDocument()
     expect(screen.getByText('1000 kcal')).toBeInTheDocument()
     expect(screen.getByText('1')).toBeInTheDocument()
+    expect(screen.getByText('28.3.2021')).toBeInTheDocument()
     expect(screen.getByRole('img')).toBeInTheDocument()
   })
 })
