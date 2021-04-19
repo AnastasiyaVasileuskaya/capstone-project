@@ -23,7 +23,7 @@ export default function HomePage() {
         className="search"
         data-testid="searchbar"
       />
-      <ContentWrapper>
+      <ContentWrapper data-testid="content">
         <h2>Welcome to CookIdeas.</h2>
         Tired of the frozen pizza? With CookIdeas you can get inspiration for
         the new dishes that you can cook.

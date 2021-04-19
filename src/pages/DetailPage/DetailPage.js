@@ -65,7 +65,7 @@ export default function DetailPage({ recipeId, backUrlParams }) {
   return (
     <PageLayout data-testid="recipe-information">
       <TitleWrapper>
-        <BackButton onClick={onBackButtonClick}>
+        <BackButton data-testid="back-button" onClick={onBackButtonClick}>
           <Icon glyph="view-back" size={33} />
         </BackButton>
         <RecipeTitle>{recipe.label}</RecipeTitle>

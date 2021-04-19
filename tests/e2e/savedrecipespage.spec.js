@@ -10,7 +10,7 @@ describe('<SavedRecipesPage />', () => {
     cy.get('[data-testid="star-3"]').click()
     cy.get('[data-testid="comment-textarea"]').type('Tasty')
     cy.get('[data-testid="rate-button"]').click()
-    cy.get('[data-testid="saved-recipes"]').click().visit('/saved')
+    cy.get('[data-testid="saved"]').click().visit('/saved')
     cy.get('[data-testid="header"]').should('exist')
     cy.get('[data-testid="search-input"]').should('exist')
     cy.get('[data-testid="dropdown"]')
@@ -21,15 +21,11 @@ describe('<SavedRecipesPage />', () => {
     )
     cy.get('[data-testid="rating-date"]').scrollIntoView().should('be.visible')
     cy.get('[data-testid="stars-container"]').should('be.visible')
-    cy.get('[data-testid="all-recipes"]')
-      .contains('All')
-      .should('have.attr', 'href', '/')
-    cy.get('[data-testid="all-recipes"]').click().visit('/')
   })
 
   it('recipe can be deleted', () => {
     cy.get('[data-testid="save-recipe-button"]').click()
-    cy.get('[data-testid="saved-recipes"]').click().visit('/saved')
+    cy.get('[data-testid="saved"]').click().visit('/saved')
     cy.get('[data-testid="recipe-delete"]').click()
     cy.get('[data-testid="saved-recipes-text"]').contains(
       "You haven't saved recipes yet."

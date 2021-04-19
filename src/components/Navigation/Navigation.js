@@ -6,6 +6,7 @@ export default function Navigation() {
   return (
     <NavigationWrapper>
       <NavigationButton
+        data-testid="home"
         as={NavLink}
         exact
         to="/"
@@ -18,6 +19,7 @@ export default function Navigation() {
         Home
       </NavigationButton>
       <NavigationButton
+        data-testid="all-recipes"
         as={NavLink}
         to="/recipes"
         style={{ color: '#909090' }}
@@ -29,6 +31,7 @@ export default function Navigation() {
         Recipes
       </NavigationButton>
       <NavigationButton
+        data-testid="saved"
         as={NavLink}
         to="/saved"
         style={{ color: '#909090' }}

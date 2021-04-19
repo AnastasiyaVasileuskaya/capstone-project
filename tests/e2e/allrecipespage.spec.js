@@ -6,18 +6,18 @@ describe('<AllRecipesPage />', () => {
   })
 
   it('should render', () => {
+    cy.get('[data-testid="searchbar"]').type('chicken')
+    cy.get('[data-testid=search]').click()
     cy.get('[data-testid="header"]').should('exist')
     cy.get('[data-testid="filter-button"]').should('exist')
     cy.get('[data-testid="filter-form"]').should('not.exist')
     cy.get('[data-testid="recipes"]').contains('Chicken Vesuvio')
     cy.get('[data-testid="recipes"]').contains('Catalan Chicken')
-    cy.get('[data-testid="saved-recipes"]')
-      .contains('Saved')
-      .should('have.attr', 'href', '/saved')
-    cy.get('[data-testid="saved-recipes"]').click().visit('/saved')
   })
 
   it('has a searchbar, wich searchs for recipes and displays them', () => {
+    cy.get('[data-testid="searchbar"]').type('chicken')
+    cy.get('[data-testid=search]').click()
     cy.get('[data-testid=delete-searchquery]').click()
     cy.get('[data-testid="searchbar"]').should('be.empty')
     cy.get('[data-testid="searchbar"]').type('chocolate')
@@ -30,6 +30,8 @@ describe('<AllRecipesPage />', () => {
   })
 
   it('has a filter form with input fields and checkboxes, wich filters recipes and displays them', () => {
+    cy.get('[data-testid="searchbar"]').type('chicken')
+    cy.get('[data-testid=search]').click()
     cy.get('[data-testid="filter-button"]').click()
     cy.get('[name="caloriesRangeFrom"]').type('100')
     cy.get('[name="caloriesRangeTo"]').type('400')
@@ -43,6 +45,8 @@ describe('<AllRecipesPage />', () => {
   })
 
   it('filter form should be cleared after clear button click', () => {
+    cy.get('[data-testid="searchbar"]').type('chicken')
+    cy.get('[data-testid=search]').click()
     cy.get('[data-testid="filter-button"]').click()
     cy.get('[name="caloriesRangeFrom"]').type('100')
     cy.get('[name="caloriesRangeTo"]').type('400')
@@ -58,6 +62,8 @@ describe('<AllRecipesPage />', () => {
   })
 
   it('page layout scrolls to top after scroll to top button click', () => {
+    cy.get('[data-testid="searchbar"]').type('chicken')
+    cy.get('[data-testid=search]').click()
     cy.get('[data-testid="recipes"]')
       .scrollTo('bottom')
       .its('scrollY')
@@ -66,6 +72,8 @@ describe('<AllRecipesPage />', () => {
   })
 
   it('clicking the recipe card causes the browser to open detail page of this recipe', () => {
+    cy.get('[data-testid="searchbar"]').type('chicken')
+    cy.get('[data-testid=search]').click()
     cy.contains('Chicken Vesuvio').click()
     cy.url().should(
       'eq',

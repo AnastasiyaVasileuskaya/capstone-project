@@ -33,7 +33,7 @@ Tired of the frozen pizza? With app **CookIdeas** you can get inspiration for th
 3. Run the app in the development mode with `npm start`. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 4. To run Storybook `npm run storybook`
 5. To run unit and component tests `npm test`
-6. To run Cypress tests `npm run cypress`
+6. To run Cypress tests `npx cypress open`
 
 ## Demo
 
