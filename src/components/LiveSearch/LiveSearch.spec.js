@@ -7,6 +7,7 @@ describe('LiveSearch', () => {
     render(
       <LiveSearch userInput={'chicken'} setUserInput={setUserInputCallback} />
     )
-    expect(screen.getByPlaceholderText(/Search recipe/i)).toBeInTheDocument()
+    expect(screen.getByDisplayValue(/chicken/i)).toBeInTheDocument()
+    expect(screen.getByTestId(/delete-button/i)).toBeVisible()
   })
 })

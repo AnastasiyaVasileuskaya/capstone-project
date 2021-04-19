@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <PageLayout>
       <SearchBar
-        initialQuery={query}
+        query={query}
         onRecipeSearch={handleSearch}
         onChange={query => setQuery(query)}
         className="search"

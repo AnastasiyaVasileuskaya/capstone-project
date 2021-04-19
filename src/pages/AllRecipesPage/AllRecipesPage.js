@@ -29,9 +29,7 @@ export default function AllRecipesPage({ urlParams }) {
   }, [])
 
   async function getRecipes() {
-    if (urlParams.query === '') {
-      setAlert('Please fill searchbar')
-    } else if (!isCaloriesInputValid(urlParams)) {
+    if (!isCaloriesInputValid(urlParams)) {
       setAlert('Your calories input is not valid')
     } else {
       const url = createUrlQuery(urlParams)
@@ -64,14 +62,10 @@ export default function AllRecipesPage({ urlParams }) {
   function handleSearch() {
     if (query === '') {
       setAlert('Your searchbar is empty')
-      return
+    } else if (query !== urlParams.query) {
+      history.push(history.location.pathname + '?query=' + query)
     } else if (!isCaloriesInputValid(filters)) {
       setAlert('Your calories input is not valid')
-      return
-    }
-
-    if (query !== urlParams.query) {
-      history.push(history.location.pathname + '?query=' + query)
     } else {
       const updatedUrlParams = createUrlParams(
         query,
@@ -89,7 +83,7 @@ export default function AllRecipesPage({ urlParams }) {
   return (
     <PageLayout data-testid="recipes">
       <SearchBar
-        initialQuery={query}
+        query={query}
         onChange={query => setQuery(query)}
         onRecipeSearch={handleSearch}
         data-testid="searchbar"

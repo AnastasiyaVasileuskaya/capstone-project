@@ -7,14 +7,14 @@ export default function Alert({ text }) {
   }
 
   return (
-    <Container visible={text !== ''}>
+    <Container visible={text !== ''} data-testid="alert">
       <Message>{text}</Message>
     </Container>
   )
 }
 
 const Container = styled.div`
-  padding: 15px;
+  padding: 5px;
   display: ${props => (props.visible ? 'block' : 'none')};
 `
 

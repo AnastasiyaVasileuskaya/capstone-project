@@ -7,7 +7,9 @@ export default function ScrollToTop() {
   const [visible, setVisible] = useState(false)
   const pageLayout = document.getElementsByTagName('main')[0]
 
-  useEffect(() => pageLayout.addEventListener('scroll', toggleVisible), [])
+  useEffect(() => {
+    pageLayout?.addEventListener('scroll', toggleVisible)
+  }, [])
 
   function toggleVisible(event) {
     const scrolled = pageLayout.scrollTop

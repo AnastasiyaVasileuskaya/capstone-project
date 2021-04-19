@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
@@ -13,6 +13,12 @@ export default function FilterForm({ filters, onChange, onFindClicked }) {
   const [isFilterFormVisible, setIsFilterFormVisible] = useState(false)
 
   const { dietLabels, allergiesLabels, cuisineTypes } = getFilters()
+
+  useEffect(() => {
+    if (isCaloriesInputValid(filters)) {
+      setAlert('')
+    }
+  }, [filters])
 
   FilterForm.propTypes = {
     dietLabels: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
@@ -65,9 +71,10 @@ export default function FilterForm({ filters, onChange, onFindClicked }) {
     event.preventDefault()
     const formFilters = createFormFilters(event)
     if (isCaloriesInputValid(formFilters)) {
-      onFindClicked(formFilters)
+      setAlert('')
       setIsFilterFormVisible(false)
       scrollToTop()
+      onFindClicked(formFilters)
     } else {
       setAlert('Your calories input is not valid')
       scrollToTop()
@@ -95,10 +102,7 @@ export default function FilterForm({ filters, onChange, onFindClicked }) {
         />
       </FilterButton>
       {isFilterFormVisible && (
-        <FilterWrapper
-          data-testid="filter-form"
-          onChange={e => onChange(createFormFilters(e))}
-        >
+        <FilterWrapper data-testid="filter-form">
           <AlertWrapper>
             <Alert text={alert} />
           </AlertWrapper>
@@ -114,6 +118,7 @@ export default function FilterForm({ filters, onChange, onFindClicked }) {
                 autoComplete="off"
                 value={filters.caloriesRangeFrom}
                 className={isCaloriesInputValid(filters) ? '' : 'error'}
+                onChange={event => onChange(createFormFilters(event))}
               />
             </label>
             <label>
@@ -126,6 +131,7 @@ export default function FilterForm({ filters, onChange, onFindClicked }) {
                 autoComplete="off"
                 value={filters.caloriesRangeTo}
                 className={isCaloriesInputValid(filters) ? '' : 'error'}
+                onChange={event => onChange(createFormFilters(event))}
               />
             </label>
           </CaloriesContainer>
@@ -138,6 +144,7 @@ export default function FilterForm({ filters, onChange, onFindClicked }) {
                   value={item}
                   filter-type="health-labels"
                   checked={filters.healthLabels.includes(item)}
+                  onChange={event => onChange(createFormFilters(event))}
                 />
                 <CheckboxLabel>{item}</CheckboxLabel>
               </label>
@@ -152,6 +159,7 @@ export default function FilterForm({ filters, onChange, onFindClicked }) {
                   filter-type="health-labels"
                   value={item}
                   checked={filters.healthLabels.includes(item)}
+                  onChange={event => onChange(createFormFilters(event))}
                 />
                 <CheckboxLabel>{item}</CheckboxLabel>
               </label>
@@ -166,6 +174,7 @@ export default function FilterForm({ filters, onChange, onFindClicked }) {
                   filter-type="cuisine-types"
                   value={item}
                   checked={filters.dishTypes.includes(item)}
+                  onChange={event => onChange(createFormFilters(event))}
                 />
                 <CheckboxLabel>{item}</CheckboxLabel>
               </label>

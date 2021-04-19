@@ -1,10 +1,8 @@
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
-import { Link } from 'react-router-dom'
 import Button from '../../components/Button/Button'
 import RatingForm from '../../components/RatingForm/RatingForm'
 import Rating from '../../components/Rating/Rating'
-import getRecipeIndexFromString from '../../services/getRecipeIndexFromString'
 import createUrlQueryByRecipeIds from '../../services/createUrlQueryByRecipeIds'
 import useRatingFromLocalStorage from '../../hooks/useRatingFromLocalStorage'
 import createRating from '../../services/createRating'
@@ -127,99 +125,99 @@ export default function DetailPage({ recipeId, backUrlParams }) {
             <tr>
               <TableCellLabel>{totalNutrients.CHOCDF.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.CHOCDF.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.CHOCDF.quantity / recipe.yield)}{' '}
                 {totalNutrients.CHOCDF.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.CHOCDF.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.CHOCDF.quantity / recipe.yield)}{' '}
                 {totalDaily.CHOCDF.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.FAT.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.FAT.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.FAT.quantity / recipe.yield)}{' '}
                 {totalNutrients.FAT.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.FAT.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.FAT.quantity / recipe.yield)}{' '}
                 {totalDaily.FAT.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.PROCNT.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.PROCNT.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.PROCNT.quantity / recipe.yield)}{' '}
                 {totalNutrients.PROCNT.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.PROCNT.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.PROCNT.quantity / recipe.yield)}{' '}
                 {totalDaily.PROCNT.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.ZN.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.ZN.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.ZN.quantity / recipe.yield)}{' '}
                 {totalNutrients.ZN.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.ZN.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.ZN.quantity / recipe.yield)}{' '}
                 {totalDaily.ZN.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.MG.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.MG.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.MG.quantity / recipe.yield)}{' '}
                 {totalNutrients.MG.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.MG.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.MG.quantity / recipe.yield)}{' '}
                 {totalDaily.MG.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.CA.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.CA.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.CA.quantity / recipe.yield)}{' '}
                 {totalNutrients.CA.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.CA.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.CA.quantity / recipe.yield)}{' '}
                 {totalDaily.CA.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.VITA_RAE.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.VITA_RAE.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.VITA_RAE.quantity / recipe.yield)}{' '}
                 {totalNutrients.VITA_RAE.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.VITA_RAE.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.VITA_RAE.quantity / recipe.yield)}{' '}
                 {totalDaily.VITA_RAE.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.VITC.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.VITC.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.VITC.quantity / recipe.yield)}{' '}
                 {totalNutrients.VITC.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.VITC.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.VITC.quantity / recipe.yield)}{' '}
                 {totalDaily.VITC.unit}
               </TableCell>
             </tr>
             <tr>
               <TableCellLabel>{totalNutrients.VITD.label}</TableCellLabel>
               <TableCell>
-                {Math.floor(totalNutrients.VITD.quantity / recipe.yield)}{' '}
+                {Math.round(totalNutrients.VITD.quantity / recipe.yield)}{' '}
                 {totalNutrients.VITD.unit}
               </TableCell>
               <TableCell>
-                {Math.floor(totalDaily.VITD.quantity / recipe.yield)}{' '}
+                {Math.round(totalDaily.VITD.quantity / recipe.yield)}{' '}
                 {totalDaily.VITD.unit}
               </TableCell>
             </tr>

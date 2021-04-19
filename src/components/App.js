@@ -4,7 +4,7 @@ import DetailPage from '../pages/DetailPage/DetailPage'
 import HomePage from '../pages/HomePage/HomePage'
 import SavedRecipes from '../pages/SavedRecipesPage/SavedRecipesPage'
 import createUrlParams from '../services/createUrlParams'
-import createUrlParamsFromString from '../services/createUrlParams'
+import createUrlParamsFromString from '../services/createUrlParamsFromString'
 import Grid from './Grid'
 import Header from './Header/Header'
 import Navigation from './Navigation/Navigation'
@@ -12,7 +12,7 @@ import Navigation from './Navigation/Navigation'
 export default function App() {
   let lastKnownUrlParams = createUrlParams('', '', '', [], [])
 
-  const getUrlParams = urlParamsString => {
+  function getUrlParams(urlParamsString) {
     if (urlParamsString === '') {
       return lastKnownUrlParams
     }
@@ -20,6 +20,7 @@ export default function App() {
     lastKnownUrlParams = result
     return result
   }
+
   return (
     <Grid>
       <Switch>

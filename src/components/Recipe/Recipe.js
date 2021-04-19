@@ -37,6 +37,7 @@ export default function Recipe({
 
   return (
     <RecipeContainer
+      data-testid="recipe-container"
       as={Link}
       to={{
         pathname: `/recipes/${recipeId}`,
@@ -53,7 +54,7 @@ export default function Recipe({
       <Titlewrapper>{title}</Titlewrapper>
       <InfoWrapper>
         <Amount>
-          <div>{Math.floor(calories / servings)} kcal</div> Calories/Serving
+          <div>{Math.round(calories / servings)} kcal</div> Calories/Serving
         </Amount>
         <Amount>
           <div>{ingredients}</div>

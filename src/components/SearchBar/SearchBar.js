@@ -1,23 +1,18 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components/macro'
 import Icon from 'supercons'
 import { IconContext } from 'react-icons'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import Button from '../Button/Button'
 
-export default function SearchBar({ initialQuery, onRecipeSearch, onChange }) {
+export default function SearchBar({ query = '', onRecipeSearch, onChange }) {
   const [isError, setIsError] = useState(false)
-  const [query, setQuery] = useState(initialQuery ?? '')
 
   SearchBar.propTypes = {
     initialQuery: PropTypes.string,
     onRecipeSearch: PropTypes.func,
   }
-
-  useEffect(() => {
-    setQuery(initialQuery ?? '')
-  }, [initialQuery])
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -37,7 +32,6 @@ export default function SearchBar({ initialQuery, onRecipeSearch, onChange }) {
         type="search"
         autoComplete="off"
         value={query}
-        onChange={event => setQuery(event.target.value)}
         className={isError ? 'error' : ''}
         onChange={event => onChange(event.target.value)}
         required
@@ -48,7 +42,7 @@ export default function SearchBar({ initialQuery, onRecipeSearch, onChange }) {
           isVisible={query.length >= 1}
           data-testid="delete-searchquery"
         >
-          <AiOutlineCloseCircle onClick={event => setQuery('')} />
+          <AiOutlineCloseCircle onClick={event => onChange('')} />
         </DeleteButtonWrapper>
       </IconContext.Provider>
       <SearchButton data-testid="search">
